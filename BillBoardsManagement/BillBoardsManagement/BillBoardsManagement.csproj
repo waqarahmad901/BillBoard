@@ -575,6 +575,20 @@
     <Content Include="Content\maps\style.css.map" />
     <Content Include="Content\maps\vendors\chart.js\chart.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\clander\date.conversion.js" />
+    <Content Include="Scripts\clander\jquery.calendars.islamic.js" />
+    <Content Include="Scripts\clander\jquery.calendars.js" />
+    <Content Include="Scripts\clander\jquery.calendars.picker.js" />
+    <Content Include="Scripts\clander\jquery.calendars.plus.js" />
+    <Content Include="Scripts\clander\jquery.plugin.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -636,8 +650,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\clander\" />
-    <Folder Include="Scripts\dropzone\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
