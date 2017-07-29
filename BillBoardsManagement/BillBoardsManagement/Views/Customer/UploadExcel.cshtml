@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "UploadExcel";
+}
+ <main class="main">
+
+    <!-- Breadcrumb -->
+     
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="col-sm-6">
+                @using (Html.BeginForm("UploadExcel", "Customer", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="text-primary"><i class="icon-plus"></i> Upload Customer From Excel </strong>
+                        </div>
+                        <div class="card-block"> 
+                            <div class="form-group">
+                                <label>Upload Excel File</label>
+                                <input type="file" name="file" class="form-control">
+                            </div>
+                            @if (Model != null && Model.Id > 0)
+                            {
+                                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+                            }
+                        </div>             <div class="card-footer">
+                            <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</main>
+
+
+

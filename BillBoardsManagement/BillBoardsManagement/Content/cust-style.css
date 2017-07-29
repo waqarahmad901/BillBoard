@@ -1,0 +1,30 @@
+﻿.input-validation-error {
+  padding-right: 3rem;
+  background-repeat: no-repeat;
+  background-position: center right 0.52344rem;
+  background-size: 1.04688rem 1.04688rem; 
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f86c6b' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23f86c6b' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E");
+  border-color: rgba(255, 0, 0, 0.5) !important;
+}
+label + .input-validation-error {
+  color: red;
+}
+.comment-box{
+    display:none;
+}
+
+.dropzone {
+        background: gray;
+        border: black dashed 3px;
+        width: 200px;
+        padding: 50px;
+        text-align: center;
+        color: white;
+    }
+
+.calendars,.calendars-month {
+    width:260px !important;
+}
+    .calendars-month td .calendars-other-month {
+        background-color:transparent !important;
+    }

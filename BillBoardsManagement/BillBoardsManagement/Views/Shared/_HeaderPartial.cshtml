@@ -1,0 +1,47 @@
+﻿
+@{
+    string lan = "en"; 
+    if (Request.Cookies["lan"] != null && Request.Cookies["lan"].Value == "ar")
+    {
+        lan = "ar";
+      
+    }
+
+}
+
+<header class="app-header navbar">
+    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">☰</button> 
+
+    <ul class="nav navbar-nav ml-auto px-3">
+        <!-- <li class="nav-item d-md-down-none">
+            <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
+        </li> -->
+        
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-language"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                
+                <a class="dropdown-item  @(lan == "en" ? "hover" : "") " href="@Url.Action("ChangeLanguage", "Home", new { lan = "en" })">English</a>
+                <a class="dropdown-item  @(lan == "ar" ? "hover" : "") " href="@Url.Action("ChangeLanguage", "Home", new { lan = "ar"})">Arabic</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <img src="~/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                <span class="d-md-down-none">@User.Identity.Name</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
+                <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Settings</a>
+                <div class="divider"></div>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                @Html.AntiForgeryToken()
+                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-lock"></i> Logout</a>
+                }
+            </div>
+        </li>
+    </ul>
+</header>

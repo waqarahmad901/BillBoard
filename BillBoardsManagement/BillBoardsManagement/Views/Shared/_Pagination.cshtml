@@ -1,0 +1,69 @@
+﻿@model BillBoardsManagement.Models.PageViewModel
+@{
+    if(Model.RecordsPerPage == 0)
+    {
+        Model.RecordsPerPage = 10;
+    }
+    int totalpages = (Model.TotalRecords / Model.RecordsPerPage) + (Model.TotalRecords % Model.RecordsPerPage > 0 ? 1 : 0);
+}
+<nav class="py-2">
+    <ul class="pagination">
+
+        @if (Model.CurrentPage == 1)
+        {
+            <li class="page-item disabled">
+                <a class="page-link"  onclick="preButtonClick()" href="#">Prev</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" onclick="preButtonClick()" href="#">Prev</a>
+            </li>
+        }
+        @for (int i = 1; i <= totalpages; i++)
+        {
+            if (Model.CurrentPage == i)
+            {
+                <li class="page-item active">
+                    <a class="page-link" onclick="currentButtonClick(@i)" href="#">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" onclick="currentButtonClick(@i)" href="#">@i</a>
+                </li>
+            }
+
+        }
+
+        @if (Model.CurrentPage == totalpages)
+        {
+        <li class="page-item disabled">
+            <a class="page-link"  onclick="nextButtonClick()" href="#">Next</a>
+        </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link"  onclick="nextButtonClick()" href="#">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<script type="text/javascript">
+    function preButtonClick()  {
+        var page = parseInt("@Model.CurrentPage") - 1;
+        onPageClick(page);
+    }
+    function currentButtonClick(page) { 
+        onPageClick(page);
+    }
+    function nextButtonClick() {
+        var page = parseInt("@Model.CurrentPage") + 1;
+        onPageClick(page);
+    }
+
+</script>

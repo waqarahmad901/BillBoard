@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BBMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admin_user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="RoleId" Type="smallint" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="80" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="80" />
+          <Property Name="Salutation" Type="nvarchar" MaxLength="20" />
+          <Property Name="BirthDate" Type="datetime" />
+          <Property Name="AddressLine1" Type="nvarchar" MaxLength="200" />
+          <Property Name="AddressLine2" Type="nvarchar" MaxLength="200" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="ZipCode" Type="varchar" MaxLength="12" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneHome" Type="varchar" MaxLength="30" />
+          <Property Name="PhoneWork" Type="varchar" MaxLength="30" />
+          <Property Name="Mobile" Type="varchar" MaxLength="30" />
+          <Property Name="Fax" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
+          <Property Name="PhotoPath" Type="varchar" MaxLength="255" />
+          <Property Name="ValidFrom" Type="datetime" Nullable="false" />
+          <Property Name="ValidUntil" Type="datetime" />
+          <Property Name="IsLocked" Type="bit" Nullable="false" />
+          <Property Name="IsMobileVerified" Type="bit" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="NationalId" Type="nvarchar" MaxLength="150" />
+          <Property Name="DrivingLicenseNo" Type="nvarchar" MaxLength="150" />
+          <Property Name="BloodGroup" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SrNo" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Location" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Near" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" />
+          <Property Name="Size1" Type="float" />
+          <Property Name="Size2" Type="float" />
+          <Property Name="Size3" Type="float" />
+          <Property Name="Size4" Type="float" />
+          <Property Name="TotalMeasurment" Type="float" />
+          <Property Name="Brand" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SurveyDate" Type="datetime" />
+          <Property Name="Picture" Type="nvarchar" MaxLength="1000" />
+          <Property Name="BookNumber" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="lk_role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="smallint" Nullable="false" />
+          <Property Name="Department" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="DisplayOrder" Type="smallint" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_adminuser_lk_role">
+          <End Role="lk_role" Type="Self.lk_role" Multiplicity="1" />
+          <End Role="admin_user" Type="Self.admin_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lk_role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="admin_user">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="lk_role_NewCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
+        <Function Name="lk_role_NewDisplayOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
+        <EntityContainer Name="BBMSModelStoreContainer">
+          <EntitySet Name="admin_user" EntityType="Self.admin_user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lk_role" EntityType="Self.lk_role" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_adminuser_lk_role" Association="Self.FK_adminuser_lk_role">
+            <End Role="lk_role" EntitySet="lk_role" />
+            <End Role="admin_user" EntitySet="admin_user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BBMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="lk_role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="Int16" Nullable="false" />
+          <Property Name="Department" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int16" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="admin_user" Relationship="BBMSModel.FK_adminuser_lk_role" FromRole="lk_role" ToRole="admin_user" />
+        </EntityType>
+        <EntityContainer Name="BBMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="lk_role" EntityType="Self.lk_role" />
+          <EntitySet Name="admin_user" EntityType="BBMSModel.admin_user" />
+          <AssociationSet Name="FK_adminuser_lk_role" Association="BBMSModel.FK_adminuser_lk_role">
+            <End Role="lk_role" EntitySet="lk_role" />
+            <End Role="admin_user" EntitySet="admin_user" />
+          </AssociationSet>
+          <EntitySet Name="Customers" EntityType="BBMSModel.Customer" />
+        </EntityContainer>
+        <EntityType Name="admin_user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RoleId" Type="Int16" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Salutation" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="AddressLine1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneHome" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneWork" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="7" />
+          <Property Name="PhotoPath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ValidUntil" Type="DateTime" Precision="3" />
+          <Property Name="IsLocked" Type="Boolean" Nullable="false" />
+          <Property Name="IsMobileVerified" Type="Boolean" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="NationalId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DrivingLicenseNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="BloodGroup" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="lk_role" Relationship="BBMSModel.FK_adminuser_lk_role" FromRole="admin_user" ToRole="lk_role" />
+        </EntityType>
+        <Association Name="FK_adminuser_lk_role">
+          <End Type="BBMSModel.lk_role" Role="lk_role" Multiplicity="1" />
+          <End Type="BBMSModel.admin_user" Role="admin_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lk_role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="admin_user">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="SrNo" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Near" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Size1" Type="Double" />
+          <Property Name="Size2" Type="Double" />
+          <Property Name="Size3" Type="Double" />
+          <Property Name="Size4" Type="Double" />
+          <Property Name="TotalMeasurment" Type="Double" />
+          <Property Name="SurveyDate" Type="DateTime" Precision="3" />
+          <Property Name="Picture" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="BookNumber" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="Brand" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BBMSModelStoreContainer" CdmEntityContainer="BBMSEntities">
+          <EntitySetMapping Name="lk_role">
+            <EntityTypeMapping TypeName="BBMSModel.lk_role">
+              <MappingFragment StoreEntitySet="lk_role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="admin_user">
+            <EntityTypeMapping TypeName="BBMSModel.admin_user">
+              <MappingFragment StoreEntitySet="admin_user">
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="DrivingLicenseNo" ColumnName="DrivingLicenseNo" />
+                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+                <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="ValidUntil" ColumnName="ValidUntil" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="PhoneWork" ColumnName="PhoneWork" />
+                <ScalarProperty Name="PhoneHome" ColumnName="PhoneHome" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Salutation" ColumnName="Salutation" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="BBMSModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
+                <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />
+                <ScalarProperty Name="Size4" ColumnName="Size4" />
+                <ScalarProperty Name="Size3" ColumnName="Size3" />
+                <ScalarProperty Name="Size2" ColumnName="Size2" />
+                <ScalarProperty Name="Size1" ColumnName="Size1" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Near" ColumnName="Near" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

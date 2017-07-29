@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+@{ 
+    string lan = "en";
+    string dir = "ltr";
+    if (Request.Cookies["lan"] != null && Request.Cookies["lan"].Value == "ar")
+    {
+        lan = "ar";
+        dir = "rtl";
+    }
+
+}
+<html lang="@lan" dir="@dir">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Injaz</title>
+    <!-- Icons -->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/simple-line-icons.css" rel="stylesheet">
+    <!-- Main styles for this application -->
+    <link href='~/Content/fullcalendar.css' rel='stylesheet' />
+    <link href="~/Content/simplePagination.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" /> 
+    <link href="~/Content/style.css" rel="stylesheet">
+    <link href="~/Content/cust-style.css" rel="stylesheet" />
+    <link href="~/Scripts/dropzone/basic.min.css" rel="stylesheet" />
+    <link href="~/Scripts/dropzone/dropzone.min.css" rel="stylesheet" /> 
+    <link href="~/Content/remodal.css" rel="stylesheet" />
+    <link href="~/Content/jquery.calendars.picker.css" rel="stylesheet" />
+     
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-table.js"></script>
+    <script src='~/Scripts/moment.min.js'></script>
+    <script src="~/Scripts/fullcalendar.min.js"></script>
+    <script src="~/Scripts/jquery.simplePagination.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/dropzone/dropzone.min.js"></script> 
+    <script src="~/Scripts/remodal.js"></script> 
+    <script src="~/Scripts/clander/jquery.calendars.js"></script>
+    <script src="~/Scripts/clander/jquery.calendars.plus.js"></script>
+    <script src="~/Scripts/clander/jquery.calendars.islamic.js"></script>
+    <script src="~/Scripts/clander/jquery.plugin.js"></script>
+    <script src="~/Scripts/clander/jquery.calendars.picker.js"></script>
+    <script src="~/Scripts/clander/date.conversion.js"></script> 
+    <script type="text/javascript">
+
+    var baseUrl = "@Request.Path";
+
+    $(document).on("keypress", "#search", function (e) {
+        var key = e.keyCode || e.which;
+        if (key == 13) {
+            e.preventDefault(); // Ensure it is only this code that rusn
+            var search = $("#search").val();
+            var book = $("#Books").val(); 
+            var searchString = '?page=1&filter=' + search +"&book="+book;
+            window.location.href = baseUrl + searchString;
+        }
+    });
+
+    function onPageClick(page)
+    {
+        var search = $("#search").val();
+        var book = $("#Books").val();
+        window.location.href = baseUrl + "?filter=" + search + "&page=" + page +"&book="+book;
+    }
+    function onArchiveClick(page,guid)
+    {
+        window.location.href = baseUrl + "?page=" + page +"&archive=" + guid;
+    }
+    function deleteItem(id)
+    {
+        if(confirm("Are you sure you want to delete funder")){
+            $(".fadeMe").show();
+            window.location.href ="/Funder/Delete?id="+id;
+        }
+    }
+    </script>
+</head>
+
+<!-- END HEAD -->
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+
+    @Html.Partial("_HeaderPartial")
+    <div class="app-body">
+        @Html.Partial("_MenuPartial")
+        @RenderBody()
+    </div>
+    @Html.Partial("_FooterPartial")
+
+
+    <script src="~/Scripts/app.js"></script>
+
+</body>
+</html>
