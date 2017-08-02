@@ -30,36 +30,41 @@
                         <i class="fa fa-search"></i>
                     </span>
                 </div>
-                <div class="input-group global-search">
+                @*<div class="input-group global-search">
                     @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })
-                </div>
+                </div>*@
                 <table class="table table-hover table-outline mb-0">
                     <thead class="thead-default">
-                        <tr> 
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Brand</th>
-                            <th>Survey Date</th>
-                            <th></th>
-                        </tr>
+                    <tr> 
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Brand</th>
+                        <th>Survey Date</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.ToList())
-                        {
-                            <tr> 
-                                <td>
-                                    <div>@item.Description</div>
-                                </td>
-                                <td>@item.Type</td>
-                                <td>@item.Brand</td>
-                                <td>@item.SurveyDate</td>
-                                <td><a href="@Url.Action("Edit",new {id = item.RowGuid })" title="Edit"><i class="fa fa-pencil"></i></a></td>
-                            </tr>
-                        }
+                    @foreach (var item in Model.ToList())
+                    {
+                        <tr> 
+                            <td>
+                                <div>@item.Description</div>
+                            </td>
+                            <td>@item.Type</td>
+                            <td>@item.Brand</td>
+                            <td>@item.SurveyDate</td>
+                            <td><a href="@Url.Action("Detail", new {brand = item.Brand})" title="Edit"><i class="fa fa-pencil"></i></a></td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
                 @Html.Partial("_Pagination", new BillBoardsManagement.Models.PageViewModel { CurrentPage = Model.PageNumber,RecordsPerPage = Model.PageSize, TotalRecords = (int)ViewBag.Count })
             </div>
         </div>
     </div>
+    
+    
+    
+   
+
 </main>

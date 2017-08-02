@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
+using BillBoardsManagement.Models;
 using BillBoardsManagement.Repository;
 using Excel;
 using LinqToExcel;
@@ -21,7 +22,7 @@ namespace BillBoardsManagement.Controllers
     public class CustomerController : Controller
     {
         // GET: Customer
-        public ActionResult Index(string sortOrder, string filter, string archived, int page = 1, Guid? archive = null,int book = 1)
+        public ActionResult Index(string sortOrder, string filter = "", string archived = "", int page = 1, Guid? archive = null,int book = 1)
         {
             ViewBag.searchQuery = string.IsNullOrEmpty(filter) ? "" : filter;
             ViewBag.showArchived = (archived ?? "") == "on";
@@ -34,24 +35,29 @@ namespace BillBoardsManagement.Controllers
 
             IEnumerable<Customer> customers;
             var repository = new Repository<Customer>();
+            customers = repository.GetAll().Where(x => x.Brand.ToLower().Contains(filter.ToLower()));
+            //if (string.IsNullOrEmpty(filter))
+            //{
+            //    customers = repository.GetAll();
+            //}
+            //else
+            //{
+            //    customers = repository.GetAll(i => i,
+            //        x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
+            //        i => i.Brand, false, null);
+            //}
 
-            if (string.IsNullOrEmpty(filter))
-            {
-                customers = repository.GetAll(i => i, 
-                    x => x.BookNumber == book,
-                    i=>i.Brand,false,null);
-            }
-            else
-            {
-                customers = repository.GetAll(i => i,
-                    x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
-                    i => i.Brand, false, null);
-            }
 
-            var books = repository.GetAll().GroupBy(x=>x.BookNumber).Select(x=>x.First()).Select(x =>
-             new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
-                
-            ViewBag.booksdd = books;
+            customers = from x in customers
+                        group x by x.Brand.Trim() into grp
+                select grp.First();
+
+         //   customers = customers.GroupBy(x => x.Brand).Select(x => x.First());
+
+            //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
+            // new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
+
+            //ViewBag.booksdd = books;
 
             //Sorting order
             customers = customers.OrderBy(x => x.Brand);
@@ -162,7 +168,44 @@ namespace BillBoardsManagement.Controllers
         }
 
 
+        public ActionResult Detail(string brand, string filter = "", string archived="", int page = 1, Guid? archive = null, int book = 1)
+        {
+            ViewBag.searchQuery = string.IsNullOrEmpty(filter) ? "" : filter;
+            ViewBag.showArchived = (archived ?? "") == "on";
 
+            page = page > 0 ? page : 1;
+            int pageSize = 0;
+            pageSize = pageSize > 0 ? pageSize : 100; 
+            IEnumerable<Customer> customers;
+            var repository = new Repository<Customer>();
+            customers = repository.GetAll();
+            //if (string.IsNullOrEmpty(filter))
+            //{
+            //    customers = repository.GetAll();
+            //}
+            //else
+            //{
+            //    customers = repository.GetAll(i => i,
+            //        x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
+            //        i => i.Brand, false, null);
+            //}
 
+            customers = customers.Where(x=>x.Brand == brand).ToList();
+            var customerDetailModels = customers.GroupBy(x => x.Description).Select(x => new CustomerDetailModel
+            {
+                CustomerName =  x.Key.Trim(),
+                Customers = x.ToList()
+            }).ToList();
+            //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
+            // new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
+
+            //ViewBag.booksdd = books;
+
+            //Sorting order
+            
+            ViewBag.Count = customerDetailModels.Count();
+
+            return View(customerDetailModels.ToPagedList(page, pageSize));
+        }
     }
 }

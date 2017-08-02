@@ -1,0 +1,98 @@
+﻿@model PagedList.IPagedList<BillBoardsManagement.Models.CustomerDetailModel>
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+ 
+    .con-body {   
+          float: left;
+        width: 100%;}
+
+    .con-header { 
+        float: left;
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        background-color: #f6f8f9;
+        color: #636c70;
+
+    }
+</style>
+
+<main class="main">
+
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        </li>
+        <li class="breadcrumb-item active">Customer</li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu">
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary" href="@Url.Action("Edit")"><i class="icon-plus"></i> Add new Customer</a>
+            </div>
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary" href="@Url.Action("UploadExcel")"><i class="icon-plus"></i> Upload Excel File</a>
+            </div>
+        </li>
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="input-group global-search">
+                    <input type="text" name="global-search" class="form-control" id="search" placeholder="Search" value="@ViewBag.searchQuery">
+                    <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+                @*<div class="input-group global-search">
+                    @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })
+                </div>*@
+                @foreach (var detail in Model.ToList())
+                {
+                    <div style="width: 100%; margin-top: 10px;" onclick="onNameClick(this)">
+                        <div class="con-header">
+                            <h6 style="padding: 10px;cursor: pointer ">@detail.CustomerName</h6>
+                        </div>
+                        <div class="con-body">
+                            <table class="table table-hover table-outline mb-0" style="display: none">
+                                <thead class="thead-default">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Brand</th>
+                                    <th>Survey Date</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                @foreach (var item in detail.Customers)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div>@item.Description</div>
+                                        </td>
+                                        <td>@item.Type</td>
+                                        <td>@item.Brand</td>
+                                        <td>@item.SurveyDate</td>
+                                        <td><a href="@Url.Action("Detail", new {brand = item.Brand})" title="Edit"><i class="fa fa-pencil"></i></a></td>
+                                    </tr>
+                                }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                }
+                @Html.Partial("_Pagination", new BillBoardsManagement.Models.PageViewModel { CurrentPage = Model.PageNumber,RecordsPerPage = Model.PageSize, TotalRecords = (int)ViewBag.Count })
+            </div>
+        </div>
+    </div>
+     
+</main>
+<script type="text/javascript">
+    function onNameClick(obj) {
+        $(obj).find('table').toggle();
+    }
+</script>
