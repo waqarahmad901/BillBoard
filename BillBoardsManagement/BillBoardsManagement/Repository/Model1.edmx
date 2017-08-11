@@ -58,6 +58,9 @@
           <Property Name="DuplicateBillId" Type="int" />
           <Property Name="AmentmentBillId" Type="int" />
           <Property Name="BrandAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="TrakingNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumberMonth" Type="int" />
+          <Property Name="ShippingDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -304,6 +307,9 @@
           <NavigationProperty Name="bill1" Relationship="BBMSModel.FK_bill_bill" FromRole="bill" ToRole="bill1" />
           <NavigationProperty Name="bill2" Relationship="BBMSModel.FK_bill_bill" FromRole="bill1" ToRole="bill" />
           <Property Name="BrandAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TrakingNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumberMonth" Type="Int32" />
+          <Property Name="ShippingDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_bill_admin_user">
           <End Type="BBMSModel.admin_user" Role="admin_user" Multiplicity="1" />
@@ -428,6 +434,9 @@
           <EntitySetMapping Name="bills">
             <EntityTypeMapping TypeName="BBMSModel.bill">
               <MappingFragment StoreEntitySet="bill">
+                <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
+                <ScalarProperty Name="NumberMonth" ColumnName="NumberMonth" />
+                <ScalarProperty Name="TrakingNumber" ColumnName="TrakingNumber" />
                 <ScalarProperty Name="BrandAddress" ColumnName="BrandAddress" />
                 <ScalarProperty Name="AmentmentBillId" ColumnName="AmentmentBillId" />
                 <ScalarProperty Name="DuplicateBillId" ColumnName="DuplicateBillId" />

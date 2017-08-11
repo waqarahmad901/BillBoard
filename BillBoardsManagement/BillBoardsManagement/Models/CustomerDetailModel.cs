@@ -18,6 +18,9 @@ namespace BillBoardsManagement.Models
     public class CstomerDetilPageList
     {
         public string Brand { get; set; }
+        public string TrakingNumber { get; set; }
+        public int NumberMonth { get; set; }
+        public DateTime ShippingDate { get; set; }
         public string BrandAddress { get; set; }
 
         public List<CustomerDetailModel> CustomerDetailList { get; set; }

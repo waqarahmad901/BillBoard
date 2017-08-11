@@ -30,6 +30,9 @@ namespace BillBoardsManagement.Repository
         public Nullable<int> DuplicateBillId { get; set; }
         public Nullable<int> AmentmentBillId { get; set; }
         public string BrandAddress { get; set; }
+        public string TrakingNumber { get; set; }
+        public Nullable<int> NumberMonth { get; set; }
+        public Nullable<System.DateTime> ShippingDate { get; set; }
     
         public virtual admin_user admin_user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

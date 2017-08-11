@@ -302,6 +302,9 @@ namespace BillBoardsManagement.Controllers
             {
                 detailList.Brand = obill.Brand;
                 detailList.BrandAddress = obill.BrandAddress;
+                detailList.NumberMonth = obill.NumberMonth??0;
+                detailList.TrakingNumber = obill.TrakingNumber;
+                detailList.ShippingDate = obill.ShippingDate??DateTime.Now;
             }
             detailList.Billid = billid;
             return View(detailList);
@@ -339,6 +342,9 @@ namespace BillBoardsManagement.Controllers
             obill.CreatedAt = DateTime.Now;
             obill.CreatedBy = 1;
             obill.BrandAddress = details.BrandAddress;
+            obill.TrakingNumber = details.TrakingNumber;
+            obill.NumberMonth = details.NumberMonth;
+            obill.ShippingDate = details.ShippingDate;
             repoBill.Post(obill);
 
             return RedirectToAction("BillManagement");
