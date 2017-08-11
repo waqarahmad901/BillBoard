@@ -1,4 +1,7 @@
 ﻿@model System.Collections.Generic.IEnumerable<BillBoardsManagement.Repository.bill>
+@{
+    var request = Request.Url?.GetLeftPart(UriPartial.Authority) + Url.Content("~");
+}
 
 <main class="main">
 
@@ -40,10 +43,10 @@
                         <td>@item.BillId</td>
                         <td>@item.Brand</td>
                         <td>@(item.CustomerNames.Length > 30 ? item.CustomerNames.Substring(0,30) + "..." : item.CustomerNames )</td>
-                        <td><a href="@item.FilePath.Replace("~/","/")" target="_blank">View Bill</a></td>
+                        <td><a href="@(request + item.FilePath.Replace("~/",""))" target="_blank">View Bill</a></td>
                         @if (item.bill2 != null)
                         {
-                            <td><a href="@(item.bill2.FilePath.Replace("~/", "/"))" target="_blank">View Bill</a></td>
+                            <td><a href="@(request + item.bill2.FilePath.Replace("~/", ""))" target="_blank">View Bill</a></td>
                         }
                         else
                         {

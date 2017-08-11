@@ -50,6 +50,12 @@
                             <i class="fa fa-search"></i>
                         </span>
                     </div>
+                    <div style="width: 100%">
+                    <div class="form-group">
+                        <label for="name" style="float: left;margin-right: 1%;">Address.</label>
+                      @Html.TextAreaFor(x=>x.BrandAddress,new {@cols = 40, @rows=5})
+                    </div>
+                    </div>
                   
                     @*<div class="input-group global-search">
                     @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })

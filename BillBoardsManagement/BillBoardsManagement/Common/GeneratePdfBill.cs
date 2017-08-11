@@ -15,7 +15,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static string GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates)
+        public static string GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates,string address)
         {
             string oldFile = filePath;
 
@@ -111,6 +111,9 @@ namespace BillBoardsManagement.Common
             document.Add(table);
             document.Add(table2);
 
+            Paragraph addressParagraph = new Paragraph(address, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT};
+
+            document.Add(addressParagraph);
             cb.EndText();
             document.Close();
             return null;

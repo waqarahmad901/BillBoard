@@ -273,6 +273,7 @@ namespace BillBoardsManagement.Controllers
                 {
                     CustomerName = x.Key.Trim(),
                     Selected = billCustomers.Contains(x.Key.Trim()),
+                    
                     Customers = x.ToList()
                 }).OrderByDescending(x=>x.Selected).ToList();
 
@@ -296,7 +297,12 @@ namespace BillBoardsManagement.Controllers
             ViewBag.Count = customerDetailModels.Count();
             var detailList = new CstomerDetilPageList();
             detailList.CustomerDetailList = customerDetailModels;
-            detailList.Brand = obill != null ? obill.Brand : brand;
+           
+            if (obill != null)
+            {
+                detailList.Brand = obill.Brand;
+                detailList.BrandAddress = obill.BrandAddress;
+            }
             detailList.Billid = billid;
             return View(detailList);
         }
@@ -310,7 +316,7 @@ namespace BillBoardsManagement.Controllers
             IEnumerable<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description) && x.Brand.ToLower() == details.Brand.ToLower()).ToList();
 
             string filePath = Path.Combine("~/Uploads", DateTime.Now.ToString("ddMMyyyymmsstt")+ ".pdf"); 
-            PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates);
+            PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, details.BrandAddress);
 
 
             var repoBill = new Repository<bill>();
@@ -332,6 +338,7 @@ namespace BillBoardsManagement.Controllers
             obill.FilePath = filePath;
             obill.CreatedAt = DateTime.Now;
             obill.CreatedBy = 1;
+            obill.BrandAddress = details.BrandAddress;
             repoBill.Post(obill);
 
             return RedirectToAction("BillManagement");

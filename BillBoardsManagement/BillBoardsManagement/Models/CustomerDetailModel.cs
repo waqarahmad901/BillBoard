@@ -18,6 +18,7 @@ namespace BillBoardsManagement.Models
     public class CstomerDetilPageList
     {
         public string Brand { get; set; }
+        public string BrandAddress { get; set; }
 
         public List<CustomerDetailModel> CustomerDetailList { get; set; }
         public int Billid { get; set; }
