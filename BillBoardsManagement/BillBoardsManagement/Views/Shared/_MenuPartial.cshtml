@@ -5,8 +5,11 @@
     <nav class="sidebar-nav">
        
         <ul class="nav">
-            <li class="nav-item active">
+            <li class="nav-item  @(@currentUrl.Contains("Index") ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("Index", "Customer")"><i class="fa fa-credit-card"></i> Dashboard</a>
+            </li>
+            <li class="nav-item  @(@currentUrl.Contains("BillManagement") ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("BillManagement", "Customer")"><i class="fa fa-credit-card"></i> Bills</a>
             </li>
           </ul>
 

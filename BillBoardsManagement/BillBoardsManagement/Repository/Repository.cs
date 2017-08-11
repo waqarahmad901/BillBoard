@@ -60,6 +60,10 @@ namespace BillBoardsManagement.Repository
         {
             return Context.Set<T>().Find(id);
         }
+        public T GetByGuid(Guid id)
+        {
+            return Context.Set<T>().Find(id);
+        }
 
         public IEnumerable<T> FindAll(Expression<Func<T, bool>> where)
         {

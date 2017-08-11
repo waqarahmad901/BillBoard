@@ -44,6 +44,21 @@
           <Property Name="DrivingLicenseNo" Type="nvarchar" MaxLength="150" />
           <Property Name="BloodGroup" Type="nvarchar" MaxLength="150" />
         </EntityType>
+        <EntityType Name="bill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Brand" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustomerNames" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="DuplicateBillId" Type="int" />
+          <Property Name="AmentmentBillId" Type="int" />
+          <Property Name="BrandAddress" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
@@ -54,18 +69,27 @@
           <Property Name="Description" Type="nvarchar" MaxLength="1000" />
           <Property Name="Location" Type="nvarchar" MaxLength="1000" />
           <Property Name="Near" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Type" Type="nvarchar" MaxLength="100" />
-          <Property Name="Size1" Type="float" />
-          <Property Name="Size2" Type="float" />
-          <Property Name="Size3" Type="float" />
-          <Property Name="Size4" Type="float" />
-          <Property Name="TotalMeasurment" Type="float" />
+          <Property Name="Type" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Size1" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Size2" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Size3" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Size4" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TotalMeasurment" Type="nvarchar" MaxLength="1000" />
           <Property Name="Brand" Type="nvarchar" MaxLength="1000" />
           <Property Name="SurveyDate" Type="datetime" />
-          <Property Name="Picture" Type="nvarchar" MaxLength="1000" />
           <Property Name="BookNumber" Type="int" />
           <Property Name="CreatedAt" Type="datetime" />
           <Property Name="CreatedBy" Type="int" />
+          <Property Name="Picture" Type="image" />
+          <Property Name="test" Type="int" />
+        </EntityType>
+        <EntityType Name="lk_rates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="lk_role">
           <Key>
@@ -94,15 +118,49 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bill_admin_user">
+          <End Role="admin_user" Type="Self.admin_user" Multiplicity="1" />
+          <End Role="bill" Type="Self.bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="admin_user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="bill">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bill_bill">
+          <End Role="bill" Type="Self.bill" Multiplicity="0..1" />
+          <End Role="bill1" Type="Self.bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="bill1">
+              <PropertyRef Name="AmentmentBillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="lk_role_NewCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
         <Function Name="lk_role_NewDisplayOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
         <EntityContainer Name="BBMSModelStoreContainer">
           <EntitySet Name="admin_user" EntityType="Self.admin_user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bill" EntityType="Self.bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lk_rates" EntityType="Self.lk_rates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_role" EntityType="Self.lk_role" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_adminuser_lk_role" Association="Self.FK_adminuser_lk_role">
             <End Role="lk_role" EntitySet="lk_role" />
             <End Role="admin_user" EntitySet="admin_user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bill_admin_user" Association="Self.FK_bill_admin_user">
+            <End Role="admin_user" EntitySet="admin_user" />
+            <End Role="bill" EntitySet="bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bill_bill" Association="Self.FK_bill_bill">
+            <End Role="bill" EntitySet="bill" />
+            <End Role="bill1" EntitySet="bill" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -133,7 +191,17 @@
             <End Role="admin_user" EntitySet="admin_user" />
           </AssociationSet>
           <EntitySet Name="Customers" EntityType="BBMSModel.Customer" />
-        </EntityContainer>
+          <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
+          <EntitySet Name="bills" EntityType="BBMSModel.bill" />
+          <AssociationSet Name="FK_bill_admin_user" Association="BBMSModel.FK_bill_admin_user">
+            <End Role="admin_user" EntitySet="admin_user" />
+            <End Role="bill" EntitySet="bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bill_bill" Association="BBMSModel.FK_bill_bill">
+            <End Role="bill" EntitySet="bills" />
+            <End Role="bill1" EntitySet="bills" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="admin_user">
           <Key>
             <PropertyRef Name="Id" />
@@ -173,6 +241,7 @@
           <Property Name="DrivingLicenseNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="BloodGroup" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="lk_role" Relationship="BBMSModel.FK_adminuser_lk_role" FromRole="admin_user" ToRole="lk_role" />
+          <NavigationProperty Name="bills" Relationship="BBMSModel.FK_bill_admin_user" FromRole="admin_user" ToRole="bill" />
         </EntityType>
         <Association Name="FK_adminuser_lk_role">
           <End Type="BBMSModel.lk_role" Role="lk_role" Multiplicity="1" />
@@ -190,26 +259,77 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
           <Property Name="SrNo" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Location" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Near" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Size1" Type="Double" />
-          <Property Name="Size2" Type="Double" />
-          <Property Name="Size3" Type="Double" />
-          <Property Name="Size4" Type="Double" />
-          <Property Name="TotalMeasurment" Type="Double" />
+          <Property Name="Type" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size2" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size3" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size4" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TotalMeasurment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="SurveyDate" Type="DateTime" Precision="3" />
-          <Property Name="Picture" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="BookNumber" Type="Int32" />
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="Brand" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="test" Type="Int32" />
         </EntityType>
-      </Schema>
+        <EntityType Name="lk_rates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="bill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerNames" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DuplicateBillId" Type="Int32" />
+          <Property Name="AmentmentBillId" Type="Int32" />
+          <NavigationProperty Name="admin_user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="admin_user" />
+          <NavigationProperty Name="bill1" Relationship="BBMSModel.FK_bill_bill" FromRole="bill" ToRole="bill1" />
+          <NavigationProperty Name="bill2" Relationship="BBMSModel.FK_bill_bill" FromRole="bill1" ToRole="bill" />
+          <Property Name="BrandAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_bill_admin_user">
+          <End Type="BBMSModel.admin_user" Role="admin_user" Multiplicity="1" />
+          <End Type="BBMSModel.bill" Role="bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="admin_user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="bill">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bill_bill">
+          <End Type="BBMSModel.bill" Role="bill" Multiplicity="0..1" />
+          <End Type="BBMSModel.bill" Role="bill1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="bill1">
+              <PropertyRef Name="AmentmentBillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -274,12 +394,13 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="BBMSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="test" ColumnName="test" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
-                <ScalarProperty Name="Picture" ColumnName="Picture" />
                 <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />
                 <ScalarProperty Name="Size4" ColumnName="Size4" />
                 <ScalarProperty Name="Size3" ColumnName="Size3" />
@@ -291,6 +412,31 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="SrNo" ColumnName="SrNo" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lk_rates">
+            <EntityTypeMapping TypeName="BBMSModel.lk_rates">
+              <MappingFragment StoreEntitySet="lk_rates">
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bills">
+            <EntityTypeMapping TypeName="BBMSModel.bill">
+              <MappingFragment StoreEntitySet="bill">
+                <ScalarProperty Name="BrandAddress" ColumnName="BrandAddress" />
+                <ScalarProperty Name="AmentmentBillId" ColumnName="AmentmentBillId" />
+                <ScalarProperty Name="DuplicateBillId" ColumnName="DuplicateBillId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="CustomerNames" ColumnName="CustomerNames" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="BillId" ColumnName="BillId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

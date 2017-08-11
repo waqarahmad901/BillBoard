@@ -1,0 +1,96 @@
+﻿@model BillBoardsManagement.Repository.Customer
+@{
+    ViewBag.Title = "Edit";
+}
+
+<main class="main">
+
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Edit</li>
+        <li class="breadcrumb-item">Customer</li>
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="col-sm-6">
+                @using (Html.BeginForm("Edit", "Customer", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="text-primary"><i class="icon-plus"></i> Add new certificate</strong>
+                        </div>
+                        <div class="card-block">
+                            <div class="form-group">
+                                <label for="name">Sr No.</label>
+                                @Html.TextBoxFor(m => m.SrNo, new { @class = "form-control" })
+
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Description.</label>
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Location.</label>
+                                @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Near.</label>
+                                @Html.TextBoxFor(m => m.Near, new { @class = "form-control" })
+
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Type.</label>
+                                @Html.TextBoxFor(m => m.Type, new { @class = "form-control" }) 
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Size 1.</label>
+                                @Html.TextBoxFor(m => m.Size1, new { @class = "form-control" }) 
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Size 2.</label>
+                                @Html.TextBoxFor(m => m.Size2, new { @class = "form-control" }) 
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Size 3.</label>
+                                @Html.TextBoxFor(m => m.Size3, new { @class = "form-control" }) 
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Size 4.</label>
+                                @Html.TextBoxFor(m => m.Size4, new { @class = "form-control" }) 
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Brand.</label>
+                                @Html.TextBoxFor(m => m.Brand, new { @class = "form-control" }) 
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Survey Date.</label>
+                                @Html.TextBoxFor(m => m.SurveyDate, new { @class = "form-control" }) 
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Image.</label>
+                                <img src="@(Model.Picture != null ? "data:image/png;base64,"+Convert.ToBase64String(Model.Picture) : "")" width="500px" height="300px" /> 
+                            </div>
+                  
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input type="file" name="file" class="form-control">
+                            </div>
+                            @if (Model != null && Model.Id > 0)
+                            {
+                                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+                            }
+                        </div>             <div class="card-footer">
+                            <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</main>

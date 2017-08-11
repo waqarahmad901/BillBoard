@@ -1,0 +1,60 @@
+﻿@model System.Collections.Generic.IEnumerable<BillBoardsManagement.Repository.bill>
+
+<main class="main">
+
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Home</li>
+    </li>
+    <li class="breadcrumb-item active">Customer</li>
+    <!-- Breadcrumb Menu-->
+ 
+</ol>
+
+<div class="container-fluid">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="input-group global-search">
+                <input type="text" name="global-search" class="form-control" id="search" placeholder="Search" value="@ViewBag.searchQuery">
+                <span class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                </span>
+            </div>
+          
+            <table class="table table-hover table-outline mb-0">
+                <thead class="thead-default">
+                <tr> 
+                    <th>Bill Id</th>
+                    <th>Brand</th>
+                    <th>Customers</th>
+                    <th>File</th>
+                    <th>Ammenment Bill</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                    <tr> 
+                        
+                        <td>@item.BillId</td>
+                        <td>@item.Brand</td>
+                        <td>@(item.CustomerNames.Length > 30 ? item.CustomerNames.Substring(0,30) + "..." : item.CustomerNames )</td>
+                        <td><a href="@item.FilePath.Replace("~/","/")" target="_blank">View Bill</a></td>
+                        @if (item.bill2 != null)
+                        {
+                            <td><a href="@(item.bill2.FilePath.Replace("~/", "/"))" target="_blank">View Bill</a></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td><a href="@Url.Action("Detail", new {billid = item.Id})" title="Edit"><i class="fa fa-pencil"></i></a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    </main>

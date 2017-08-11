@@ -21,16 +21,17 @@ namespace BillBoardsManagement.Repository
         public string Location { get; set; }
         public string Near { get; set; }
         public string Type { get; set; }
-        public Nullable<double> Size1 { get; set; }
-        public Nullable<double> Size2 { get; set; }
-        public Nullable<double> Size3 { get; set; }
-        public Nullable<double> Size4 { get; set; }
-        public Nullable<double> TotalMeasurment { get; set; }
+        public string Size1 { get; set; }
+        public string Size2 { get; set; }
+        public string Size3 { get; set; }
+        public string Size4 { get; set; }
+        public string TotalMeasurment { get; set; }
+        public string Brand { get; set; }
         public Nullable<System.DateTime> SurveyDate { get; set; }
-        public string Picture { get; set; }
         public Nullable<int> BookNumber { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public Nullable<int> CreatedBy { get; set; }
-        public string Brand { get; set; }
+        public byte[] Picture { get; set; }
+        public Nullable<int> test { get; set; }
     }
 }

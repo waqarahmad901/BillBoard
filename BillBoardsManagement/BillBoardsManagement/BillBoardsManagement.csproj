@@ -54,6 +54,10 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\ExternalAssemblies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.11.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.11\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LinqToExcel, Version=1.11.0.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqToExcel.1.11.0\lib\LinqToExcel.dll</HintPath>
       <Private>True</Private>
@@ -210,6 +214,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Common\EncryptionKeys.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\GeneratePdfBill.cs" />
     <Compile Include="Common\SHA1.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -227,8 +232,14 @@
     <Compile Include="Repository\admin_user.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repository\bill.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\Core\IRepository.cs" />
     <Compile Include="Repository\Customer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\lk_rates.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Repository\lk_role.cs">
@@ -575,6 +586,7 @@
     <Content Include="Content\maps\bootstrap\bootstrap.css.map" />
     <Content Include="Content\maps\style.css.map" />
     <Content Include="Content\maps\vendors\chart.js\chart.css.map" />
+    <None Include="Properties\PublishProfiles\gg.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\clander\date.conversion.js" />
     <Content Include="Scripts\clander\jquery.calendars.islamic.js" />
@@ -649,6 +661,8 @@
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\UploadExcel.cshtml" />
     <Content Include="Views\Customer\Detail.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Customer\BillManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

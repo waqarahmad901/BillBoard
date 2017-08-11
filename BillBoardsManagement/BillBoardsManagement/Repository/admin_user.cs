@@ -14,6 +14,12 @@ namespace BillBoardsManagement.Repository
     
     public partial class admin_user
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public admin_user()
+        {
+            this.bills = new HashSet<bill>();
+        }
+    
         public int Id { get; set; }
         public System.Guid RowGuid { get; set; }
         public string Email { get; set; }
@@ -50,5 +56,7 @@ namespace BillBoardsManagement.Repository
         public string BloodGroup { get; set; }
     
         public virtual lk_role lk_role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<bill> bills { get; set; }
     }
 }
