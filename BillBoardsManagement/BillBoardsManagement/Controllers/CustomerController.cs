@@ -314,7 +314,7 @@ namespace BillBoardsManagement.Controllers
             var allrates = rates.GetAll();
 
             var catagoryRates = new Repository<lk_catagory_rates>();
-            var allratesCatagory = rates.GetAll();
+            var allratesCatagory = catagoryRates.GetAll();
 
             IEnumerable<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description) && x.Brand.ToLower() == details.Brand.ToLower()).ToList();
 
