@@ -17,8 +17,5 @@ namespace BillBoardsManagement.Repository
         public int Id { get; set; }
         public string Road { get; set; }
         public string Catagory { get; set; }
-        public string SubCatagory { get; set; }
-        public Nullable<decimal> Rate { get; set; }
-        public Nullable<bool> IsBrand { get; set; }
     }
 }

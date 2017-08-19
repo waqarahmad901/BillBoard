@@ -15,7 +15,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static string GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory, string address,string billno, string billDate,bool isAmentment,string brand)
+        public static string GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory, string address,string billno, string billDate,bool isAmentment,string brand,bool isbrand)
         {
             string oldFile = filePath;
 
@@ -88,13 +88,10 @@ namespace BillBoardsManagement.Common
                 table.AddCell(new Phrase("X", fntTableFontRow));
                 table.AddCell(new Phrase(item.Size4, fntTableFontRow));
                 table.AddCell(new Phrase(item.TotalMeasurment, fntTableFontRow));
-
-                decimal perAnumRate = allrates.Where(x => x.Type == item.Type).Select(x => x.Rate).FirstOrDefault() *12;
-                decimal? catagoryrate = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Rate).FirstOrDefault();
-                if (catagoryrate != null)
-                {
-                    perAnumRate = perAnumRate * catagoryrate.Value;
-                }
+                string catagor = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
+                catagor = catagor == null ? "A+" : catagor;
+                decimal perAnumRate = allrates.Where(x => x.Type == item.Type && x.Category == catagor && x.Brand == isbrand).Select(x => x.Rate).FirstOrDefault() *12;
+                
                 table.AddCell(new Phrase(perAnumRate + "", fntTableFontRow));
                 decimal amount = perAnumRate * decimal.Parse(item.TotalMeasurment);
                 table.AddCell(new Phrase(amount.ToString("0.00") + "", fntTableFontRow));

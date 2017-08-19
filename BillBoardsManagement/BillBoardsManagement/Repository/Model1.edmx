@@ -93,9 +93,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Road" Type="nvarchar" MaxLength="50" />
           <Property Name="Catagory" Type="nvarchar" MaxLength="50" />
-          <Property Name="SubCatagory" Type="nchar" MaxLength="10" />
-          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="IsBrand" Type="bit" />
         </EntityType>
         <EntityType Name="lk_rates">
           <Key>
@@ -104,6 +101,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Rate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Brand" Type="bit" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="lk_role">
           <Key>
@@ -190,13 +189,13 @@
             <End Role="admin_user" EntitySet="admin_user" />
           </AssociationSet>
           <EntitySet Name="Customers" EntityType="BBMSModel.Customer" />
-          <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
           <EntitySet Name="bills" EntityType="BBMSModel.bill" />
           <AssociationSet Name="FK_bill_admin_user" Association="BBMSModel.FK_bill_admin_user">
             <End Role="admin_user" EntitySet="admin_user" />
             <End Role="bill" EntitySet="bills" />
           </AssociationSet>
           <EntitySet Name="lk_catagory_rates" EntityType="BBMSModel.lk_catagory_rates" />
+          <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
           </EntityContainer>
         <EntityType Name="admin_user">
           <Key>
@@ -275,14 +274,6 @@
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="test" Type="Int32" />
         </EntityType>
-        <EntityType Name="lk_rates">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-        </EntityType>
         <EntityType Name="bill">
           <Key>
             <PropertyRef Name="Id" />
@@ -321,9 +312,16 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Road" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Catagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SubCatagory" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IsBrand" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="lk_rates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Brand" Type="Boolean" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -412,15 +410,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="lk_rates">
-            <EntityTypeMapping TypeName="BBMSModel.lk_rates">
-              <MappingFragment StoreEntitySet="lk_rates">
-                <ScalarProperty Name="Rate" ColumnName="Rate" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="bills">
             <EntityTypeMapping TypeName="BBMSModel.bill">
               <MappingFragment StoreEntitySet="bill">
@@ -443,11 +432,19 @@
           <EntitySetMapping Name="lk_catagory_rates">
             <EntityTypeMapping TypeName="BBMSModel.lk_catagory_rates">
               <MappingFragment StoreEntitySet="lk_catagory_rates">
-                <ScalarProperty Name="IsBrand" ColumnName="IsBrand" />
-                <ScalarProperty Name="Rate" ColumnName="Rate" />
-                <ScalarProperty Name="SubCatagory" ColumnName="SubCatagory" />
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
                 <ScalarProperty Name="Road" ColumnName="Road" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lk_rates">
+            <EntityTypeMapping TypeName="BBMSModel.lk_rates">
+              <MappingFragment StoreEntitySet="lk_rates">
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

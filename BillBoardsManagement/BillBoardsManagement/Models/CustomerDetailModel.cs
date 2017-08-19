@@ -22,6 +22,7 @@ namespace BillBoardsManagement.Models
         public int NumberMonth { get; set; }
         public DateTime ShippingDate { get; set; }
         public string BrandAddress { get; set; }
+        public bool IsBrand{ get; set; }
 
         public List<CustomerDetailModel> CustomerDetailList { get; set; }
         public int Billid { get; set; }
