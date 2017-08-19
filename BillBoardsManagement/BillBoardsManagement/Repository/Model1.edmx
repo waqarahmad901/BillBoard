@@ -56,7 +56,7 @@
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="DuplicateBillId" Type="int" />
-          <Property Name="AmentmentBillId" Type="int" />
+          <Property Name="AmmendentBill" Type="nvarchar" MaxLength="500" />
           <Property Name="BrandAddress" Type="nvarchar" MaxLength="500" />
           <Property Name="TrakingNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="NumberMonth" Type="int" />
@@ -85,6 +85,17 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="Picture" Type="image" />
           <Property Name="test" Type="int" />
+        </EntityType>
+        <EntityType Name="lk_catagory_rates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Road" Type="nvarchar" MaxLength="50" />
+          <Property Name="Catagory" Type="nvarchar" MaxLength="50" />
+          <Property Name="SubCatagory" Type="nchar" MaxLength="10" />
+          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsBrand" Type="bit" />
         </EntityType>
         <EntityType Name="lk_rates">
           <Key>
@@ -133,24 +144,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_bill_bill">
-          <End Role="bill" Type="Self.bill" Multiplicity="0..1" />
-          <End Role="bill1" Type="Self.bill" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="bill">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="bill1">
-              <PropertyRef Name="AmentmentBillId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="lk_role_NewCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
         <Function Name="lk_role_NewDisplayOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
         <EntityContainer Name="BBMSModelStoreContainer">
           <EntitySet Name="admin_user" EntityType="Self.admin_user" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bill" EntityType="Self.bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lk_catagory_rates" EntityType="Self.lk_catagory_rates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_rates" EntityType="Self.lk_rates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_role" EntityType="Self.lk_role" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_adminuser_lk_role" Association="Self.FK_adminuser_lk_role">
@@ -160,10 +160,6 @@
           <AssociationSet Name="FK_bill_admin_user" Association="Self.FK_bill_admin_user">
             <End Role="admin_user" EntitySet="admin_user" />
             <End Role="bill" EntitySet="bill" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bill_bill" Association="Self.FK_bill_bill">
-            <End Role="bill" EntitySet="bill" />
-            <End Role="bill1" EntitySet="bill" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -200,10 +196,7 @@
             <End Role="admin_user" EntitySet="admin_user" />
             <End Role="bill" EntitySet="bills" />
           </AssociationSet>
-          <AssociationSet Name="FK_bill_bill" Association="BBMSModel.FK_bill_bill">
-            <End Role="bill" EntitySet="bills" />
-            <End Role="bill1" EntitySet="bills" />
-          </AssociationSet>
+          <EntitySet Name="lk_catagory_rates" EntityType="BBMSModel.lk_catagory_rates" />
           </EntityContainer>
         <EntityType Name="admin_user">
           <Key>
@@ -302,14 +295,12 @@
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DuplicateBillId" Type="Int32" />
-          <Property Name="AmentmentBillId" Type="Int32" />
-          <NavigationProperty Name="admin_user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="admin_user" />
-          <NavigationProperty Name="bill1" Relationship="BBMSModel.FK_bill_bill" FromRole="bill" ToRole="bill1" />
-          <NavigationProperty Name="bill2" Relationship="BBMSModel.FK_bill_bill" FromRole="bill1" ToRole="bill" />
+          <Property Name="AmmendentBill" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="BrandAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="TrakingNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NumberMonth" Type="Int32" />
           <Property Name="ShippingDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="admin_user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="admin_user" />
         </EntityType>
         <Association Name="FK_bill_admin_user">
           <End Type="BBMSModel.admin_user" Role="admin_user" Multiplicity="1" />
@@ -323,18 +314,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_bill_bill">
-          <End Type="BBMSModel.bill" Role="bill" Multiplicity="0..1" />
-          <End Type="BBMSModel.bill" Role="bill1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="bill">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="bill1">
-              <PropertyRef Name="AmentmentBillId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="lk_catagory_rates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Road" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Catagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubCatagory" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsBrand" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -438,7 +428,7 @@
                 <ScalarProperty Name="NumberMonth" ColumnName="NumberMonth" />
                 <ScalarProperty Name="TrakingNumber" ColumnName="TrakingNumber" />
                 <ScalarProperty Name="BrandAddress" ColumnName="BrandAddress" />
-                <ScalarProperty Name="AmentmentBillId" ColumnName="AmentmentBillId" />
+                <ScalarProperty Name="AmmendentBill" ColumnName="AmmendentBill" />
                 <ScalarProperty Name="DuplicateBillId" ColumnName="DuplicateBillId" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -446,6 +436,18 @@
                 <ScalarProperty Name="CustomerNames" ColumnName="CustomerNames" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="BillId" ColumnName="BillId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lk_catagory_rates">
+            <EntityTypeMapping TypeName="BBMSModel.lk_catagory_rates">
+              <MappingFragment StoreEntitySet="lk_catagory_rates">
+                <ScalarProperty Name="IsBrand" ColumnName="IsBrand" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="SubCatagory" ColumnName="SubCatagory" />
+                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="Road" ColumnName="Road" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

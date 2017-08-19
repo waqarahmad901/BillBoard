@@ -1,6 +1,10 @@
 ﻿@model PagedList.IPagedList<BillBoardsManagement.Repository.Customer>
 @{
     ViewBag.Title = "Index";
+    var bills = (List<BillBoardsManagement.Repository.bill>) ViewBag.bills;
+     
+         var request = Request.Url?.GetLeftPart(UriPartial.Authority) + Url.Content("~");
+     
 }
 
 <main class="main">
@@ -37,18 +41,39 @@
                     <thead class="thead-default">
                     <tr>  
                         <th>Brand</th>
-                        <th>Survey Date</th> 
+                        <th>Survey Date</th>
+                        <th>Bill</th>
+                        <th>Amment Bill</th> 
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach (var item in Model.ToList())
                     {
-                        <tr>  
+                        var bill = bills.FirstOrDefault(x => x.Brand == item.Brand);
+
+                    <tr>  
                             <td>@item.Brand</td>
                             <td>@item.SurveyDate</td>
-                             <td><a href="@Url.Action("Detail", new {brand = item.Brand})" title="Edit"><i class="fa fa-pencil"></i></a></td>
-                        </tr>
+                            @if (bill != null)
+                            {
+                                <td><a href="@(request + bill.FilePath.Replace("~/", ""))" target="_blank">View Bill</a></td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        
+                        @if (bill?.AmmendentBill != null)
+                        {
+                            <td><a href="@(request + bill.AmmendentBill.Replace("~/", ""))" target="_blank">View Ammentment Bill</a></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td><a href="@Url.Action("Detail", new {brand = item.Brand})" title="Edit"><i class="fa fa-pencil"></i></a></td>
+                      </tr>
                     }
                     </tbody>
                 </table>

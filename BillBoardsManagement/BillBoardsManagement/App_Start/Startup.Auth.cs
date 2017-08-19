@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Configuration;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using BillBoardsManagement.Common;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -58,11 +62,16 @@ namespace BillBoardsManagement
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = ConfigurationManager.AppSettings["ClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["ClientSecret"],
+                CallbackPath = new PathString("/Home"),
+                Provider = new GoogleOAuth2AuthenticationProvider()
+                {
+                    OnAuthenticated = (context) => Task.FromResult(0)
+                }
+            });
         }
     }
 }

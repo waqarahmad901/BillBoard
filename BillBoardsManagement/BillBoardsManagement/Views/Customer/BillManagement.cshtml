@@ -32,7 +32,7 @@
                     <th>Customers</th>
                     <th>File</th>
                     <th>Ammenment Bill</th>
-                    <th></th>
+                    
                 </tr>
                 </thead>
                 <tbody>
@@ -44,15 +44,15 @@
                         <td>@item.Brand</td>
                         <td>@(item.CustomerNames.Length > 30 ? item.CustomerNames.Substring(0,30) + "..." : item.CustomerNames )</td>
                         <td><a href="@(request + item.FilePath.Replace("~/",""))" target="_blank">View Bill</a></td>
-                        @if (item.bill2 != null)
+                        @if (item.AmmendentBill != null)
                         {
-                            <td><a href="@(request + item.bill2.FilePath.Replace("~/", ""))" target="_blank">View Bill</a></td>
+                            <td><a href="@(request + item.AmmendentBill.Replace("~/", ""))" target="_blank">View Ammentment Bill</a></td>
                         }
                         else
                         {
                             <td></td>
                         }
-                        <td><a href="@Url.Action("Detail", new {billid = item.Id})" title="Edit"><i class="fa fa-pencil"></i></a></td>
+                        
                     </tr>
                 }
                 </tbody>

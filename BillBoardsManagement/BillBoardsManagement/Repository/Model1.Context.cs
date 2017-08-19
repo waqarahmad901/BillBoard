@@ -30,5 +30,6 @@ namespace BillBoardsManagement.Repository
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<lk_rates> lk_rates { get; set; }
         public virtual DbSet<bill> bills { get; set; }
+        public virtual DbSet<lk_catagory_rates> lk_catagory_rates { get; set; }
     }
 }

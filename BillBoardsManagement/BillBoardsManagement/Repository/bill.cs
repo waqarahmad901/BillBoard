@@ -14,12 +14,6 @@ namespace BillBoardsManagement.Repository
     
     public partial class bill
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public bill()
-        {
-            this.bill1 = new HashSet<bill>();
-        }
-    
         public int Id { get; set; }
         public string BillId { get; set; }
         public string Brand { get; set; }
@@ -28,15 +22,12 @@ namespace BillBoardsManagement.Repository
         public int CreatedBy { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public Nullable<int> DuplicateBillId { get; set; }
-        public Nullable<int> AmentmentBillId { get; set; }
+        public string AmmendentBill { get; set; }
         public string BrandAddress { get; set; }
         public string TrakingNumber { get; set; }
         public Nullable<int> NumberMonth { get; set; }
         public Nullable<System.DateTime> ShippingDate { get; set; }
     
         public virtual admin_user admin_user { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<bill> bill1 { get; set; }
-        public virtual bill bill2 { get; set; }
     }
 }

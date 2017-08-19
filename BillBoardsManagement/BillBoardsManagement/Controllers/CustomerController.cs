@@ -58,17 +58,18 @@ namespace BillBoardsManagement.Controllers
                         group x by x.Brand.Trim() into grp
                 select grp.First();
 
-         //   customers = customers.GroupBy(x => x.Brand).Select(x => x.First());
+            //   customers = customers.GroupBy(x => x.Brand).Select(x => x.First());
 
             //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
             // new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
 
             //ViewBag.booksdd = books;
-
+            ViewBag.bills = new Repository<bill>().GetAll();
             //Sorting order
             customers = customers.OrderBy(x => x.Brand);
             ViewBag.Count = customers.Count();
           
+           
 
             return View(customers.ToPagedList(page, pageSize));
         }
@@ -170,7 +171,7 @@ namespace BillBoardsManagement.Controllers
 
         public byte[] ConvertImageToBytes(string path)
         {
-            string imgePath = path + ".jpeg";
+            string imgePath = path + ".jpg";
             if (!System.IO.File.Exists(imgePath))
                 imgePath = path + ".png";
             if (System.IO.File.Exists(imgePath))
@@ -252,17 +253,11 @@ namespace BillBoardsManagement.Controllers
             IEnumerable<Customer> customers;
             var repository = new Repository<Customer>();
             customers = repository.GetAll();
-            //if (string.IsNullOrEmpty(filter))
-            //{
-            //    customers = repository.GetAll();
-            //}
-            //else
-            //{
-            //    customers = repository.GetAll(i => i,
-            //        x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
-            //        i => i.Brand, false, null);
-            //}
+           
             List<CustomerDetailModel> customerDetailModels = null;
+            var brandBill = new Repository<bill>().GetAll().FirstOrDefault(x => x.Brand == brand);
+
+            billid = brandBill?.Id ?? 0;
             bill obill = null;
             if (billid > 0)
             {
@@ -283,6 +278,7 @@ namespace BillBoardsManagement.Controllers
                 customers = customers.Where(x => x.Brand == brand).ToList();
                 customerDetailModels = customers.GroupBy(x => x.Description).Select(x => new CustomerDetailModel
                 {
+                    Selected = true,
                     CustomerName = x.Key.Trim(),
                     Customers = x.ToList()
                 }).ToList();
@@ -316,38 +312,51 @@ namespace BillBoardsManagement.Controllers
             var repository = new Repository<Customer>();
             var rates = new Repository<lk_rates>();
             var allrates = rates.GetAll();
+
+            var catagoryRates = new Repository<lk_catagory_rates>();
+            var allratesCatagory = rates.GetAll();
+
             IEnumerable<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description) && x.Brand.ToLower() == details.Brand.ToLower()).ToList();
 
             string filePath = Path.Combine("~/Uploads", DateTime.Now.ToString("ddMMyyyymmsstt")+ ".pdf"); 
-            PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, details.BrandAddress);
-
-
+            
             var repoBill = new Repository<bill>();
-            bill obill = new bill();
-            if (details.Billid > 0)
-            {
-                var abill = repoBill.Get(details.Billid);
-                if (abill.Brand == details.Brand && abill.CustomerNames == string.Join(",", customerList))
-                    obill.DuplicateBillId = abill.Id;
-                else
-                    obill.AmentmentBillId = abill.Id;
+            bill obill = null;
              
-            } 
+                obill = repoBill.GetAll().FirstOrDefault(x => x.Brand == details.Brand);
+                if (obill != null)
+                    obill.AmmendentBill = filePath;
+                else
+                {
+                    obill = new bill {FilePath = filePath};
+                } 
             var rnd = new Random();
             var num = rnd.Next(0000000, 9999999);
             obill.BillId = num.ToString("D7");
             obill.Brand = details.Brand;
             obill.CustomerNames = string.Join(",", customerList);
-            obill.FilePath = filePath;
+            
             obill.CreatedAt = DateTime.Now;
             obill.CreatedBy = 1;
             obill.BrandAddress = details.BrandAddress;
             obill.TrakingNumber = details.TrakingNumber;
             obill.NumberMonth = details.NumberMonth;
-            obill.ShippingDate = details.ShippingDate;
-            repoBill.Post(obill);
+            if (DateTime.MinValue == details.ShippingDate) obill.ShippingDate = null;
+            else obill.ShippingDate = details.ShippingDate;
+            if (obill.Id > 0)
+            {
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, details.BrandAddress,
+                    obill.BillId, "", true, details.Brand);
 
-            return RedirectToAction("BillManagement");
+                repoBill.Put(obill.Id, obill);
+            }
+            else
+            {
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, details.BrandAddress, obill.BillId, "", false, details.Brand);
+
+                repoBill.Post(obill);
+            }
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult BillManagement()
