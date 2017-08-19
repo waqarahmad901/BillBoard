@@ -315,6 +315,16 @@ namespace BillBoardsManagement.Controllers
             var repository = new Repository<Customer>();
             var rates = new Repository<lk_rates>();
             var allrates = rates.GetAll();
+            string button = Request.Form["updatebutton"];
+            if (button != null)
+            {
+                var repobill = new Repository<bill>();
+                var bill = repobill.GetAll().Where(x=>x.Brand == details.Brand).FirstOrDefault();
+                bill.BrandAddress = details.BrandAddress;
+                bill.ShippingDate = details.ShippingDate;
+                repobill.Put(bill.Id, bill);
+                return RedirectToAction("Index");
+            }
 
             var catagoryRates = new Repository<lk_catagory_rates>();
             var allratesCatagory = catagoryRates.GetAll();
@@ -337,8 +347,7 @@ namespace BillBoardsManagement.Controllers
                 } 
           
             obill.Brand = details.Brand;
-            obill.CustomerNames = string.Join(",", customerList);
-            
+            obill.CustomerNames = string.Join(",", customerList); 
             obill.CreatedAt = DateTime.Now;
             obill.CreatedBy = 1;
             obill.BrandAddress = details.BrandAddress;
@@ -357,8 +366,8 @@ namespace BillBoardsManagement.Controllers
 
             if (obill.Id > 0)
             {
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, details.BrandAddress,
-                    obill.BillId, "", true, details.Brand,details.IsBrand);
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                    obill.BillId, "", true, details);
                 string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
                     obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(destinationFile);
@@ -366,14 +375,13 @@ namespace BillBoardsManagement.Controllers
             }
             else
             {
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, details.BrandAddress, obill.BillId, "", false, details.Brand, details.IsBrand);
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, obill.BillId, "", false,details);
                 string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
                     obill.FilePath = "~/Uploads/" + Path.GetFileName(destinationFile);
                 repoBill.Post(obill);
             }
-
-
+             
             return RedirectToAction("Index");
         }
 

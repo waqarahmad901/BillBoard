@@ -50,34 +50,44 @@
                             <i class="fa fa-search"></i>
                         </span>
                     </div>
-                    <div style="width: 100%">
-                        <div class="col-sm-3">
-                            <label for="name" style="float: left;margin-right: 1%;">Address.</label>
-                            @Html.TextAreaFor(x=>x.BrandAddress,new {@cols = 40, @rows=5})
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="name" style="float: left;margin-right: 1%;">Traking Number.</label>
-                            @Html.TextBoxFor(x=>x.TrakingNumber)
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="name" style="float: left;margin-right: 1%;">Number Month.</label>
-                            @Html.TextBoxFor(x=>x.NumberMonth)
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="name" style="float: left;margin-right: 1%;">Shipping Date.</label>
-                            @Html.TextBoxFor(x=>x.ShippingDate)
-                        </div>
                     </div>
-                    <div style="width: 100%">
-                        <div class="col-sm-3">
-                            @Html.CheckBoxFor(x => x.IsBrand, new { @cols = 40, @rows = 5 })
+                <div class="card">
+                    <div class="card-block">
+                        <div class="form-group col-sm-6">
+                            <label for="name" style="float: left;margin-right: 1%;">Address.</label>
+                            @Html.TextAreaFor(x => x.BrandAddress, new { @cols = 40, @rows = 5 })
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label for="name" style="float: left;margin-right: 1%;">Traking Number.</label>
+                            @Html.TextBoxFor(x => x.TrakingNumber, new { @style = "margin-left:10%" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="name" style="float: left;margin-right: 1%;">ShippingDate.</label>
+                            @Html.TextBoxFor(x => x.ShippingDate, new { @style = "margin-left:13%" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="name" style="float: left;margin-right: 1%;">Number Of Month.</label>
+                            @Html.TextBoxFor(x => x.NumberMonth, new { @style = "margin-left:8%" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            @Html.CheckBoxFor(x => x.IsBrand, new { @style = "margin-left:20%" })
                             <label for="name" style="float: left;margin-right: 1%;">Is Brand.</label>
+                        </div>
+
+                    </div>
+
+                    <div class="card-block">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-primary pull-right" name="updatebutton" value="update"><i class="fa fa-dot-circle-o"></i> Update shipping details</button>
+
+                            </div>
                         </div>
 
                         </div>
                         @*<div class="input-group global-search">
-                @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })
-            </div>*@
+                    @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })
+                </div>*@
                         @for (int i = 0; i < Model.CustomerDetailList.Count(); i++)
                         {
                             @Html.HiddenFor(x => x.CustomerDetailList[i].CustomerName)
@@ -130,8 +140,8 @@
                             <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Generate Bill</button>
                         </div>
                     </div>
-            </div>
-        </div>
+                </div>
+        
     }
 </main>
 <script type="text/javascript">
