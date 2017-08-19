@@ -283,7 +283,8 @@ namespace BillBoardsManagement.Controllers
                 {
                     Selected = true,
                     CustomerName = x.Key.Trim(),
-                    Customers = x.ToList()
+                    Customers = x.ToList(),
+                    
                 }).ToList();
             }
             //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
@@ -296,14 +297,21 @@ namespace BillBoardsManagement.Controllers
             ViewBag.Count = customerDetailModels.Count();
             var detailList = new CstomerDetilPageList();
             detailList.CustomerDetailList = customerDetailModels;
-           
+
             if (obill != null)
             {
                 detailList.Brand = obill.Brand;
                 detailList.BrandAddress = obill.BrandAddress;
-                detailList.NumberMonth = obill.NumberMonth??0;
+                detailList.NumberMonth = obill.NumberMonth ?? 0;
                 detailList.TrakingNumber = obill.TrakingNumber;
-                detailList.ShippingDate = obill.ShippingDate??DateTime.Now;
+                detailList.ShippingDate = obill.ShippingDate ?? DateTime.Now;
+                detailList.billamountpaid = obill.BillAmountPaid ?? 0;
+                detailList.billamountgenerated = obill.BillAmountGenerated ?? 0;
+            }
+            else
+            {
+                detailList.NumberMonth = 12;
+                detailList.IsBrand = true;
             }
             detailList.Billid = billid;
             return View(detailList);
@@ -355,6 +363,7 @@ namespace BillBoardsManagement.Controllers
             obill.NumberMonth = details.NumberMonth;
             if (DateTime.MinValue == details.ShippingDate) obill.ShippingDate = null;
             else obill.ShippingDate = details.ShippingDate;
+            obill.BillAmountPaid = details.billamountpaid;
 
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
@@ -366,19 +375,22 @@ namespace BillBoardsManagement.Controllers
 
             if (obill.Id > 0)
             {
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+               var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                     obill.BillId, "", true, details);
                 string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
                     obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(destinationFile);
+                obill.BillAmountGenerated = totalamount;
                 repoBill.Put(obill.Id, obill);
             }
             else
             {
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, obill.BillId, "", false,details);
+                var totalAmount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, obill.BillId, "", false,details);
                 string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
                     obill.FilePath = "~/Uploads/" + Path.GetFileName(destinationFile);
+                obill.BillAmountGenerated = totalAmount;
+
                 repoBill.Post(obill);
             }
              

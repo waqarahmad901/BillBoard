@@ -61,6 +61,8 @@
           <Property Name="TrakingNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="NumberMonth" Type="int" />
           <Property Name="ShippingDate" Type="datetime" />
+          <Property Name="BillAmountGenerated" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BillAmountPaid" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -292,6 +294,8 @@
           <Property Name="NumberMonth" Type="Int32" />
           <Property Name="ShippingDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="admin_user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="admin_user" />
+          <Property Name="BillAmountGenerated" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BillAmountPaid" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_bill_admin_user">
           <End Type="BBMSModel.admin_user" Role="admin_user" Multiplicity="1" />
@@ -413,6 +417,8 @@
           <EntitySetMapping Name="bills">
             <EntityTypeMapping TypeName="BBMSModel.bill">
               <MappingFragment StoreEntitySet="bill">
+                <ScalarProperty Name="BillAmountPaid" ColumnName="BillAmountPaid" />
+                <ScalarProperty Name="BillAmountGenerated" ColumnName="BillAmountGenerated" />
                 <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
                 <ScalarProperty Name="NumberMonth" ColumnName="NumberMonth" />
                 <ScalarProperty Name="TrakingNumber" ColumnName="TrakingNumber" />

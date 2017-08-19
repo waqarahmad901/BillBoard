@@ -27,6 +27,8 @@ namespace BillBoardsManagement.Repository
         public string TrakingNumber { get; set; }
         public Nullable<int> NumberMonth { get; set; }
         public Nullable<System.DateTime> ShippingDate { get; set; }
+        public Nullable<decimal> BillAmountGenerated { get; set; }
+        public Nullable<decimal> BillAmountPaid { get; set; }
     
         public virtual admin_user admin_user { get; set; }
     }

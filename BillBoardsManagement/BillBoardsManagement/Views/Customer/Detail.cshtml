@@ -1,7 +1,7 @@
 ﻿@model BillBoardsManagement.Models.CstomerDetilPageList
 @{
     ViewBag.Title = "Index";
-  //  string brand = Request.QueryString["brand"];
+    string brandquery = Request.QueryString["brand"];
 }
 <style type="text/css">
  
@@ -53,6 +53,11 @@
                     </div>
                 <div class="card">
                     <div class="card-block">
+                        <div class="form-group col-sm-12">
+                            <label for="name" style="float: left;margin-right: 1%;">Brand.</label>
+                            <span><b>@brandquery</b></span>
+
+                        </div>
                         <div class="form-group col-sm-6">
                             <label for="name" style="float: left;margin-right: 1%;">Address.</label>
                             @Html.TextAreaFor(x => x.BrandAddress, new { @cols = 40, @rows = 5 })
@@ -74,6 +79,15 @@
                             @Html.CheckBoxFor(x => x.IsBrand, new { @style = "margin-left:20%" })
                             <label for="name" style="float: left;margin-right: 1%;">Is Brand.</label>
                         </div>
+                        <div class="form-group col-sm-6">
+                            <label for="name" style="float: left;margin-right: 1%;">Bill Amount Generated.</label>
+                            <span><b>@Model.billamountgenerated</b></span>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="name" style="float: left;margin-right: 1%;">Bill Amount Paid.</label>
+                            @Html.TextBoxFor(x => x.billamountpaid, new { @style = "margin-left:10%" })
+                        </div>
+
 
                     </div>
 
@@ -84,7 +98,7 @@
                             </div>
                         </div>
 
-                        </div>
+                 </div>
                         @*<div class="input-group global-search">
                     @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })
                 </div>*@
@@ -136,7 +150,7 @@
                         }
 
 
-                        <div style="width: 100%; margin: 10px;">
+                        <div style="width: 100%; margin-top: 23%; margin-bottom:27%">
                             <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Generate Bill</button>
                         </div>
                     </div>
@@ -149,4 +163,4 @@
         $(obj).parent().parent().find('table').toggle();
     }
 
-</script>
+</script> 

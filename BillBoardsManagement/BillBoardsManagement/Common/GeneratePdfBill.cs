@@ -16,7 +16,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static string GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand)
+        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand)
         {
             string oldFile = filePath;
 
@@ -126,7 +126,7 @@ namespace BillBoardsManagement.Common
             document.Add(addressParagraph);
             cb.EndText();
             document.Close();
-            return null;
+            return totalAmount;
         }
     }
 } 
