@@ -668,10 +668,10 @@
     <Content Include="Views\Customer\Detail.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\BillManagement.cshtml" />
+    <Content Include="Uploads\Bill\BillAggrementTemplate.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

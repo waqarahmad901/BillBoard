@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/BillBoardsManagement/BillBoardsManagement/Uploads

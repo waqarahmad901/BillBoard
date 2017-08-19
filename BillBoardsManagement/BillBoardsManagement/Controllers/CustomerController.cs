@@ -14,11 +14,14 @@ using BillBoardsManagement.Common;
 using BillBoardsManagement.Models;
 using BillBoardsManagement.Repository;
 using Excel;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using LinqToExcel;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using PagedList;
+using TmsWebApp.Common;
 using Path = System.IO.Path;
 
 namespace BillBoardsManagement.Controllers
@@ -176,7 +179,7 @@ namespace BillBoardsManagement.Controllers
                 imgePath = path + ".png";
             if (System.IO.File.Exists(imgePath))
             {
-                using (Image image = Image.FromFile(imgePath))
+                using (System.Drawing.Image image = System.Drawing.Image.FromFile(imgePath))
                 {
                     var resizedImage = resizeImage(image, new Size(500, 300));
                     using (MemoryStream m = new MemoryStream())
@@ -189,9 +192,9 @@ namespace BillBoardsManagement.Controllers
             return null;
         }
 
-        public Image resizeImage(Image imgToResize, Size size)
+        public System.Drawing.Image resizeImage(System.Drawing.Image imgToResize, Size size)
         {
-            return (Image)(new Bitmap(imgToResize, size));
+            return (System.Drawing.Image)(new Bitmap(imgToResize, size));
         }
 
         private string GetValue(ExcelWorksheet sheet, int row, int col)
@@ -328,11 +331,11 @@ namespace BillBoardsManagement.Controllers
                     obill.AmmendentBill = filePath;
                 else
                 {
-                    obill = new bill {FilePath = filePath};
+                var rnd = new Random();
+                var num = rnd.Next(0000000, 9999999);
+                obill = new bill {FilePath = filePath, BillId = num.ToString("D7") };
                 } 
-            var rnd = new Random();
-            var num = rnd.Next(0000000, 9999999);
-            obill.BillId = num.ToString("D7");
+          
             obill.Brand = details.Brand;
             obill.CustomerNames = string.Join(",", customerList);
             
@@ -343,21 +346,76 @@ namespace BillBoardsManagement.Controllers
             obill.NumberMonth = details.NumberMonth;
             if (DateTime.MinValue == details.ShippingDate) obill.ShippingDate = null;
             else obill.ShippingDate = details.ShippingDate;
+
+            List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
+            {
+                new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
+                new PdfCoordinatesModel {Text = DateTime.Now.ToShortDateString(), X = 390, Y = 805 },
+                new PdfCoordinatesModel {Text = obill.Brand, X = 264, Y = 782}
+            };
+            string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), DateTime.Now.ToString("ddMMyyyyhhmmsstt") + ".pdf"));
+
             if (obill.Id > 0)
             {
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, details.BrandAddress,
                     obill.BillId, "", true, details.Brand);
-
+                string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+                if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
+                    obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(destinationFile);
                 repoBill.Put(obill.Id, obill);
             }
             else
             {
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, details.BrandAddress, obill.BillId, "", false, details.Brand);
-
+                string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+                if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
+                    obill.FilePath = "~/Uploads/" + Path.GetFileName(destinationFile);
                 repoBill.Post(obill);
             }
+
+
             return RedirectToAction("Index");
         }
+
+        public static bool MergePDFs(IEnumerable<string> fileNames, string targetPdf)
+        {
+            bool merged = true;
+            using (FileStream stream = new FileStream(targetPdf, FileMode.Create))
+            {
+                Document document = new Document();
+                PdfCopy pdf = new PdfCopy(document, stream);
+                PdfReader reader = null;
+                try
+                {
+                    document.Open();
+                    foreach (string file in fileNames)
+                    {
+                        reader = new PdfReader(file);
+                        pdf.AddDocument(reader);
+                        reader.Close();
+                    }
+                }
+                catch (Exception)
+                {
+                    merged = false;
+                    if (reader != null)
+                    {
+                        reader.Close();
+                    }
+                }
+                finally
+                {
+                    if (document != null)
+                    {
+                        document.Close();
+                    }
+                }
+            }
+            return merged;
+        }
+
+
+
         [HttpGet]
         public ActionResult BillManagement()
         {

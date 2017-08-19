@@ -8,9 +8,9 @@ using BillBoardsManagement.Models;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace TmsWebApp.HelpingUtilities
+namespace TmsWebApp.Common
 {
-    public class PdfGenerator
+    public class PdfGeneratorAggrement
     {
         public static string GenerateOnflyPdf(string filePath, List<PdfCoordinatesModel> pdfCoordinates)
         {
