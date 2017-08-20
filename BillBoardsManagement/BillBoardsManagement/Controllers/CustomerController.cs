@@ -370,6 +370,7 @@ namespace BillBoardsManagement.Controllers
                 new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
                 new PdfCoordinatesModel {Text = DateTime.Now.ToShortDateString(), X = 390, Y = 805 },
                 new PdfCoordinatesModel {Text = obill.Brand, X = 264, Y = 782},
+                new PdfCoordinatesModel {Text = obill.BrandAddress,  X=88 , Y = 761 }
                
             };
             string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), DateTime.Now.ToString("ddMMyyyyhhmmsstt") + ".pdf"));
