@@ -18,6 +18,7 @@ namespace BillBoardsManagement.Common
     {
         public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand)
         {
+
             string oldFile = filePath;
 
             FileStream fs = new FileStream(filePath, FileMode.Create);
@@ -27,10 +28,10 @@ namespace BillBoardsManagement.Common
             // Writer class using the document and the filestrem in the constructor.
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
             document.Open();
-            PdfContentByte cb = writer.DirectContent;
-            cb.BeginText();
+          //  PdfContentByte cb = writer.DirectContent;
+           // cb.BeginText();
             BaseFont fCb = BaseFont.CreateFont("c:\\windows\\fonts\\calibrib.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            cb.SetFontAndSize(fCb, 9);
+           // cb.SetFontAndSize(fCb, 9);
             var headerFont = FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK);
             Paragraph header = new Paragraph("PARKS & HORTICULTURE AUTHORITY RAWALPINDI.", headerFont) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph1 = new Paragraph("RAJA ZAHID LATIF CONTRACTOR ADVERTISEMENT FEE 2017.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
@@ -60,6 +61,10 @@ namespace BillBoardsManagement.Common
                 SpacingBefore = 20 ,
                 DefaultCell = { Padding = 5}
             };
+            table.HeaderRows = 1;
+            //table.SplitRows = false;
+            //table.Complete = false;
+            //table.SplitLate = false;
             table.SetWidths(new int[] {60,150,150,80,50,40,50,40,50,40,50,70,70,90,150});
             table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) {  HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) {  HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE }); 
@@ -75,8 +80,10 @@ namespace BillBoardsManagement.Common
             table.AddCell(new PdfPCell(new Phrase("IMAGE", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             int row = 1;
             decimal totalAmount = 0;
+            
             foreach (var item in customers)
-            {  
+            {
+                
                 table.AddCell(new Phrase(row++ + "", fntTableFontRow));
                 table.AddCell(new Phrase(item.Location, fntTableFontRow)); 
                 table.AddCell(new Phrase(item.Near, fntTableFontRow)); 
@@ -107,6 +114,7 @@ namespace BillBoardsManagement.Common
                 {
                     table.AddCell("");
                 }
+                
             }
             var table2 = new PdfPTable(2)
             {
@@ -117,16 +125,18 @@ namespace BillBoardsManagement.Common
             //table2.SetWidths(new int[]{140,95});
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
             table2.AddCell(new Phrase(totalAmount.ToString("0.00") + "", fntTableFontHdr));
-
+            table.Complete = true;
             document.Add(table);
             document.Add(table2);
 
             Paragraph addressParagraph = new Paragraph(brand.BrandAddress, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT};
 
             document.Add(addressParagraph);
-            cb.EndText();
+         //   cb.EndText();
             document.Close();
             return totalAmount;
         }
+
+    
     }
 } 

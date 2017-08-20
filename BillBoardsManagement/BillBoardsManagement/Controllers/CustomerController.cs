@@ -369,7 +369,8 @@ namespace BillBoardsManagement.Controllers
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
                 new PdfCoordinatesModel {Text = DateTime.Now.ToShortDateString(), X = 390, Y = 805 },
-                new PdfCoordinatesModel {Text = obill.Brand, X = 264, Y = 782}
+                new PdfCoordinatesModel {Text = obill.Brand, X = 264, Y = 782},
+               
             };
             string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), DateTime.Now.ToString("ddMMyyyyhhmmsstt") + ".pdf"));
 
@@ -377,6 +378,7 @@ namespace BillBoardsManagement.Controllers
             {
                var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                     obill.BillId, "", true, details);
+                pdfCoordinates.Add(new PdfCoordinatesModel { Text = totalamount + "", X = 110, Y = 585 });
                 string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
                     obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(destinationFile);
@@ -386,6 +388,8 @@ namespace BillBoardsManagement.Controllers
             else
             {
                 var totalAmount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, obill.BillId, "", false,details);
+                pdfCoordinates.Add(new PdfCoordinatesModel { Text = totalAmount + "", X = 110, Y = 589 });
+
                 string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
                     obill.FilePath = "~/Uploads/" + Path.GetFileName(destinationFile);
