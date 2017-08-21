@@ -63,6 +63,9 @@
           <Property Name="ShippingDate" Type="datetime" />
           <Property Name="BillAmountGenerated" Type="decimal" Precision="18" Scale="2" />
           <Property Name="BillAmountPaid" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BrandAddress1" Type="nvarchar" MaxLength="500" />
+          <Property Name="BrandAddress2" Type="nvarchar" MaxLength="500" />
+          <Property Name="BrandAddress3" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -88,6 +91,12 @@
           <Property Name="Picture" Type="image" />
           <Property Name="test" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'BBMS.dbo.ImageStore' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="ImageStore">
+          <Property Name="id" Type="int" />
+          <Property Name="picture" Type="image" />
+        </EntityType>-->
         <EntityType Name="lk_catagory_rates">
           <Key>
             <PropertyRef Name="Id" />
@@ -191,13 +200,13 @@
             <End Role="admin_user" EntitySet="admin_user" />
           </AssociationSet>
           <EntitySet Name="Customers" EntityType="BBMSModel.Customer" />
+          <EntitySet Name="lk_catagory_rates" EntityType="BBMSModel.lk_catagory_rates" />
+          <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
           <EntitySet Name="bills" EntityType="BBMSModel.bill" />
           <AssociationSet Name="FK_bill_admin_user" Association="BBMSModel.FK_bill_admin_user">
             <End Role="admin_user" EntitySet="admin_user" />
             <End Role="bill" EntitySet="bills" />
           </AssociationSet>
-          <EntitySet Name="lk_catagory_rates" EntityType="BBMSModel.lk_catagory_rates" />
-          <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
           </EntityContainer>
         <EntityType Name="admin_user">
           <Key>
@@ -276,39 +285,6 @@
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="test" Type="Int32" />
         </EntityType>
-        <EntityType Name="bill">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BillId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerNames" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DuplicateBillId" Type="Int32" />
-          <Property Name="AmmendentBill" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="BrandAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TrakingNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NumberMonth" Type="Int32" />
-          <Property Name="ShippingDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="admin_user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="admin_user" />
-          <Property Name="BillAmountGenerated" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BillAmountPaid" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
-        <Association Name="FK_bill_admin_user">
-          <End Type="BBMSModel.admin_user" Role="admin_user" Multiplicity="1" />
-          <End Type="BBMSModel.bill" Role="bill" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="admin_user">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="bill">
-              <PropertyRef Name="CreatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="lk_catagory_rates">
           <Key>
             <PropertyRef Name="Id" />
@@ -327,6 +303,42 @@
           <Property Name="Brand" Type="Boolean" />
           <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="bill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerNames" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DuplicateBillId" Type="Int32" />
+          <Property Name="AmmendentBill" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BrandAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TrakingNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumberMonth" Type="Int32" />
+          <Property Name="ShippingDate" Type="DateTime" Precision="3" />
+          <Property Name="BillAmountGenerated" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BillAmountPaid" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BrandAddress1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BrandAddress2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BrandAddress3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="admin_user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="admin_user" />
+        </EntityType>
+        <Association Name="FK_bill_admin_user">
+          <End Type="BBMSModel.admin_user" Role="admin_user" Multiplicity="1" />
+          <End Type="BBMSModel.bill" Role="bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="admin_user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="bill">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -414,27 +426,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="bills">
-            <EntityTypeMapping TypeName="BBMSModel.bill">
-              <MappingFragment StoreEntitySet="bill">
-                <ScalarProperty Name="BillAmountPaid" ColumnName="BillAmountPaid" />
-                <ScalarProperty Name="BillAmountGenerated" ColumnName="BillAmountGenerated" />
-                <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
-                <ScalarProperty Name="NumberMonth" ColumnName="NumberMonth" />
-                <ScalarProperty Name="TrakingNumber" ColumnName="TrakingNumber" />
-                <ScalarProperty Name="BrandAddress" ColumnName="BrandAddress" />
-                <ScalarProperty Name="AmmendentBill" ColumnName="AmmendentBill" />
-                <ScalarProperty Name="DuplicateBillId" ColumnName="DuplicateBillId" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
-                <ScalarProperty Name="CustomerNames" ColumnName="CustomerNames" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="BillId" ColumnName="BillId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="lk_catagory_rates">
             <EntityTypeMapping TypeName="BBMSModel.lk_catagory_rates">
               <MappingFragment StoreEntitySet="lk_catagory_rates">
@@ -451,6 +442,30 @@
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bills">
+            <EntityTypeMapping TypeName="BBMSModel.bill">
+              <MappingFragment StoreEntitySet="bill">
+                <ScalarProperty Name="BrandAddress3" ColumnName="BrandAddress3" />
+                <ScalarProperty Name="BrandAddress2" ColumnName="BrandAddress2" />
+                <ScalarProperty Name="BrandAddress1" ColumnName="BrandAddress1" />
+                <ScalarProperty Name="BillAmountPaid" ColumnName="BillAmountPaid" />
+                <ScalarProperty Name="BillAmountGenerated" ColumnName="BillAmountGenerated" />
+                <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
+                <ScalarProperty Name="NumberMonth" ColumnName="NumberMonth" />
+                <ScalarProperty Name="TrakingNumber" ColumnName="TrakingNumber" />
+                <ScalarProperty Name="BrandAddress" ColumnName="BrandAddress" />
+                <ScalarProperty Name="AmmendentBill" ColumnName="AmmendentBill" />
+                <ScalarProperty Name="DuplicateBillId" ColumnName="DuplicateBillId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="CustomerNames" ColumnName="CustomerNames" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="BillId" ColumnName="BillId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

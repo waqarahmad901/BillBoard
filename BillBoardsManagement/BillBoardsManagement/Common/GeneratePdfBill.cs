@@ -37,7 +37,7 @@ namespace BillBoardsManagement.Common
             Paragraph paragraph1 = new Paragraph("RAJA ZAHID LATIF CONTRACTOR ADVERTISEMENT FEE 2017.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph2 = new Paragraph("PHOTOHAR TOWN AREA.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph3 = new Paragraph("BILL.", FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
-            Paragraph paragraph4 = new Paragraph(brand.Brand, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
+            Paragraph paragraph4 = new Paragraph(brand.Brand, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
             Paragraph paragraph5 = new Paragraph("Bill No. " + billno, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
             Paragraph paragraph6 = new Paragraph("Bill Date. " + DateTime.Now.ToString("dd-MM-yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_RIGHT };
           

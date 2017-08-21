@@ -24,6 +24,9 @@ namespace BillBoardsManagement.Models
         public decimal billamountpaid { get; set; }
         public DateTime ShippingDate { get; set; }
         public string BrandAddress { get; set; }
+        public string BrandAddress1 { get; set; }
+        public string BrandAddress2 { get; set; }
+        public string BrandAddress3 { get; set; }
         public bool IsBrand{ get; set; }
 
         public List<CustomerDetailModel> CustomerDetailList { get; set; }

@@ -29,6 +29,9 @@ namespace BillBoardsManagement.Repository
         public Nullable<System.DateTime> ShippingDate { get; set; }
         public Nullable<decimal> BillAmountGenerated { get; set; }
         public Nullable<decimal> BillAmountPaid { get; set; }
+        public string BrandAddress1 { get; set; }
+        public string BrandAddress2 { get; set; }
+        public string BrandAddress3 { get; set; }
     
         public virtual admin_user admin_user { get; set; }
     }
