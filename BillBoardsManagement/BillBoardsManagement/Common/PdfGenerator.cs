@@ -34,6 +34,7 @@ namespace TmsWebApp.Common
                 }
                 bytes = ms.ToArray();
             }
+            reader.Close();
             File.WriteAllBytes(newFile, bytes);
              
             return newFile;

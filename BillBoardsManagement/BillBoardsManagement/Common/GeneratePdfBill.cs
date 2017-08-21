@@ -38,17 +38,29 @@ namespace BillBoardsManagement.Common
             Paragraph paragraph2 = new Paragraph("RAWAL TOWN AREA.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph3 = new Paragraph("BILL.", FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph4 = new Paragraph(brand.Brand, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
-            Paragraph paragraph5 = new Paragraph("Bill No. " + billno, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
-            Paragraph paragraph6 = new Paragraph("Bill Date. " + DateTime.Now.ToString ("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_RIGHT };
+
+            var table3 = new PdfPTable(2) 
+            {
+                WidthPercentage = 100,
+                SpacingBefore = 5,
+                DefaultCell = { Padding = 5,Border = 0 }
+            };
+           
+            table3.AddCell(new PdfPCell(new Phrase("Bill No. " + billno, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
+            table3.AddCell(new PdfPCell(new Phrase("Bill Date. " + DateTime.Now.ToString("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
+
+            //Paragraph paragraph5 = new Paragraph("Bill No. " + billno , FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
+            //Paragraph paragraph6 = new Paragraph("Bill Date. " + DateTime.Now.ToString ("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_RIGHT };
           
             document.Add(header);
             document.Add(paragraph1);
             document.Add(paragraph2);
             document.Add(paragraph3);
             document.Add(paragraph4);
-            document.Add(paragraph5);
-            document.Add(paragraph6);
-            int attempt = 0;
+            document.Add(table3);
+            //document.Add(paragraph5);
+            //document.Add(paragraph6);
+           
             if (isAmentment)
             {
                 Paragraph paragraph7 = new Paragraph("Amendment", FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) {Alignment = Element.ALIGN_RIGHT};
@@ -140,7 +152,44 @@ namespace BillBoardsManagement.Common
             document.Add(addressParagraph);
          //   cb.EndText();
             document.Close();
+
+            NumberingOfEachPage(filePath);
+             
+
             return totalAmount;
+        }
+
+        private static void NumberingOfEachPage(string filePath)
+        {
+            int numbers = GetNumberOfPages(filePath);
+
+            PdfReader reader = new PdfReader(filePath);
+
+            byte[] bytes = null;
+            using (var ms = new MemoryStream())
+            {
+                using (PdfStamper stamper = new PdfStamper(reader, ms))
+                {
+                    for (int i = 1; i <= numbers; i++)
+                    {
+                        PdfContentByte canvas = stamper.GetOverContent(i);
+
+                        ColumnText.ShowTextAligned(canvas, 0, new Phrase(i + " / " + numbers, FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLACK)), 570, 27, 0);
+                    }
+                }
+                bytes = ms.ToArray();
+            }
+            reader.Close();
+            File.WriteAllBytes(filePath, bytes);
+
+        }
+
+        public static int GetNumberOfPages(string path)
+        {
+            PdfReader pdfReader = new PdfReader(path);
+            int numberOfPages = pdfReader.NumberOfPages;
+            pdfReader.Close();
+            return numberOfPages;
         }
 
     
