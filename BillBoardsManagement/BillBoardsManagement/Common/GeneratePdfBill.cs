@@ -34,12 +34,12 @@ namespace BillBoardsManagement.Common
            // cb.SetFontAndSize(fCb, 9);
             var headerFont = FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK);
             Paragraph header = new Paragraph("PARKS & HORTICULTURE AUTHORITY RAWALPINDI.", headerFont) { Alignment = Element.ALIGN_CENTER };
-            Paragraph paragraph1 = new Paragraph("RAJA ZAHID LATIF CONTRACTOR ADVERTISEMENT FEE 2017.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
-            Paragraph paragraph2 = new Paragraph("PHOTOHAR TOWN AREA.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
+            Paragraph paragraph1 = new Paragraph("RAJA BABAR LATIF CONTRACTOR ADVERTISEMENT FEE 2017 - 2018.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
+            Paragraph paragraph2 = new Paragraph("RAWAL TOWN AREA.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph3 = new Paragraph("BILL.", FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph4 = new Paragraph(brand.Brand, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
             Paragraph paragraph5 = new Paragraph("Bill No. " + billno, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
-            Paragraph paragraph6 = new Paragraph("Bill Date. " + DateTime.Now.ToString("dd-MM-yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_RIGHT };
+            Paragraph paragraph6 = new Paragraph("Bill Date. " + DateTime.Now.ToString ("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_RIGHT };
           
             document.Add(header);
             document.Add(paragraph1);
@@ -48,6 +48,7 @@ namespace BillBoardsManagement.Common
             document.Add(paragraph4);
             document.Add(paragraph5);
             document.Add(paragraph6);
+            int attempt = 0;
             if (isAmentment)
             {
                 Paragraph paragraph7 = new Paragraph("Amendment", FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) {Alignment = Element.ALIGN_RIGHT};
@@ -61,60 +62,65 @@ namespace BillBoardsManagement.Common
                 SpacingBefore = 20 ,
                 DefaultCell = { Padding = 5}
             };
-            table.HeaderRows = 1;
+
+             //   table.HeaderRows = 1;
+
+        
+
             //table.SplitRows = false;
             //table.Complete = false;
             //table.SplitLate = false;
-            table.SetWidths(new int[] {60,150,150,80,50,40,50,40,50,40,50,70,70,90,150});
-            table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) {  HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-            table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) {  HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE }); 
-            table.AddCell(new PdfPCell(new Phrase("Near", fntTableFontHdr)) {  HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE }); 
-            table.AddCell(new PdfPCell(new Phrase("TYPE OF ADVERTISEMENT", fntTableFontHdr)) { Rotation = 90, FixedHeight = 100, VerticalAlignment = Element.ALIGN_MIDDLE,HorizontalAlignment = Element.ALIGN_CENTER, PaddingBottom = 5 });
-            PdfPCell cell = new PdfPCell(new Paragraph("MEASURMENT", fntTableFontHdr) {Alignment = Element.ALIGN_CENTER}) {Colspan = 7,HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE };
-            table.AddCell(cell); 
-            table.AddCell(new PdfPCell(new Phrase("TOTAL MEASURMENT", fntTableFontHdr)) { Rotation = 90,VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER, PaddingBottom = 5});
-         
-            table.AddCell(new PdfPCell(new Phrase("RATE PER SQ.FT PER ANUM", fntTableFontHdr)) { Rotation = 90,VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER });
-            table.AddCell(new PdfPCell(new Phrase("AMOUNT", fntTableFontHdr)) { Rotation = 90,VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER });
+            table.SetWidths(new int[] { 60, 150, 150, 80, 50, 40, 50, 40, 50, 40, 50, 70, 70, 90, 150 });
+            table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+            table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+            table.AddCell(new PdfPCell(new Phrase("Near", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+            table.AddCell(new PdfPCell(new Phrase("TYPE OF ADVERTISEMENT", fntTableFontHdr)) { Rotation = 90, FixedHeight = 100, VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER, PaddingBottom = 5 });
+            PdfPCell cell = new PdfPCell(new Paragraph("MEASURMENT", fntTableFontHdr) { Alignment = Element.ALIGN_CENTER }) { Colspan = 7, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE };
+            table.AddCell(cell);
+            table.AddCell(new PdfPCell(new Phrase("TOTAL MEASURMENT", fntTableFontHdr)) { Rotation = 90, VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER, PaddingBottom = 5 });
+
+            table.AddCell(new PdfPCell(new Phrase("RATE PER SQ.FT PER ANUM", fntTableFontHdr)) { Rotation = 90, VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER });
+            table.AddCell(new PdfPCell(new Phrase("AMOUNT", fntTableFontHdr)) { Rotation = 90, VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER });
 
             table.AddCell(new PdfPCell(new Phrase("IMAGE", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             int row = 1;
             decimal totalAmount = 0;
-            
+
             foreach (var item in customers)
             {
-                
+
                 table.AddCell(new Phrase(row++ + "", fntTableFontRow));
-                table.AddCell(new Phrase(item.Location, fntTableFontRow)); 
-                table.AddCell(new Phrase(item.Near, fntTableFontRow)); 
-                table.AddCell(new Phrase(item.Type, fntTableFontRow)); 
-                table.AddCell(new Phrase(item.Size1, fntTableFontRow)); 
-                table.AddCell(new Phrase("X", fntTableFontRow)); 
-                table.AddCell(new Phrase(item.Size2, fntTableFontRow)); 
+                table.AddCell(new Phrase(item.Location, fntTableFontRow));
+                table.AddCell(new Phrase(item.Near, fntTableFontRow));
+                table.AddCell(new Phrase(item.Type, fntTableFontRow));
+                table.AddCell(new Phrase(item.Size1, fntTableFontRow));
+                table.AddCell(new Phrase("X", fntTableFontRow));
+                table.AddCell(new Phrase(item.Size2, fntTableFontRow));
                 table.AddCell(new Phrase("X", fntTableFontRow));
                 table.AddCell(new Phrase(item.Size3, fntTableFontRow));
                 table.AddCell(new Phrase("X", fntTableFontRow));
                 table.AddCell(new Phrase(item.Size4, fntTableFontRow));
                 table.AddCell(new Phrase(item.TotalMeasurment, fntTableFontRow));
+
                 string catagor = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
                 catagor = catagor == null ? "A+" : catagor;
-                decimal perAnumRate = allrates.Where(x => x.Type == item.Type && x.Category == catagor && x.Brand == brand.IsBrand).Select(x => x.Rate).FirstOrDefault() *brand.NumberMonth;
-                
+                long perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor && x.Brand == brand.IsBrand).Select(x => x.Rate).FirstOrDefault() * brand.NumberMonth);
+
                 table.AddCell(new Phrase(perAnumRate + "", fntTableFontRow));
-                decimal amount = perAnumRate * decimal.Parse(item.TotalMeasurment);
-                table.AddCell(new Phrase(amount.ToString("0.00") + "", fntTableFontRow));
+                long amount =(long) (perAnumRate * decimal.Parse(item.TotalMeasurment));
+                table.AddCell(new Phrase(amount.ToString("0") + "", fntTableFontRow));
                 totalAmount += amount;
                 if (item.Picture != null)
                 {
                     var img = iTextSharp.text.Image.GetInstance(item.Picture);
-                    
+
                     table.AddCell(img);
                 }
                 else
                 {
                     table.AddCell("");
                 }
-                
+
             }
             var table2 = new PdfPTable(2)
             {
@@ -124,7 +130,7 @@ namespace BillBoardsManagement.Common
             };
             //table2.SetWidths(new int[]{140,95});
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
-            table2.AddCell(new Phrase(totalAmount.ToString("0.00") + "", fntTableFontHdr));
+            table2.AddCell(new Phrase(totalAmount.ToString("0") + "", fntTableFontHdr));
             table.Complete = true;
             document.Add(table);
             document.Add(table2);
