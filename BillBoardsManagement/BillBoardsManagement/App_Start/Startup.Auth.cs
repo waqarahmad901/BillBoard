@@ -62,16 +62,16 @@ namespace BillBoardsManagement
             //   appId: "",
             //   appSecret: "");
 
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = ConfigurationManager.AppSettings["ClientId"],
-                ClientSecret = ConfigurationManager.AppSettings["ClientSecret"],
-                CallbackPath = new PathString("/Home"),
-                Provider = new GoogleOAuth2AuthenticationProvider()
-                {
-                    OnAuthenticated = (context) => Task.FromResult(0)
-                }
-            });
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = ConfigurationManager.AppSettings["ClientId"],
+            //    ClientSecret = ConfigurationManager.AppSettings["ClientSecret"],
+            //    CallbackPath = new PathString("/Home"),
+            //    Provider = new GoogleOAuth2AuthenticationProvider()
+            //    {
+            //        OnAuthenticated = (context) => Task.FromResult(0)
+            //    }
+            //});
         }
     }
 }

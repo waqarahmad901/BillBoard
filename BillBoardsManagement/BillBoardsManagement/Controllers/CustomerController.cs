@@ -104,19 +104,19 @@ namespace BillBoardsManagement.Controllers
                         Customer customer = new Customer();
                         customer.RowGuid = Guid.NewGuid();
                         customer.SrNo = GetIntValue(sheet,row,1);
-                        customer.Description =GetValue(sheet,row,2);
-                        customer.Location = GetValue(sheet,row,3);
-                        customer.Near = GetValue(sheet,row,4);
-                        customer.Type = GetValue(sheet,row,5);
+                        customer.Description =GetValue(sheet,row,2).ToUpper();
+                        customer.Location = GetValue(sheet,row,3).ToUpper();
+                        customer.Near = GetValue(sheet,row,4).ToUpper();
+                        customer.Type = GetValue(sheet,row,5).ToUpper();
                         customer.Size1 = GetFloatValue(sheet,row,6) + "";
                         customer.Size2 = GetFloatValue(sheet,row,8) + "";
                         customer.Size3 = GetFloatValue(sheet,row,10) + "";
                         customer.Size4 = GetFloatValue(sheet,row,12) + "";
                         customer.TotalMeasurment = GetFloatValue(sheet,row,13) + "";
-                        customer.Brand = GetValue(sheet,row,14);
+                        customer.Brand = GetValue(sheet,row,14).ToUpper();
                         customer.SurveyDate = GetDateValue(sheet,row,15); 
                         customer.BookNumber = book;
-                        customer.Picture = ConvertImageToBytes(Path.Combine(path , customer.SrNo + ""));
+                      //  customer.Picture = ConvertImageToBytes(Path.Combine(path , customer.SrNo + ""));
                         customer.CreatedAt = DateTime.Now;
                         if(!string.IsNullOrEmpty(customer.Description) && !string.IsNullOrEmpty(customer.Location) && !string.IsNullOrEmpty(customer.Near))
                         customers.Add(customer);

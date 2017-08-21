@@ -62,16 +62,10 @@ namespace BillBoardsManagement.Common
                 SpacingBefore = 20 ,
                 DefaultCell = { Padding = 5}
             };
-            if (attempt == 0)
 
-            {
-                table.HeaderRows = 1;
+             //   table.HeaderRows = 1;
 
-                attempt = 1;
-                
-            }
-            else
-                table.HeaderRows = 2;
+        
 
             //table.SplitRows = false;
             //table.Complete = false;
