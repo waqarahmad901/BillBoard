@@ -311,7 +311,7 @@ namespace BillBoardsManagement.Controllers
             else
             {
                 detailList.NumberMonth = 12;
-                detailList.IsBrand = true;
+                
             }
             detailList.Billid = billid;
             return View(detailList);
@@ -345,13 +345,10 @@ namespace BillBoardsManagement.Controllers
             bill obill = null;
              
                 obill = repoBill.GetAll().FirstOrDefault(x => x.Brand == details.Brand);
-                if (obill != null)
-                    obill.AmmendentBill = filePath;
-                else
-                {
+               if(obill == null) { 
                 var rnd = new Random();
                 var num = rnd.Next(0000000, 9999999);
-                obill = new bill {FilePath = filePath, BillId = num.ToString("D7") };
+                obill = new bill { FilePath = "", BillId =  (repoBill.GetAll().Count() + 1).ToString().PadLeft(3,'0') };
                 } 
           
             obill.Brand = details.Brand;
@@ -365,37 +362,42 @@ namespace BillBoardsManagement.Controllers
             else obill.ShippingDate = details.ShippingDate;
             obill.BillAmountPaid = details.billamountpaid;
 
+            string ammementButton = Request.Form["ammement"];
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
                 new PdfCoordinatesModel {Text = DateTime.Now.ToShortDateString(), X = 390, Y = 805 },
                 new PdfCoordinatesModel {Text = obill.Brand, X = 264, Y = 782},
-                new PdfCoordinatesModel {Text = obill.BrandAddress,  X=88 , Y = 761 }
-               
-            };
+                new PdfCoordinatesModel {Text = obill.BrandAddress,  X=88 , Y = 761 },
+                  
+            }; 
+            if (ammementButton != null)
+            {
+                pdfCoordinates.Add(new PdfCoordinatesModel { Text = "Amendment", X = 150, Y = 712 });
+            }
+
+
             string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), DateTime.Now.ToString("ddMMyyyyhhmmsstt") + ".pdf"));
 
+
+            var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                obill.BillId, "", ammementButton != null, details);
+            pdfCoordinates.Add(new PdfCoordinatesModel { Text = totalamount + "", X = 110, Y = 585 });
+            string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+            MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile);
+            obill.BillAmountGenerated = totalamount;
+
+            if(ammementButton != null)
+                obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(destinationFile);
+            else
+                obill.FilePath = "~/Uploads/" + Path.GetFileName(destinationFile);
+
             if (obill.Id > 0)
-            {
-               var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                    obill.BillId, "", true, details);
-                pdfCoordinates.Add(new PdfCoordinatesModel { Text = totalamount + "", X = 110, Y = 585 });
-                string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
-                    obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(destinationFile);
-                obill.BillAmountGenerated = totalamount;
+            { 
                 repoBill.Put(obill.Id, obill);
             }
             else
-            {
-                var totalAmount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory, obill.BillId, "", false,details);
-                pdfCoordinates.Add(new PdfCoordinatesModel { Text = totalAmount + "", X = 110, Y = 589 });
-
-                string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                if (MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile))
-                    obill.FilePath = "~/Uploads/" + Path.GetFileName(destinationFile);
-                obill.BillAmountGenerated = totalAmount;
-
+            { 
                 repoBill.Post(obill);
             }
              

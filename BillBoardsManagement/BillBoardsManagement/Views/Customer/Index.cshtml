@@ -64,7 +64,7 @@
                         <td></td>
                         }
 
-                            @if (bill != null)
+                            @if (bill != null && bill.FilePath != "")
                             {
                                 <td>@bill.BillAmountGenerated</td>
                                 <td><a href="@(request + bill.FilePath.Replace("~/", ""))" target="_blank">View Bill</a></td>
