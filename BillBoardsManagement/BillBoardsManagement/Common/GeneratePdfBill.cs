@@ -39,27 +39,22 @@ namespace BillBoardsManagement.Common
             Paragraph paragraph3 = new Paragraph("BILL.", FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph4 = new Paragraph(brand.Brand, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
 
-            var table3 = new PdfPTable(2) 
+            var billTable = new PdfPTable(2) 
             {
                 WidthPercentage = 100,
                 SpacingBefore = 5,
                 DefaultCell = { Padding = 5,Border = 0 }
             };
-           
-            table3.AddCell(new PdfPCell(new Phrase("Bill No. " + billno, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
-            table3.AddCell(new PdfPCell(new Phrase("Bill Date. " + DateTime.Now.ToString("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
 
-            //Paragraph paragraph5 = new Paragraph("Bill No. " + billno , FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
-            //Paragraph paragraph6 = new Paragraph("Bill Date. " + DateTime.Now.ToString ("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_RIGHT };
-          
+            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
+            billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + DateTime.Now.ToString("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
+             
             document.Add(header);
             document.Add(paragraph1);
             document.Add(paragraph2);
             document.Add(paragraph3);
             document.Add(paragraph4);
-            document.Add(table3);
-            //document.Add(paragraph5);
-            //document.Add(paragraph6);
+            document.Add(billTable); 
            
             if (isAmentment)
             {
@@ -153,13 +148,13 @@ namespace BillBoardsManagement.Common
          //   cb.EndText();
             document.Close();
 
-            NumberingOfEachPage(filePath);
+            PageNumbering(filePath);
              
 
             return totalAmount;
         }
 
-        private static void NumberingOfEachPage(string filePath)
+        private static void PageNumbering(string filePath)
         {
             int numbers = GetNumberOfPages(filePath);
 
