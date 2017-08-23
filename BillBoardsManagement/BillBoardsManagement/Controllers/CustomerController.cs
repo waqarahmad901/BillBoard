@@ -260,6 +260,8 @@ namespace BillBoardsManagement.Controllers
             List<CustomerDetailModel> customerDetailModels = null;
             var brandBill = new Repository<bill>().GetAll().FirstOrDefault(x => x.Brand == brand);
 
+            var lastRecord = new Repository<bill>().GetAll().Last();
+
             billid = brandBill?.Id ?? 0;
             bill obill = null;
             if (billid > 0)
@@ -301,19 +303,31 @@ namespace BillBoardsManagement.Controllers
             if (obill != null)
             {
                 detailList.Brand = obill.Brand;
+                detailList.Billid = obill.BillId;
                 detailList.BrandAddress = obill.BrandAddress;
                 detailList.NumberMonth = obill.NumberMonth ?? 0;
                 detailList.TrakingNumber = obill.TrakingNumber;
                 detailList.ShippingDate = obill.ShippingDate ?? DateTime.Now;
+                detailList.BillDate = obill.BillDate ?? DateTime.Now;
                 detailList.billamountpaid = obill.BillAmountPaid ?? 0;
                 detailList.billamountgenerated = obill.BillAmountGenerated ?? 0;
+                detailList.ContactPersonDesignation = obill.ContactPersonDesignation;
+                detailList.ContactPersonDesignation1 = obill.ContactPersonDesignation1;
+                detailList.ContactPersonMobile = obill.ContactPersonMobile;
+                detailList.ContactPersonMobile1 = obill.ContactPersonMobile1;
+                detailList.ContactPersonName = obill.ContactPersonName;
+                detailList.ContactPersonName1 = obill.ContactPersonName1;
+                detailList.BrandAddress1 = obill.BrandAddress1;
+                detailList.BrandAddress2 = obill.BrandAddress2;
+                detailList.BrandAddress3 = obill.BrandAddress3;
             }
             else
             {
                 detailList.NumberMonth = 12;
+                detailList.BillDate = DateTime.Now;
                 
             }
-            detailList.Billid = billid;
+            detailList.Billid = billid + "";
             return View(detailList);
         }
         [HttpPost]
@@ -330,6 +344,18 @@ namespace BillBoardsManagement.Controllers
                 var bill = repobill.GetAll().Where(x=>x.Brand == details.Brand).FirstOrDefault();
                 bill.BrandAddress = details.BrandAddress;
                 bill.ShippingDate = details.ShippingDate;
+                bill.BillAmountPaid = details.billamountpaid;
+                bill.BillDate = details.BillDate;
+                bill.BillId = details.Billid;
+                bill.BrandAddress1 = details.BrandAddress1;
+                bill.BrandAddress2 = details.BrandAddress2;
+                bill.BrandAddress3 = details.BrandAddress3;
+                bill.ContactPersonDesignation = details.ContactPersonDesignation;
+                bill.ContactPersonDesignation1 = details.ContactPersonDesignation1;
+                bill.ContactPersonMobile = details.ContactPersonMobile;
+                bill.ContactPersonMobile1 = details.ContactPersonMobile1;
+                bill.ContactPersonName = details.ContactPersonName;
+                bill.ContactPersonName1 = details.ContactPersonName1;
                 repobill.Put(bill.Id, bill);
                 return RedirectToAction("Index");
             }
@@ -339,7 +365,7 @@ namespace BillBoardsManagement.Controllers
 
             IEnumerable<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description) && x.Brand.ToLower() == details.Brand.ToLower()).ToList();
 
-            string filePath = Path.Combine("~/Uploads", DateTime.Now.ToString("ddMMyyyymmsstt")+ ".pdf"); 
+           
             
             var repoBill = new Repository<bill>();
             bill obill = null;
@@ -361,36 +387,93 @@ namespace BillBoardsManagement.Controllers
             if (DateTime.MinValue == details.ShippingDate) obill.ShippingDate = null;
             else obill.ShippingDate = details.ShippingDate;
             obill.BillAmountPaid = details.billamountpaid;
+            obill.BillDate = details.BillDate;
+            obill.BillId = details.Billid;
+            obill.BrandAddress1 = details.BrandAddress1;
+            obill.BrandAddress2 = details.BrandAddress2;
+            obill.BrandAddress3 = details.BrandAddress3;
+            obill.ContactPersonDesignation = details.ContactPersonDesignation;
+            obill.ContactPersonDesignation1 = details.ContactPersonDesignation1;
+            obill.ContactPersonMobile = details.ContactPersonMobile;
+            obill.ContactPersonMobile1 = details.ContactPersonMobile1;
+            obill.ContactPersonName = details.ContactPersonName;
+            obill.ContactPersonName1 = details.ContactPersonName1;
+
 
             string ammementButton = Request.Form["ammement"];
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
-                new PdfCoordinatesModel {Text = DateTime.Now.ToShortDateString(), X = 390, Y = 805 },
+                new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 390, Y = 805 },
                 new PdfCoordinatesModel {Text = obill.Brand, X = 264, Y = 782},
-                new PdfCoordinatesModel {Text = obill.BrandAddress,  X=88 , Y = 761 },
-                  
-            }; 
+                  new PdfCoordinatesModel { Type="amount", Text =  "", X = 110, Y = 585 },
+            new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 761 }
+        }; 
             if (ammementButton != null)
             {
                 pdfCoordinates.Add(new PdfCoordinatesModel { Text = "Amendment", X = 150, Y = 712 });
             }
 
 
-            string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), DateTime.Now.ToString("ddMMyyyyhhmmsstt") + ".pdf"));
-
+            string filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
+            string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
+            string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
+            string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
+            string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
 
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details);
-            pdfCoordinates.Add(new PdfCoordinatesModel { Text = totalamount + "", X = 110, Y = 585 });
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress);
+
+            pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "";
+            pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
+
             string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
             MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile);
+
+            if (!string.IsNullOrEmpty(details.BrandAddress1))
+            {
+                filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                 obill.BillId, "", ammementButton != null, details, details.BrandAddress1);
+                pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "";
+                pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
+
+                aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates); 
+                MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile1);
+                 
+            }
+            if (!string.IsNullOrEmpty(details.BrandAddress2))
+            {
+                filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress2);
+                pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "";
+                pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
+                aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+                  MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile2);
+               
+            }
+            if (!string.IsNullOrEmpty(details.BrandAddress3))
+            {
+                filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress3);
+                pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "";
+                pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+                
+                MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
+                 
+            }
+            string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
+
+            MergePDFs(new List<string> { destinationFile, destinationFile1,destinationFile2,destinationFile3}, mergerdFile);
+
             obill.BillAmountGenerated = totalamount;
 
             if(ammementButton != null)
-                obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(destinationFile);
+                obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(mergerdFile);
             else
-                obill.FilePath = "~/Uploads/" + Path.GetFileName(destinationFile);
+                obill.FilePath = "~/Uploads/" + Path.GetFileName(mergerdFile);
 
             if (obill.Id > 0)
             { 
@@ -417,12 +500,15 @@ namespace BillBoardsManagement.Controllers
                     document.Open();
                     foreach (string file in fileNames)
                     {
-                        reader = new PdfReader(file);
-                        pdf.AddDocument(reader);
-                        reader.Close();
+                        if (System.IO.File.Exists(file))
+                        {
+                            reader = new PdfReader(file);
+                            pdf.AddDocument(reader);
+                            reader.Close();
+                        }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     merged = false;
                     if (reader != null)

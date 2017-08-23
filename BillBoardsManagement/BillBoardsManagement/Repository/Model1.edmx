@@ -66,6 +66,13 @@
           <Property Name="BrandAddress1" Type="nvarchar" MaxLength="500" />
           <Property Name="BrandAddress2" Type="nvarchar" MaxLength="500" />
           <Property Name="BrandAddress3" Type="nvarchar" MaxLength="500" />
+          <Property Name="BillDate" Type="datetime" />
+          <Property Name="ContactPersonName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPersonDesignation" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPersonMobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPersonName1" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPersonDesignation1" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPersonMobile1" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -91,12 +98,6 @@
           <Property Name="Picture" Type="image" />
           <Property Name="test" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'BBMS.dbo.ImageStore' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="ImageStore">
-          <Property Name="id" Type="int" />
-          <Property Name="picture" Type="image" />
-        </EntityType>-->
         <EntityType Name="lk_catagory_rates">
           <Key>
             <PropertyRef Name="Id" />
@@ -326,6 +327,13 @@ warning 6013: The table/view 'BBMS.dbo.ImageStore' does not have a primary key d
           <Property Name="BrandAddress2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="BrandAddress3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="admin_user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="admin_user" />
+          <Property Name="BillDate" Type="DateTime" Precision="3" />
+          <Property Name="ContactPersonName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonDesignation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonDesignation1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonMobile1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_bill_admin_user">
           <End Type="BBMSModel.admin_user" Role="admin_user" Multiplicity="1" />
@@ -449,6 +457,13 @@ warning 6013: The table/view 'BBMS.dbo.ImageStore' does not have a primary key d
           <EntitySetMapping Name="bills">
             <EntityTypeMapping TypeName="BBMSModel.bill">
               <MappingFragment StoreEntitySet="bill">
+                <ScalarProperty Name="ContactPersonMobile1" ColumnName="ContactPersonMobile1" />
+                <ScalarProperty Name="ContactPersonDesignation1" ColumnName="ContactPersonDesignation1" />
+                <ScalarProperty Name="ContactPersonName1" ColumnName="ContactPersonName1" />
+                <ScalarProperty Name="ContactPersonMobile" ColumnName="ContactPersonMobile" />
+                <ScalarProperty Name="ContactPersonDesignation" ColumnName="ContactPersonDesignation" />
+                <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
+                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
                 <ScalarProperty Name="BrandAddress3" ColumnName="BrandAddress3" />
                 <ScalarProperty Name="BrandAddress2" ColumnName="BrandAddress2" />
                 <ScalarProperty Name="BrandAddress1" ColumnName="BrandAddress1" />

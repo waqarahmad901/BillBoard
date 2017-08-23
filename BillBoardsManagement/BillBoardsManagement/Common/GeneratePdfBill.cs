@@ -16,7 +16,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand)
+        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address)
         {
 
             string oldFile = filePath;
@@ -47,7 +47,7 @@ namespace BillBoardsManagement.Common
             };
 
             billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
-            billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + DateTime.Now.ToString("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
+            billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + brand.BillDate.ToString("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
              
             document.Add(header);
             document.Add(paragraph1);
@@ -142,7 +142,7 @@ namespace BillBoardsManagement.Common
             document.Add(table);
             document.Add(table2);
 
-            Paragraph addressParagraph = new Paragraph(brand.BrandAddress, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT};
+            Paragraph addressParagraph = new Paragraph(address, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT};
 
             document.Add(addressParagraph);
          //   cb.EndText();
