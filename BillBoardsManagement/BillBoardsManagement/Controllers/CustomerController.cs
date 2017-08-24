@@ -132,6 +132,11 @@ namespace BillBoardsManagement.Controllers
         {
             var repository = new Repository<Customer>();
             Customer customer = repository.FindAll(x => x.RowGuid == id).FirstOrDefault() ?? new Customer();
+            ViewBag.typesdd = repository.GetAll().GroupBy(x => x.Type).Select(x =>
+           new SelectListItem { Text = x.First().Type, Value = x.First().Type }).ToList();
+
+            ViewBag.branddd = repository.GetAll().GroupBy(x => x.Brand).Select(x =>
+          new SelectListItem { Text = x.First().Brand, Value = x.First().Brand }).ToList();
             return View(customer);
         }
         [HttpPost]
@@ -139,7 +144,9 @@ namespace BillBoardsManagement.Controllers
         {
             var repository = new Repository<Customer>();
             Customer oCustomer = repository.Get(customer.Id);
-            if(oCustomer == null)
+           
+             
+            if (oCustomer == null)
                 oCustomer = new Customer();
             oCustomer.RowGuid = Guid.NewGuid();
             oCustomer.SrNo = customer.SrNo;
@@ -155,7 +162,7 @@ namespace BillBoardsManagement.Controllers
             oCustomer.SurveyDate = customer.SurveyDate;
             if (file != null)
             {
-                string fileName = "~/Uploads/" + Path.GetFileNameWithoutExtension(file.FileName);
+                string fileName = "~/Uploads/" + Path.GetFileName(file.FileName);
                 string filePath = Server.MapPath(fileName);
                 file.SaveAs(filePath);
                 oCustomer.Picture = ConvertImageToBytes(filePath);
@@ -169,17 +176,15 @@ namespace BillBoardsManagement.Controllers
 
                 repository.Put(oCustomer.Id,oCustomer);
             }
-            return View(customer);
+            return RedirectToAction("Index");
         }
 
         public byte[] ConvertImageToBytes(string path)
         {
-            string imgePath = path + ".jpg";
-            if (!System.IO.File.Exists(imgePath))
-                imgePath = path + ".png";
-            if (System.IO.File.Exists(imgePath))
+           
+            if (System.IO.File.Exists(path))
             {
-                using (System.Drawing.Image image = System.Drawing.Image.FromFile(imgePath))
+                using (System.Drawing.Image image = System.Drawing.Image.FromFile(path))
                 {
                     var resizedImage = resizeImage(image, new Size(500, 300));
                     using (MemoryStream m = new MemoryStream())
