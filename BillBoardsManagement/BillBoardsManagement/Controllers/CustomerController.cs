@@ -96,6 +96,8 @@ namespace BillBoardsManagement.Controllers
                 for (int book= 1; book <= xlPackage.Workbook.Worksheets.Count; book++)
                 {
                     var sheet = xlPackage.Workbook.Worksheets[book];
+                    if(sheet.Dimension == null)
+                        return View();
                     string path = Path.Combine(ConfigurationManager.AppSettings["ImagePath"],"Book "+book);
                     List<Customer> customers = new List<Customer>();
                     var rowCnt = sheet.Dimension.End.Row;
@@ -116,7 +118,6 @@ namespace BillBoardsManagement.Controllers
                         customer.Brand = GetValue(sheet,row,14).ToUpper();
                         customer.SurveyDate = GetDateValue(sheet,row,15); 
                         customer.BookNumber = GetIntValue(sheet, row, 16);
-                        
                         customer.Catagory = GetValue(sheet, row, 17) ;
                         //  customer.Picture = ConvertImageToBytes(Path.Combine(path , customer.SrNo + ""));
                         customer.CreatedAt = DateTime.Now;
