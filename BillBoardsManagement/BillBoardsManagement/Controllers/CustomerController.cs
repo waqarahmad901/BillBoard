@@ -268,7 +268,7 @@ namespace BillBoardsManagement.Controllers
             List<CustomerDetailModel> customerDetailModels = null;
             var brandBill = new Repository<bill>().GetAll().FirstOrDefault(x => x.Brand == brand);
 
-            var lastRecord = new Repository<bill>().GetAll().Last();
+        
 
             billid = brandBill?.Id ?? 0;
             bill obill = null;
