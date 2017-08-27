@@ -97,6 +97,7 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="Picture" Type="image" />
           <Property Name="test" Type="int" />
+          <Property Name="Catagory" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="lk_catagory_rates">
           <Key>
@@ -285,6 +286,7 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="test" Type="Int32" />
+          <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="lk_catagory_rates">
           <Key>
@@ -412,6 +414,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="BBMSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
                 <ScalarProperty Name="test" ColumnName="test" />
                 <ScalarProperty Name="Picture" ColumnName="Picture" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />

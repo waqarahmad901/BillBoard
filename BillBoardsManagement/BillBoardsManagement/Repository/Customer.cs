@@ -33,5 +33,6 @@ namespace BillBoardsManagement.Repository
         public Nullable<int> CreatedBy { get; set; }
         public byte[] Picture { get; set; }
         public Nullable<int> test { get; set; }
+        public string Catagory { get; set; }
     }
 }
