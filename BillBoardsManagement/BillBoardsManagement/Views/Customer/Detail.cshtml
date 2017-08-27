@@ -188,7 +188,7 @@
                                                     <td>@item.Near</td>
                                                     <td>@item.SurveyDate</td>
                                                     @{ 
-                                                        string imgPsth = string.Format("/Images/0{0}/{1}.jpg", item.BookNumber, item.SrNo);
+                                                        string imgPsth = string.Format("/BMS/Images/0{0}/{1}.jpg", item.BookNumber, item.SrNo);
                                                     }
                                                     <td><img src="@imgPsth" width="500px" height="200px" /> </td>
                                                     <td><a href="@Url.Action("Edit", new {id = item.RowGuid})" title="Edit"><i class="fa fa-pencil"></i></a></td>

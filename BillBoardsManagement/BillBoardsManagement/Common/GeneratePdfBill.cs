@@ -16,7 +16,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address)
+        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address,string imagePath)
         {
 
             string oldFile = filePath;
@@ -117,9 +117,10 @@ namespace BillBoardsManagement.Common
                 long amount =(long) (perAnumRate * decimal.Parse(item.TotalMeasurment));
                 table.AddCell(new Phrase(amount.ToString("0") + "", fntTableFontRow));
                 totalAmount += amount;
-                if (item.Picture != null)
+                string filepath = Path.Combine(imagePath, "0" + item.BookNumber + "/" + item.SrNo + ".jpg");
+                if (File.Exists(filepath))
                 {
-                    var img = iTextSharp.text.Image.GetInstance(item.Picture);
+                    var img = iTextSharp.text.Image.GetInstance(filepath);
 
                     table.AddCell(img);
                 }
