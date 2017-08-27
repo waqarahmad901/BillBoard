@@ -118,9 +118,9 @@ namespace BillBoardsManagement.Common
                 table.AddCell(new Phrase(amount.ToString("0") + "", fntTableFontRow));
                 totalAmount += amount;
                 string filepath = Path.Combine(imagePath, "0" + item.BookNumber + "/" + item.SrNo + ".jpg");
-                if (File.Exists(filepath))
+                if (true)
                 {
-                    var img = iTextSharp.text.Image.GetInstance(filepath);
+                    var img = iTextSharp.text.Image.GetInstance(@"F:\Clients\Raja bajar parking plaza\Data Entry\repo\BillBoardsManagement\BillBoardsManagement\Images\02\1.jpg");
 
                     table.AddCell(img);
                 }
@@ -158,11 +158,11 @@ namespace BillBoardsManagement.Common
         private static void PageNumbering(string filePath)
         {
             int numbers = GetNumberOfPages(filePath);
-
+            byte[] bytesfile = System.IO.File.ReadAllBytes(filePath);
             PdfReader reader = new PdfReader(filePath);
 
             byte[] bytes = null;
-            using (var ms = new MemoryStream())
+            using (var ms = new MemoryStream(bytesfile.Length))
             {
                 using (PdfStamper stamper = new PdfStamper(reader, ms))
                 {
