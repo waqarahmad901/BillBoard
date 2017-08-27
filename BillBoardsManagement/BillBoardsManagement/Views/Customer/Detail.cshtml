@@ -53,51 +53,90 @@
                     </div>
                 <div class="card">
                     <div class="card-block">
-                        <div class="form-group col-sm-12">
+                        <div class="form-group col-sm-4">
                             <label for="name" style="float: left;margin-right: 1%;">Brand.</label>
                             <span><b>@brandquery</b></span>
 
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label for="name" style="float: left;margin-right: 1%;">Address 1.</label>
+                        <div class="form-group col-sm-4">
+                            <label for="name" style="float: left;margin-right: 1%;">Bill Id.</label>
+                            @Html.TextBoxFor(x => x.Billid, new { @style = "margin-left:10%" })
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="name" style="float: left;margin-right: 1%;">Bill Date.</label>
+                            @Html.TextBoxFor(x => x.BillDate, "{0:MM/dd/yyyy}", new { @style = "margin-left:13%" })
+                        </div>
+                        <div class="form-group col-sm-4">
+                            
                             @Html.TextAreaFor(x => x.BrandAddress, new { @cols = 40, @rows = 3 })
                         </div>
-                        @*<div class="form-group col-sm-6">
-                            <label for="name" style="float: left;margin-right: 1%;">Address 2.</label>
+                        <div class="form-group col-sm-4">
+                           
                             @Html.TextAreaFor(x => x.BrandAddress1, new { @cols = 40, @rows = 3 })
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label for="name" style="float: left;margin-right: 1%;">Address 3.</label>
+                        <div class="form-group col-sm-4">
+                           
                             @Html.TextAreaFor(x => x.BrandAddress2, new { @cols = 40, @rows = 3 })
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label for="name" style="float: left;margin-right: 1%;">Address 4.</label>
+                        <div class="form-group col-sm-4">
+                           
                             @Html.TextAreaFor(x => x.BrandAddress3, new { @cols = 40, @rows = 3 })
-                        </div>*@
-                        <div class="form-group col-sm-6">
+                        </div>
+                        <div class="form-group col-sm-4">
                             <label for="name" style="float: left;margin-right: 1%;">Traking Number.</label>
                             @Html.TextBoxFor(x => x.TrakingNumber, new { @style = "margin-left:10%" })
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4">
                             <label for="name" style="float: left;margin-right: 1%;">ShippingDate.</label>
-                            @Html.TextBoxFor(x => x.ShippingDate, new { @style = "margin-left:13%" })
+                            @Html.TextBoxFor(x => x.ShippingDate, "{0:MM/dd/yyyy}", new { @style = "margin-left:13%" })
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4">
                             <label for="name" style="float: left;margin-right: 1%;">Number Of Month.</label>
                             @Html.TextBoxFor(x => x.NumberMonth, new { @style = "margin-left:8%" })
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4">
                             @Html.CheckBoxFor(x => x.IsBrand, new { @style = "margin-left:20%" })
                             <label for="name" style="float: left;margin-right: 1%;">Is Brand.</label>
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4">
                             <label for="name" style="float: left;margin-right: 1%;">Bill Amount Generated.</label>
                             <span><b>@Model.billamountgenerated</b></span>
                         </div>
+
+                        <div class="form-group col-sm-4">
+                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Name.</label>
+                            @Html.TextBoxFor(x => x.ContactPersonName, new { @style = "margin-left:8%" })
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Designation.</label>
+                            @Html.TextBoxFor(x => x.ContactPersonDesignation, new { @style = "margin-left:8%" })
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Mobile.</label>
+                            @Html.TextBoxFor(x => x.ContactPersonMobile, new { @style = "margin-left:8%" })
+                        </div>
+
+
+                        <div class="form-group col-sm-4">
+                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Name.</label>
+                            @Html.TextBoxFor(x => x.ContactPersonName1, new { @style = "margin-left:8%" })
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Designation.</label>
+                            @Html.TextBoxFor(x => x.ContactPersonDesignation1, new { @style = "margin-left:8%" })
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Mobile.</label>
+                            @Html.TextBoxFor(x => x.ContactPersonMobile1, new { @style = "margin-left:8%" })
+                        </div>
+
+
                         <div class="form-group col-sm-6">
                             <label for="name" style="float: left;margin-right: 1%;">Bill Amount Paid.</label>
                             @Html.TextBoxFor(x => x.billamountpaid, new { @style = "margin-left:10%" })
                         </div>
+
+
 
 
                     </div>

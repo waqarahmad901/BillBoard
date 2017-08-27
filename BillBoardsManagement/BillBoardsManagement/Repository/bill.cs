@@ -32,6 +32,13 @@ namespace BillBoardsManagement.Repository
         public string BrandAddress1 { get; set; }
         public string BrandAddress2 { get; set; }
         public string BrandAddress3 { get; set; }
+        public Nullable<System.DateTime> BillDate { get; set; }
+        public string ContactPersonName { get; set; }
+        public string ContactPersonDesignation { get; set; }
+        public string ContactPersonMobile { get; set; }
+        public string ContactPersonName1 { get; set; }
+        public string ContactPersonDesignation1 { get; set; }
+        public string ContactPersonMobile1 { get; set; }
     
         public virtual admin_user admin_user { get; set; }
     }
