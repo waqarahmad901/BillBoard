@@ -187,7 +187,10 @@
                                                     <td>@item.Brand</td>
                                                     <td>@item.Near</td>
                                                     <td>@item.SurveyDate</td>
-                                                    <td><img src="@(item.Picture != null ? "data:image/png;base64,"+Convert.ToBase64String(item.Picture) : "")" width="500px" height="200px" /> </td>
+                                                    @{ 
+                                                        string imgPsth = string.Format("/Images/0{0}/{1}.jpg", item.BookNumber, item.SrNo);
+                                                    }
+                                                    <td><img src="@imgPsth" width="500px" height="200px" /> </td>
                                                     <td><a href="@Url.Action("Edit", new {id = item.RowGuid})" title="Edit"><i class="fa fa-pencil"></i></a></td>
                                                 </tr>
                                             }

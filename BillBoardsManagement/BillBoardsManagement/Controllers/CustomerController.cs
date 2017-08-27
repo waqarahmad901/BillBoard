@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
@@ -297,13 +298,7 @@ namespace BillBoardsManagement.Controllers
                     
                 }).ToList();
             }
-            foreach (var item in customerDetailModels)
-            {
-                foreach (var item1 in item.Customers)
-                {
-                    item1.Picture = Resize2Max50Kbytes(item1.Picture);
-                }
-            }
+            
 
             //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
             // new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
@@ -311,7 +306,7 @@ namespace BillBoardsManagement.Controllers
             //ViewBag.booksdd = books;
 
             //Sorting order
-            
+
             ViewBag.Count = customerDetailModels.Count();
             var detailList = new CstomerDetilPageList();
             detailList.CustomerDetailList = customerDetailModels;
@@ -347,35 +342,7 @@ namespace BillBoardsManagement.Controllers
             return View(detailList);
         }
 
-        public static byte[] Resize2Max50Kbytes(byte[] byteImageIn)
-        {
-            byte[] currentByteImageArray = byteImageIn;
-            double scale = 1f;
-
-            if (byteImageIn == null)
-            {
-                return null;
-            }
-
-            MemoryStream inputMemoryStream = new MemoryStream(byteImageIn);
-            System.Drawing.Image fullsizeImage = System.Drawing.Image.FromStream(inputMemoryStream);
-
-            while (currentByteImageArray.Length > 50000)
-            {
-                Bitmap fullSizeBitmap = new Bitmap(fullsizeImage, new Size((int)(fullsizeImage.Width * scale), (int)(fullsizeImage.Height * scale)));
-                MemoryStream resultStream = new MemoryStream();
-
-                fullSizeBitmap.Save(resultStream, fullsizeImage.RawFormat);
-
-                currentByteImageArray = resultStream.ToArray();
-                resultStream.Dispose();
-                resultStream.Close();
-
-                scale -= 0.05f;
-            }
-
-            return currentByteImageArray;
-        }
+       
 
         [HttpPost]
         public ActionResult SubmitDetail(CstomerDetilPageList details )

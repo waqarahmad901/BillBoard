@@ -292,6 +292,8 @@
     <Content Include="fonts\Simple-Line-Icons.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\02\2.jpg" />
+    <Content Include="Images\02\1.jpg" />
     <Content Include="img\avatars\1.jpg" />
     <Content Include="img\avatars\2.jpg" />
     <Content Include="img\avatars\3.jpg" />
