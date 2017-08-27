@@ -297,6 +297,14 @@ namespace BillBoardsManagement.Controllers
                     
                 }).ToList();
             }
+            foreach (var item in customerDetailModels)
+            {
+                foreach (var item1 in item.Customers)
+                {
+                    item1.Picture = Resize2Max50Kbytes(item1.Picture);
+                }
+            }
+
             //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
             // new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
 
@@ -338,6 +346,37 @@ namespace BillBoardsManagement.Controllers
             detailList.Billid = billid + "";
             return View(detailList);
         }
+
+        public static byte[] Resize2Max50Kbytes(byte[] byteImageIn)
+        {
+            byte[] currentByteImageArray = byteImageIn;
+            double scale = 1f;
+
+            if (byteImageIn == null)
+            {
+                return null;
+            }
+
+            MemoryStream inputMemoryStream = new MemoryStream(byteImageIn);
+            System.Drawing.Image fullsizeImage = System.Drawing.Image.FromStream(inputMemoryStream);
+
+            while (currentByteImageArray.Length > 50000)
+            {
+                Bitmap fullSizeBitmap = new Bitmap(fullsizeImage, new Size((int)(fullsizeImage.Width * scale), (int)(fullsizeImage.Height * scale)));
+                MemoryStream resultStream = new MemoryStream();
+
+                fullSizeBitmap.Save(resultStream, fullsizeImage.RawFormat);
+
+                currentByteImageArray = resultStream.ToArray();
+                resultStream.Dispose();
+                resultStream.Close();
+
+                scale -= 0.05f;
+            }
+
+            return currentByteImageArray;
+        }
+
         [HttpPost]
         public ActionResult SubmitDetail(CstomerDetilPageList details )
         {
