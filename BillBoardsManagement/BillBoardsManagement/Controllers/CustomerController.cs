@@ -115,7 +115,8 @@ namespace BillBoardsManagement.Controllers
                         customer.TotalMeasurment = GetFloatValue(sheet,row,13) + "";
                         customer.Brand = GetValue(sheet,row,14).ToUpper();
                         customer.SurveyDate = GetDateValue(sheet,row,15); 
-                        customer.BookNumber = book;
+                        customer.BookNumber = GetIntValue(sheet, row, 16);
+                        
                         customer.Catagory = GetValue(sheet, row, 17) ;
                         //  customer.Picture = ConvertImageToBytes(Path.Combine(path , customer.SrNo + ""));
                         customer.CreatedAt = DateTime.Now;
