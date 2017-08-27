@@ -377,7 +377,7 @@ namespace BillBoardsManagement.Controllers
             var catagoryRates = new Repository<lk_catagory_rates>();
             var allratesCatagory = catagoryRates.GetAll();
 
-            IEnumerable<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description)).ToList();
+            IEnumerable<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description.Trim()) && x.Brand.Trim() == details.Brand.Trim()).ToList();
 
            
             
@@ -437,7 +437,7 @@ namespace BillBoardsManagement.Controllers
             string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
 
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress, imageFolderPath);
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath);
 
             pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "";
             pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
