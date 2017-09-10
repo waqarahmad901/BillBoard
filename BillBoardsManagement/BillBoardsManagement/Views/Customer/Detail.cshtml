@@ -39,7 +39,7 @@
     {
 
         @Html.HiddenFor(x => x.Brand, new { value = Model.Brand })
-        @Html.HiddenFor(x => x.Billid, new { value = Model.Billid })
+        @*@Html.HiddenFor(x => x.Billid, new { value = Model.Billid })*@
         <div class="container-fluid">
             <div class="animated fadeIn">
                 <div class="row">
@@ -209,7 +209,7 @@
                                             <td>@item.SurveyDate</td>
                                             @{
                                                 string baseUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
-                                                string imgPsth = string.Format(baseUrl + "/Images/{0}/{1}.jpg", item.BookNumber, item.SrNo);
+                                                string imgPsth = string.Format(baseUrl + "/BMS/Images/{0}/{1}.jpg", item.BookNumber, item.SrNo);
                                             }
                                             <td><img src="@imgPsth" width="200" height="100" /> </td>
                                             <td><a href="@Url.Action("Edit", new {id = item.RowGuid})" title="Edit"><i class="fa fa-pencil"></i></a></td>
