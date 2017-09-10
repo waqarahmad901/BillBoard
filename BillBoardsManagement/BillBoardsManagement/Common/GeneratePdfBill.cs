@@ -46,7 +46,7 @@ namespace BillBoardsManagement.Common
                 DefaultCell = { Padding = 5,Border = 0 }
             };
 
-            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
+            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno +"/MC/RT/B/PHA/RWP ", FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
             billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + brand.BillDate.ToString("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
              
             document.Add(header);
