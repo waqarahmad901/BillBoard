@@ -419,7 +419,7 @@ namespace BillBoardsManagement.Controllers
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
-                new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 390, Y = 805 },
+                new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 425, Y = 805 },
                 new PdfCoordinatesModel {Text = obill.Brand, X = 264, Y = 782},
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = 110, Y = 585 },
             new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 761 }
