@@ -102,6 +102,7 @@
                                 </script>
 
                             </div>
+                            @Html.HiddenFor(x=>x.SrNo)
                             @if (Model != null && Model.Id > 0)
                             {
                                 <input type="hidden" id="Id" name="Id" value="@Model.Id" />

@@ -388,7 +388,7 @@ namespace BillBoardsManagement.Controllers
                if(obill == null) { 
                 var rnd = new Random();
                 var num = rnd.Next(0000000, 9999999);
-                obill = new bill { FilePath = "", BillId =  (repoBill.GetAll().Count() + 1).ToString().PadLeft(3,'0') };
+                obill = new bill { FilePath = "", BillId = (int.Parse(repoBill.GetAll().Last().BillId) + 1).ToString().PadLeft(3,'0') };
                 } 
           
             obill.Brand = details.Brand;
@@ -402,7 +402,8 @@ namespace BillBoardsManagement.Controllers
             else obill.ShippingDate = details.ShippingDate;
             obill.BillAmountPaid = details.billamountpaid;
             obill.BillDate = details.BillDate;
-            obill.BillId = details.Billid;
+            if(details.Billid != "0")
+             obill.BillId = details.Billid;
             obill.BrandAddress1 = details.BrandAddress1;
             obill.BrandAddress2 = details.BrandAddress2;
             obill.BrandAddress3 = details.BrandAddress3;
