@@ -24,6 +24,11 @@
                         <div class="card-block">
 
                             <div class="form-group">
+                                <label for="name">Book Number.</label>
+                                @Html.TextBoxFor(m => m.BookNumber, new { @class = "form-control" })
+
+                            </div>
+                            <div class="form-group">
                                 <label for="name">Description.</label>
                                 @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
 

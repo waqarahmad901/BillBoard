@@ -7,7 +7,8 @@ namespace BillBoardsManagement.Common
 {
     public enum EnumUserRole
     {
-        SuperAdmin = 1001
+        SuperAdmin = 1001,
+        User = 1002
     } 
     
 }

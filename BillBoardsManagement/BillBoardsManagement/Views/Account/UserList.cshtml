@@ -1,0 +1,89 @@
+﻿
+@model List<BillBoardsManagement.Repository.user>
+
+@{
+    ViewBag.Title = "Layout";
+} 
+ 
+<main class="main">
+
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Account</li>
+        <li class="breadcrumb-item">Users</li> 
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu">
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary" href="@Url.Action("EditUser")"><i class="icon-plus"></i> Add User</a>
+            </div>
+        </li>
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="input-group global-search">
+                    <input type="text" name="global-search" class="form-control" id="search" placeholder="Search" value="@ViewBag.searchQuery">
+                    <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+                <table class="table table-hover table-outline mb-0">
+                    <thead class="thead-default">
+                    <tr>
+                        <th class="text-center">
+                            <i class="icon-people"></i>
+                        </th>
+                        <th>First Name <i class="fa fa-sort"></i></th>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Role</th> 
+                        <th>Active <i class="fa fa-sort-down"></i></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.Count > 0)
+                    {
+                        foreach (var item in Model.ToList())
+                        {
+                        <tr>
+                            <td class="text-center">
+                                <div class="avatar">
+                                    <img src="~/img/avatars/1.png" class="img-avatar">
+                                </div>
+                            </td>
+                            <td>
+                                <div>@item.FirstName</div>
+                                
+                            </td>
+                            <td>@item.Username</td>
+                            <td>@item.Email</td>
+                            <td>@item.lk_role.Name</td>
+                                
+                            @if (item.IsLocked == false)
+                            {
+                                <td><span class="badge badge-success">Active</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge badge-default">InActive</span></td>
+
+                            }
+                            <td><a href="@Url.Action("EditUser", new { id = item.RowGuid })" title="Edit"><i class="fa fa-pencil"></i></a> </td>
+                        </tr>
+                        }
+                    }
+                    else
+                    {
+                    <tr>
+                        <td colspan = "7" align = "center" > No record found.</td>
+                     </tr>
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>

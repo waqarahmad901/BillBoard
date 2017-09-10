@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "EditUser";
+    string imagePath = Model.PhotoPath != null ? Model.PhotoPath.Replace("~", "") : "";
+}
+
+@model BillBoardsManagement.Repository.user
+<main class="main">
+
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item">user</li>
+        </li>
+        <li class="breadcrumb-item active">Add User</li>
+
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="col-sm-6">
+                @using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="text-primary"><i class="icon-plus"></i>Add new user</strong>
+                        </div>
+                        <div class="card-block">
+                           
+
+                            <div class="form-group">
+                                <label for="mobile">First Name</label>
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile">Last Name</label>
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile">Role</label>
+                                @Html.DropDownListFor(m => m.RoleId, (List<SelectListItem>)ViewBag.rolesdd, new { @class = "form-control" })
+
+                            </div>
+
+                            @if (Model == null || Model.Id == 0)
+                            { 
+                                <div class="form-group">
+                                    <label for="name">User Name</label>
+                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                                    @if (ViewBag.userexist != null)
+                                    {
+                                        <span class="text-danger field-validation-error" data-valmsg-for="Username" data-valmsg-replace="true"><span for="Username" class="">User Name Already Exist</span></span>
+                                      
+                                    }
+                                </div>
+                            <div class="form-group">
+                                <label for="phone">Email Address</label>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" }) 
+                                @if (ViewBag.emailexist != null)
+                                {
+                                    <span class="text-danger field-validation-error" data-valmsg-for="Email" data-valmsg-replace="true"><span for="Username" class="">Email Already Exist</span></span>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", value = Model.Password })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    <label for="name">User Name</label>
+                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @disabled = "disabled" })
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", value = Model.Password, @disabled = "disabled" })
+
+                                </div>
+
+                            } 
+                            
+                            <div class="form-group">
+                                <label>Photo</label>
+                                <input type="file" name="file" id="profile-img">
+                                <hr>
+                                <img  id="profile-img-tag" width="150px" src="@imagePath"/>
+
+                                <script type="text/javascript">
+                                    function readURL(input) {
+                                        if (input.files && input.files[0]) {
+                                            var reader = new FileReader();
+
+                                            reader.onload = function (e) {
+                                                $('#profile-img-tag').attr('src', e.target.result);
+                                            }
+                                            reader.readAsDataURL(input.files[0]);
+                                        }
+                                    }
+                                    $("#profile-img").change(function () {
+                                        readURL(this);
+                                    });
+                                </script> 
+                             
+                            </div>
+
+                            <div class="form-group">
+                                <label for="active">Active</label>
+                                <label class="switch switch-icon switch-pill switch-success mt-2">
+                                    @Html.CheckBoxFor(Model => Model.IsLocked, new { @class = "switch-input", @id = "active" })
+                                    <span class="switch-label" data-on="" data-off=""></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+
+                            @if (Model != null && Model.Id > 0)
+                            {
+                                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Submit</button>
+
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+        </div>
+    </div>
+</main>
+ 
+

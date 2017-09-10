@@ -4,18 +4,17 @@
     string brandquery = Request.QueryString["brand"];
 }
 <style type="text/css">
- 
-    .con-body {   
-          float: left;
-        width: 100%;}
+    .con-body {
+        float: left;
+        width: 100%;
+    }
 
-    .con-header { 
+    .con-header {
         float: left;
         width: 100%;
         border: 1px solid rgba(0, 0, 0, 0.15);
         background-color: #f6f8f9;
         color: #636c70;
-
     }
 </style>
 
@@ -36,11 +35,11 @@
             </div>
         </li>
     </ol>
-    @using (Html.BeginForm("SubmitDetail", "Customer", FormMethod.Post, new { @class = "form-horizontal", role = "form"}))
+    @using (Html.BeginForm("SubmitDetail", "Customer", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
-  
-        @Html.HiddenFor(x=>x.Brand, new {value = Model.Brand })
-        @Html.HiddenFor(x=>x.Billid, new {value = Model.Billid })
+
+        @Html.HiddenFor(x => x.Brand, new { value = Model.Brand })
+        @Html.HiddenFor(x => x.Billid, new { value = Model.Billid })
         <div class="container-fluid">
             <div class="animated fadeIn">
                 <div class="row">
@@ -50,7 +49,7 @@
                             <i class="fa fa-search"></i>
                         </span>
                     </div>
-                    </div>
+                </div>
                 <div class="card">
                     <div class="card-block">
                         <div class="form-group col-sm-4">
@@ -58,85 +57,103 @@
                             <span><b>@brandquery</b></span>
 
                         </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Bill Id.</label>
-                            @Html.TextBoxFor(x => x.Billid, new { @style = "margin-left:10%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Bill Date.</label>
-                            @Html.TextBoxFor(x => x.BillDate, "{0:MM/dd/yyyy}", new { @style = "margin-left:13%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            
-                            @Html.TextAreaFor(x => x.BrandAddress, new { @cols = 40, @rows = 3 })
-                        </div>
-                        <div class="form-group col-sm-4">
-                           
-                            @Html.TextAreaFor(x => x.BrandAddress1, new { @cols = 40, @rows = 3 })
-                        </div>
-                        <div class="form-group col-sm-4">
-                           
-                            @Html.TextAreaFor(x => x.BrandAddress2, new { @cols = 40, @rows = 3 })
-                        </div>
-                        <div class="form-group col-sm-4">
-                           
-                            @Html.TextAreaFor(x => x.BrandAddress3, new { @cols = 40, @rows = 3 })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Traking Number.</label>
-                            @Html.TextBoxFor(x => x.TrakingNumber, new { @style = "margin-left:10%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">ShippingDate.</label>
-                            @Html.TextBoxFor(x => x.ShippingDate, "{0:MM/dd/yyyy}", new { @style = "margin-left:13%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Number Of Month.</label>
-                            @Html.TextBoxFor(x => x.NumberMonth, new { @style = "margin-left:8%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            @Html.CheckBoxFor(x => x.IsBrand, new { @style = "margin-left:20%" })
-                            <label for="name" style="float: left;margin-right: 1%;">Is Brand.</label>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Bill Amount Generated.</label>
-                            <span><b>@Model.billamountgenerated</b></span>
-                        </div>
+                        <table>
+                            <tr>
+                                <td><label for="name" style="float: left;margin-right: 1%;">Bill Id.</label></td>
+                                <td>@Html.TextBoxFor(x => x.Billid, new { @style = "margin-left:10%" })</td>
 
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Name.</label>
-                            @Html.TextBoxFor(x => x.ContactPersonName, new { @style = "margin-left:8%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Designation.</label>
-                            @Html.TextBoxFor(x => x.ContactPersonDesignation, new { @style = "margin-left:8%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Mobile.</label>
-                            @Html.TextBoxFor(x => x.ContactPersonMobile, new { @style = "margin-left:8%" })
-                        </div>
+                                <td><label for="name" style="float: left;margin-right: 1%;">Bill Date.</label></td>
+                                <td>@Html.TextBoxFor(x => x.BillDate, "{0:MM/dd/yyyy}", new { @style = "margin-left:13%" })</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Address</td>
+                            </tr>
 
+                            <tr>
+                                <td>
+                                    @Html.TextAreaFor(x => x.BrandAddress, new { @cols = 40, @rows = 3 })
+                                </td>
 
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Name.</label>
-                            @Html.TextBoxFor(x => x.ContactPersonName1, new { @style = "margin-left:8%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Designation.</label>
-                            @Html.TextBoxFor(x => x.ContactPersonDesignation1, new { @style = "margin-left:8%" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="name" style="float: left;margin-right: 1%;">Contact Person Mobile.</label>
-                            @Html.TextBoxFor(x => x.ContactPersonMobile1, new { @style = "margin-left:8%" })
-                        </div>
+                                <td>
+                                    @Html.TextAreaFor(x => x.BrandAddress1, new { @cols = 40, @rows = 3 })
+                                </td>
+                                <td>
+                                    @Html.TextAreaFor(x => x.BrandAddress2, new { @cols = 40, @rows = 3 })
+                                </td>
+                                <td>
+                                    @Html.TextAreaFor(x => x.BrandAddress3, new { @cols = 40, @rows = 3 })
+                                </td>
+                            </tr>
+                            <tr>
 
+                                <td><label for="name" style="float: left;margin-right: 1%;">Traking Number.</label></td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.TrakingNumber, new { @style = "margin-left:8%" })
+                                </td>
+                                <td><label for="name" style="float: left;margin-right: 1%;">ShippingDate.</label></td>
+                                <td>@Html.TextBoxFor(x => x.ShippingDate, "{0:MM/dd/yyyy}", new { @style = "margin-left:8%" })</td>
+                            </tr>
+                            <tr>
+                                <td><label for="name" style="float: left;margin-right: 1%;">Number Of Month.</label></td>
+                                <td>@Html.TextBoxFor(x => x.NumberMonth, new { @style = "margin-left:8%" })</td>
 
-                        <div class="form-group col-sm-6">
-                            <label for="name" style="float: left;margin-right: 1%;">Bill Amount Paid.</label>
-                            @Html.TextBoxFor(x => x.billamountpaid, new { @style = "margin-left:10%" })
-                        </div>
+                                <td><label for="name" style="float: left;">Is Brand.</label></td>
+                                <td>@Html.CheckBoxFor(x => x.IsBrand, new { @style = "margin-left:8%" })</td>
 
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="name" style="float: left;">Bill Amount Generated.</label>
+                                </td>
+                                <td>
+                                    <span style="margin-left:8%"><b>@Model.billamountgenerated</b></span>
+                                </td>
+                                <td>
+                                    <label for="name" style="float: left;">Contact Person Name.</label>
+                                </td>
+                                <td>   @Html.TextBoxFor(x => x.ContactPersonName, new { @style = "margin-left:8%" })</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="name" style="float: left;">Contact Person Designation.</label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.ContactPersonDesignation, new { @style = "margin-left:8%" })
+                                </td>
 
+                                <td>
+                                    <label for="name" style="float: left;">Contact Person Mobile.</label>
+                                </td>
+                                <td>    @Html.TextBoxFor(x => x.ContactPersonMobile, new { @style = "margin-left:8%" })</td>
+                            </tr>
+                            <tr>
+
+                                <td>
+                                    <label for="name" style="float: left;">Contact Person Name.</label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.ContactPersonName1, new { @style = "margin-left:8%" })
+                                </td>
+
+                                <td>
+                                    <label for="name" style="float: left;margin-right: 1%;">Contact Person Designation.</label>
+                                </td>
+                                <td>      @Html.TextBoxFor(x => x.ContactPersonDesignation1, new { @style = "margin-left:8%" })</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="name" style="float: left;margin-right: 1%;">Contact Person Mobile.</label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.ContactPersonMobile1, new { @style = "margin-left:8%" })
+                                </td>
+                                <td>
+                                    <label for="name" style="float: left;margin-right: 1%;">Bill Amount Paid.</label>
+                                </td>
+                                <td>      @Html.TextBoxFor(x => x.billamountpaid, new { @style = "margin-left:8%" })</td>
+                            </tr>
+
+                        </table>
 
 
                     </div>
@@ -145,72 +162,73 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-sm btn-primary pull-right" name="updatebutton" value="update"><i class="fa fa-dot-circle-o"></i> Update shipping details</button>
 
-                            </div>
-                        </div>
-
-                 </div>
-                        @*<div class="input-group global-search">
-                    @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })
-                </div>*@
-                        @for (int i = 0; i < Model.CustomerDetailList.Count(); i++)
-                        {
-                            @Html.HiddenFor(x => x.CustomerDetailList[i].CustomerName)
-                            @Html.HiddenFor(x => x.CustomerDetailList[i].CustomerId)
-
-                            <div style="width: 100%; margin-top: 10px;">
-                                <div class="con-header">
-                                    <h6 style="padding: 10px; cursor: pointer; float: left " onclick="onNameClick(this)">@Model.CustomerDetailList[i].CustomerName</h6>
-                                    @Html.CheckBoxFor(x => x.CustomerDetailList[i].Selected, new { @style = "float:left; margin: 15px" })
-                                </div>
-                                <div class="con-body">
-                                    <table class="table table-hover table-outline mb-0" style="display: none">
-                                        <thead class="thead-default">
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Type</th>
-                                                <th>Brand</th>
-                                                <th>Near</th>
-                                                <th>Survey Date</th>
-                                                <th>Picture</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            @foreach (var item in Model.CustomerDetailList[i].Customers)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        <div>@item.Description</div>
-                                                    </td>
-                                                    <td>@item.Type</td>
-                                                    <td>@item.Brand</td>
-                                                    <td>@item.Near</td>
-                                                    <td>@item.SurveyDate</td>
-                                                    @{ 
-                                                        string imgPsth = string.Format("/BMS/Images/0{0}/{1}.jpg", item.BookNumber, item.SrNo);
-                                                    }
-                                                    <td><img src="@imgPsth" width="500px" height="200px" /> </td>
-                                                    <td><a href="@Url.Action("Edit", new {id = item.RowGuid})" title="Edit"><i class="fa fa-pencil"></i></a></td>
-                                                </tr>
-                                            }
-                                        </tbody>
-
-                                    </table>
-                                </div>
-                            </div>
-
-                        }
-
-
-                        <div style="width: 100%; margin-top: 23%; margin-bottom:27%">
-                            <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Generate Bill</button>
-                            <button type="submit" class="btn btn-sm btn-primary pull-right" name="ammement" value="ammement" style="margin-right:10px"><i class="fa fa-dot-circle-o"></i> Generate Ammement Bill</button>
                         </div>
                     </div>
+
                 </div>
-        
-    }
+                @*<div class="input-group global-search">
+                        @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })
+                    </div>*@
+                @for (int i = 0; i < Model.CustomerDetailList.Count(); i++)
+                {
+                    @Html.HiddenFor(x => x.CustomerDetailList[i].CustomerName)
+                    @Html.HiddenFor(x => x.CustomerDetailList[i].CustomerId)
+
+                    <div style="width: 100%; margin-top: 10px;">
+                        <div class="con-header">
+                            <h6 style="padding: 10px; cursor: pointer; float: left " onclick="onNameClick(this)">@Model.CustomerDetailList[i].CustomerName</h6>
+                            @Html.CheckBoxFor(x => x.CustomerDetailList[i].Selected, new { @style = "float:left; margin: 15px" })
+                        </div>
+                        <div class="con-body">
+                            <table class="table table-hover table-outline mb-0" style="display: none">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Brand</th>
+                                        <th>Near</th>
+                                        <th>Survey Date</th>
+                                        <th>Picture</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.CustomerDetailList[i].Customers)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div>@item.Description</div>
+                                            </td>
+                                            <td>@item.Type</td>
+                                            <td>@item.Brand</td>
+                                            <td>@item.Near</td>
+                                            <td>@item.SurveyDate</td>
+                                            @{
+                                                string baseUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+                                                string imgPsth = string.Format(baseUrl + "/Images/{0}/{1}.jpg", item.BookNumber, item.SrNo);
+                                            }
+                                            <td><img src="@imgPsth" width="200" height="100" /> </td>
+                                            <td><a href="@Url.Action("Edit", new {id = item.RowGuid})" title="Edit"><i class="fa fa-pencil"></i></a></td>
+                                        </tr>
+                                                }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+                                                }
+
+
+                <div style="width: 100%; margin-top: 23%; margin-bottom:27%">
+                    <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Generate Bill</button>
+                    <button type="submit" class="btn btn-sm btn-primary pull-right" name="ammement" value="ammement" style="margin-right:10px"><i class="fa fa-dot-circle-o"></i> Generate Ammement Bill</button>
+                </div>
+            </div>
+        </div>
+
+                                                }
 </main>
 <script type="text/javascript">
     function onNameClick(obj) {

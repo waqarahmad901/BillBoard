@@ -13,6 +13,8 @@ using System.Threading;
 using BillBoardsManagement.Models;
 using BillBoardsManagement.Repository;
 using BillBoardsManagement.Common;
+using System.Web.Security;
+using System.IO;
 
 namespace BillBoardsManagement.Controllers
 {
@@ -76,31 +78,32 @@ namespace BillBoardsManagement.Controllers
             {
                 return View(model);
             }
-
-            var repository = new Repository<admin_user>();
-            var user = repository.GetAll().Where(x => x.Username == model.Username).FirstOrDefault();
+            var repository = new Repository<user>();
+            var user = repository.GetAll().FirstOrDefault(x => x.Username == model.Username);
+           
             if (user != null)
             {
+
                 var password = EncryptionKeys.Encrypt(model.Password);
                 if (user.Password.Equals(password))
                 {
-                    var userRole = (EnumUserRole)new Repository<lk_role>().Get(user.RoleId).Code;
 
-                    var claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Username));
-                    claims.Add(new Claim(ClaimTypes.Name, user.FirstName));
-                    claims.Add(new Claim(ClaimTypes.Email, user.Email));
-                    claims.Add(new Claim(ClaimTypes.Role, userRole.ToString("g")));
-                   // claims.Add(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+                    var role = new Repository<lk_role>().Get(user.RoleId);
+                    var enumRole = (EnumUserRole)role.Code;
+                    string route = Request.Form["route"];
+                   
+                    var cu = new ContextUser
+                    {
+                        OUser = user,
+                        EnumRole = enumRole,
+                        Role = role,
+                        PhotoPath = "/img/avatars/admin.png"
+                    };
 
-                    var id = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-
-                    var ctx = Request.GetOwinContext();
-                    var authenticationManager = ctx.Authentication;
-                    authenticationManager.SignIn(id);
-
-
-                    return RedirectToPortal(userRole, user);
+                    Session["user"] = cu;
+                    FormsAuthentication.SetAuthCookie(user.Username, false);
+                   
+                    return RedirectToPortal(enumRole, cu);
                 }
             }
 
@@ -431,7 +434,7 @@ namespace BillBoardsManagement.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private ActionResult RedirectToPortal(EnumUserRole userRole, admin_user user)
+        private ActionResult RedirectToPortal(EnumUserRole userRole, ContextUser user)
         {
             switch (userRole)
             {
@@ -478,5 +481,126 @@ namespace BillBoardsManagement.Controllers
             }
         }
         #endregion
+
+        public ActionResult UserList(string sortOrder, string filter, string archived, int page = 1, Guid? archive = null)
+        {
+
+            ViewBag.searchQuery = string.IsNullOrEmpty(filter) ? "" : filter;
+            ViewBag.showArchived = (archived ?? "") == "on";
+
+            page = page > 0 ? page : 1;
+            int pageSize = 0;
+            pageSize = pageSize > 0 ? pageSize : 10;
+
+            ViewBag.CurrentSort = sortOrder;
+
+            List<user> users;
+            var repository = new Repository<user>();
+            if (archive != null)
+            {
+                var oUser = repository.GetByGuid(archive.Value);
+                oUser.IsLocked = !oUser.IsLocked;
+                repository.Put(oUser.Id, oUser);
+            }
+            int[] rols = { (int)EnumUserRole.SuperAdmin, (int)EnumUserRole.User};
+            if (string.IsNullOrEmpty(filter))
+            {
+                users = repository.GetAll().Where(x => rols.Contains(x.lk_role.Code)).ToList();
+            }
+            else
+            {
+                users = repository.GetAll().Where(x => x.Username.ToLower().Contains(filter.ToLower()) && rols.Contains(x.lk_role.Code)).ToList();
+            }
+            //Sorting order
+            users = users.OrderByDescending(x => x.CreatedAt).ToList();
+            ViewBag.Count = users.Count();
+
+            return View(users);
+        }
+
+        public ActionResult EditUser(Guid? id)
+        {
+           var repo = new Repository<user>();
+            var reporole = new Repository<lk_role>();
+            int[] rolesCode = { (int)EnumUserRole.SuperAdmin, (int)EnumUserRole.User};
+            user us = null;
+
+            ViewBag.rolesdd = reporole.GetAll().Where(x => rolesCode.Contains(x.Code)).Select(x =>
+                   new SelectListItem { Text = x.Name, Value = x.Id + "" }
+            ).ToList();
+            if (id != null)
+            {
+                us = repo.FindAll(x=>x.RowGuid == id.Value).FirstOrDefault();
+            }
+            else
+            {
+                us = new user();
+                us.Password = Membership.GeneratePassword(8, 2);
+            }
+            us.IsLocked = !us.IsLocked;
+            return View(us);
+        }
+        [HttpPost]
+        public ActionResult EditUser(user user, HttpPostedFileBase file)
+        {
+            var cu = Session["user"] as ContextUser;
+            var repo = new Repository<user>();
+            user oUser = null;
+            if (user.Id == 0)
+            {
+                oUser = new user();
+                oUser.RowGuid = Guid.NewGuid();
+                oUser.CreatedAt = DateTime.Now;
+                oUser.CreatedBy = cu.OUser.Id;
+                oUser.Email = user.Email;
+                oUser.Password = EncryptionKeys.Encrypt(user.Password);
+                oUser.RegistrationDate = DateTime.Now;
+                oUser.Username = user.Username;
+
+            }
+            else
+            {
+                oUser = repo.Get(user.Id);
+                oUser.UpdatedBy = cu.OUser.Id;
+                oUser.UpdatedAt = DateTime.Now;
+
+            }
+            oUser.FirstName = user.FirstName;
+            oUser.LastName = user.LastName;
+            oUser.RoleId = user.RoleId;
+            oUser.IsLocked = !user.IsLocked;
+            if (file != null)
+            {
+                string fileName = "~/Uploads/ImageLibrary/" + Guid.NewGuid() + Path.GetExtension(file.FileName);
+                string filePath = Server.MapPath(fileName);
+                file.SaveAs(filePath);
+                oUser.PhotoPath = fileName;
+            }
+            if (oUser.Id > 0)
+                repo.Put(oUser.Id, oUser);
+            else
+            {
+                int[] rolesCode = { (int)EnumUserRole.SuperAdmin, (int)EnumUserRole.User };
+
+                var reporole = new Repository<lk_role>();
+
+                ViewBag.rolesdd = reporole.GetAll().Where(x => rolesCode.Contains(x.Code)).Select(x =>
+                       new SelectListItem { Text = x.Name, Value = x.Id + "" }
+                ).ToList();
+
+                if (repo.GetAll().Where(x=>x.Username == oUser.Username).Any())
+                {
+                    ViewBag.userexist = true;
+                    return View(user);
+                }
+                if (repo.GetAll().Where(x => x.Email == oUser.Email).Any())
+                {
+                    ViewBag.emailexist = true;
+                    return View(user);
+                }
+                repo.Post(oUser);
+            }
+            return RedirectToAction("UserList");
+        }
     }
 }

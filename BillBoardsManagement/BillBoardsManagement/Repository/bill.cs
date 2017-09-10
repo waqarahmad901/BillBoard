@@ -40,6 +40,6 @@ namespace BillBoardsManagement.Repository
         public string ContactPersonDesignation1 { get; set; }
         public string ContactPersonMobile1 { get; set; }
     
-        public virtual admin_user admin_user { get; set; }
+        public virtual user user { get; set; }
     }
 }

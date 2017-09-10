@@ -12,10 +12,10 @@ namespace BillBoardsManagement.Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class admin_user
+    public partial class user
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public admin_user()
+        public user()
         {
             this.bills = new HashSet<bill>();
         }
@@ -46,7 +46,7 @@ namespace BillBoardsManagement.Repository
         public Nullable<int> UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public string PhotoPath { get; set; }
-        public System.DateTime ValidFrom { get; set; }
+        public Nullable<System.DateTime> ValidFrom { get; set; }
         public Nullable<System.DateTime> ValidUntil { get; set; }
         public bool IsLocked { get; set; }
         public bool IsMobileVerified { get; set; }
@@ -55,8 +55,8 @@ namespace BillBoardsManagement.Repository
         public string DrivingLicenseNo { get; set; }
         public string BloodGroup { get; set; }
     
-        public virtual lk_role lk_role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bill> bills { get; set; }
+        public virtual lk_role lk_role { get; set; }
     }
 }

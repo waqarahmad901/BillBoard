@@ -34,7 +34,5 @@ namespace BillBoardsManagement.Repository
         public byte[] Picture { get; set; }
         public Nullable<int> test { get; set; }
         public string Catagory { get; set; }
-
-        
     }
 }

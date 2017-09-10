@@ -11,7 +11,12 @@
             <li class="nav-item  @(@currentUrl.Contains("BillManagement") ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("BillManagement", "Customer")"><i class="fa fa-credit-card"></i> Bills</a>
             </li>
-          </ul>
+       
+
+        <li class="nav-item  @(@currentUrl.Contains("Account") ? "active" : "")">
+            <a class="nav-link" href="@Url.Action("UserList", "Account")"><i class="fa fa-credit-card"></i> User</a>
+        </li>
+        </ul>
 
 
     </nav>

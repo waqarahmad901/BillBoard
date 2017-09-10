@@ -17,7 +17,7 @@ namespace BillBoardsManagement.Repository
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public lk_role()
         {
-            this.admin_user = new HashSet<admin_user>();
+            this.users = new HashSet<user>();
         }
     
         public short Id { get; set; }
@@ -32,6 +32,6 @@ namespace BillBoardsManagement.Repository
         public System.DateTime UpdatedAt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<admin_user> admin_user { get; set; }
+        public virtual ICollection<user> users { get; set; }
     }
 }
