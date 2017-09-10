@@ -117,10 +117,10 @@ namespace BillBoardsManagement.Common
                 long amount =(long) (perAnumRate * decimal.Parse(item.TotalMeasurment));
                 table.AddCell(new Phrase(amount.ToString("0") + "", fntTableFontRow));
                 totalAmount += amount;
-                string filepath = Path.Combine(imagePath, "0" + item.BookNumber + "/" + item.SrNo + ".jpg");
-                if (true)
+                string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
+                if (File.Exists(filepath))
                 {
-                    var img = iTextSharp.text.Image.GetInstance(@"F:\Clients\Raja bajar parking plaza\Data Entry\repo\BillBoardsManagement\BillBoardsManagement\Images\02\1.jpg");
+                    var img = iTextSharp.text.Image.GetInstance(filepath);
 
                     table.AddCell(img);
                 }
