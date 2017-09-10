@@ -83,7 +83,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Image.</label>
-                                <img id="profile-img-tag" src="@(Model.Picture != null ? "data:image/png;base64,"+Convert.ToBase64String(Model.Picture) : "")" width="100px" height="100px" />
+                                @{
+                                    string baseUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+                                    string imgPsth = string.Format(baseUrl + "/BMS/Images/{0}/{1}.jpg", Model.BookNumber, Model.SrNo);
+                                }
+                                <img id="profile-img-tag" src="@imgPsth" width="100px" height="100px" />
 
                                 <script type="text/javascript">
                                     function readURL(input) {
