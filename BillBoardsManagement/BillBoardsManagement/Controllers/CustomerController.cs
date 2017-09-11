@@ -157,19 +157,31 @@ namespace BillBoardsManagement.Controllers
             oCustomer.Description = customer.Description;
             oCustomer.Location = customer.Location;
             oCustomer.Near = customer.Near;
-            oCustomer.Type = customer.Type;
+            if(!string.IsNullOrEmpty(customer.NewType))
+                oCustomer.Type = customer.NewType;
+            else
+             oCustomer.Type = customer.Type;
             oCustomer.Size1 = customer.Size1;
             oCustomer.Size2 = customer.Size2;
             oCustomer.Size3 = customer.Size3;
-            oCustomer.Size4 = customer.Size4; 
-            oCustomer.Brand = customer.Brand;
+            oCustomer.Size4 = customer.Size4;
+            if (!string.IsNullOrEmpty(customer.NewBrand))
+                oCustomer.Brand = customer.NewBrand;
+            else
+                oCustomer.Brand = customer.Brand;
             oCustomer.SurveyDate = customer.SurveyDate;
+            oCustomer.BookNumber = customer.BookNumber;
+
             if (file != null)
             {
-                string fileName = "~/Uploads/" + Path.GetFileName(file.FileName);
+                string fileName = "~/Images/" + oCustomer.BookNumber + "/" + oCustomer.SrNo + System.IO.Path.GetExtension(file.FileName);
                 string filePath = Server.MapPath(fileName);
+                if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                }
                 file.SaveAs(filePath);
-                oCustomer.Picture = ConvertImageToBytes(filePath);
+                
             }
             if (customer.Id == 0)
             {
