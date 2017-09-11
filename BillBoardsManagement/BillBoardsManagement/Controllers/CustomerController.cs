@@ -400,7 +400,7 @@ namespace BillBoardsManagement.Controllers
                if(obill == null) { 
                 var rnd = new Random();
                 var num = rnd.Next(0000000, 9999999);
-                obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "001" : (int.Parse(repoBill.GetAll().Select(x=>x.BillId).Max()) + 1).ToString().PadLeft(3,'0') };
+                obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "101" : (int.Parse(repoBill.GetAll().Select(x=>x.BillId).Max()) + 1).ToString().PadLeft(3,'0') };
                 } 
           
             obill.Brand = details.Brand;
@@ -432,7 +432,7 @@ namespace BillBoardsManagement.Controllers
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
                 new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 425, Y = 805 },
-                new PdfCoordinatesModel {Text = obill.Brand, X = 264, Y = 782},
+                new PdfCoordinatesModel {Text = customers.First().Description, X = 264, Y = 782},
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = 110, Y = 585 },
             new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 761 }
         }; 
@@ -452,7 +452,7 @@ namespace BillBoardsManagement.Controllers
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath);
 
-            pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "";
+            pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/Rs";
             pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
 
             string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
@@ -463,7 +463,7 @@ namespace BillBoardsManagement.Controllers
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                  obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath);
-                pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "";
+                pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "/Rs";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
 
                 aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates); 
@@ -475,7 +475,7 @@ namespace BillBoardsManagement.Controllers
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath);
-                pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "";
+                pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/Rs";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
                 aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                   MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile2);
@@ -486,7 +486,7 @@ namespace BillBoardsManagement.Controllers
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath);
-                pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "";
+                pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/Rs";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 
                 MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);

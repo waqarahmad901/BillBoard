@@ -37,7 +37,7 @@ namespace BillBoardsManagement.Common
             Paragraph paragraph1 = new Paragraph("RAJA BABAR LATIF CONTRACTOR ADVERTISEMENT FEE 2017 - 2018.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph2 = new Paragraph("RAWAL TOWN AREA.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph3 = new Paragraph("BILL.", FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
-            Paragraph paragraph4 = new Paragraph(brand.Brand, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
+            Paragraph paragraph4 = new Paragraph(customers.First().Description, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
 
             var billTable = new PdfPTable(2) 
             {
@@ -138,14 +138,14 @@ namespace BillBoardsManagement.Common
             };
             //table2.SetWidths(new int[]{140,95});
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
-            table2.AddCell(new Phrase(totalAmount.ToString("0") + "", fntTableFontHdr));
+            table2.AddCell(new Phrase(totalAmount.ToString("0") + "/Rs", fntTableFontHdr));
             table.Complete = true;
             document.Add(table);
             document.Add(table2);
 
             Paragraph addressParagraph = new Paragraph(address, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT};
 
-            document.Add(addressParagraph);
+           // document.Add(addressParagraph);
          //   cb.EndText();
             document.Close();
 
