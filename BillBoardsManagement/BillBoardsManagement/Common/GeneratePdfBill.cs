@@ -136,9 +136,9 @@ namespace BillBoardsManagement.Common
                 WidthPercentage = 50f,
                 DefaultCell = { Padding = 10 }
             };
-            table2.SetWidths(new int[]{140,102});
+            table2.SetWidths(new int[]{140,95});
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
-            table2.AddCell(new Phrase(totalAmount.ToString("0") + "/Rs", fntTableFontHdr));
+            table2.AddCell(new Phrase("Rs. "+totalAmount.ToString("0") + "/-", fntTableFontHdr));
             table.Complete = true;
             document.Add(table);
             document.Add(table2);
