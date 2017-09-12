@@ -350,7 +350,7 @@ namespace BillBoardsManagement.Controllers
                 detailList.BillDate = DateTime.Now;
                 
             }
-            detailList.Billid = obill.BillId;
+            detailList.Billid = obill == null ? "0" : obill.BillId;
             return View(detailList);
         }
 

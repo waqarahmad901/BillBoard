@@ -95,6 +95,7 @@ namespace BillBoardsManagement.Common
 
             foreach (var item in customers)
             {
+               
 
                 table.AddCell(new Phrase(row++ + "", fntTableFontRow));
                 table.AddCell(new Phrase(item.Location, fntTableFontRow));
@@ -129,6 +130,7 @@ namespace BillBoardsManagement.Common
                     table.AddCell("");
                 }
 
+              
             }
             var table2 = new PdfPTable(2)
             {
@@ -140,7 +142,7 @@ namespace BillBoardsManagement.Common
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
             table2.AddCell(new Phrase(totalAmount.ToString("0") + "/Rs", fntTableFontHdr));
             table.Complete = true;
-            document.Add(table);
+            
             document.Add(table2);
 
             Paragraph addressParagraph = new Paragraph(address, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT};
@@ -148,7 +150,6 @@ namespace BillBoardsManagement.Common
            // document.Add(addressParagraph);
          //   cb.EndText();
             document.Close();
-
             PageNumbering(filePath);
              
 
