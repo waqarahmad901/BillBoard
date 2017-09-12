@@ -142,7 +142,7 @@ namespace BillBoardsManagement.Common
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
             table2.AddCell(new Phrase("Rs. "+totalAmount.ToString("0") + "/-", fntTableFontHdr));
             table.Complete = true;
-            
+            document.Add(table);
             document.Add(table2);
 
             Paragraph addressParagraph = new Paragraph(address, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT};
