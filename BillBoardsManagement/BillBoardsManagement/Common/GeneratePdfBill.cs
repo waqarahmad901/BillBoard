@@ -77,10 +77,10 @@ namespace BillBoardsManagement.Common
             //table.SplitRows = false;
             //table.Complete = false;
             //table.SplitLate = false;
-            table.SetWidths(new int[] { 60, 150, 150, 80, 50, 40, 50, 40, 50, 40, 50, 70, 70, 90, 150 });
+            table.SetWidths(new int[] { 60, 150, 150, 80, 65,35, 65, 35, 65, 35, 65, 70, 70, 90, 150 });
             table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-            table.AddCell(new PdfPCell(new Phrase("Near", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+            table.AddCell(new PdfPCell(new Phrase("NEAR", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("TYPE OF ADVERTISEMENT", fntTableFontHdr)) { Rotation = 90, FixedHeight = 100, VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER, PaddingBottom = 5 });
             PdfPCell cell = new PdfPCell(new Paragraph("MEASURMENT", fntTableFontHdr) { Alignment = Element.ALIGN_CENTER }) { Colspan = 7, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE };
             table.AddCell(cell);
@@ -97,26 +97,26 @@ namespace BillBoardsManagement.Common
             {
                
 
-                table.AddCell(new Phrase(row++ + "", fntTableFontRow));
-                table.AddCell(new Phrase(item.Location, fntTableFontRow));
-                table.AddCell(new Phrase(item.Near, fntTableFontRow));
-                table.AddCell(new Phrase(item.Type, fntTableFontRow));
-                table.AddCell(new Phrase(item.Size1, fntTableFontRow));
-                table.AddCell(new Phrase("X", fntTableFontRow));
-                table.AddCell(new Phrase(item.Size2, fntTableFontRow));
-                table.AddCell(new Phrase("X", fntTableFontRow));
-                table.AddCell(new Phrase(item.Size3, fntTableFontRow));
-                table.AddCell(new Phrase("X", fntTableFontRow));
-                table.AddCell(new Phrase(item.Size4, fntTableFontRow));
-                table.AddCell(new Phrase(item.TotalMeasurment, fntTableFontRow));
+                table.AddCell(new PdfPCell(new Phrase(row++ + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.Location, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.Near, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.Type, fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.Size1, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.Size2, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.Size3, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.Size4, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.TotalMeasurment, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
                 string catagor = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
                 catagor = catagor == null ? "A+" : catagor;
                 long perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor && x.Brand == brand.IsBrand).Select(x => x.Rate).FirstOrDefault() * brand.NumberMonth);
 
-                table.AddCell(new Phrase(perAnumRate + "", fntTableFontRow));
+                table.AddCell(new PdfPCell(new Phrase(perAnumRate + "", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 long amount =(long) (perAnumRate * decimal.Parse(item.TotalMeasurment));
-                table.AddCell(new Phrase(amount.ToString("0") + "", fntTableFontRow));
+                table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 totalAmount += amount;
                 string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
                 if (File.Exists(filepath))
@@ -138,9 +138,9 @@ namespace BillBoardsManagement.Common
                 WidthPercentage = 50f,
                 DefaultCell = { Padding = 10 }
             };
-            //table2.SetWidths(new int[]{140,95});
+            table2.SetWidths(new int[]{140,95});
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
-            table2.AddCell(new Phrase(totalAmount.ToString("0") + "/Rs", fntTableFontHdr));
+            table2.AddCell(new Phrase("Rs. "+totalAmount.ToString("0") + "/-", fntTableFontHdr));
             table.Complete = true;
             
             document.Add(table2);
