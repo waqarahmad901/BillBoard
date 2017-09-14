@@ -58,7 +58,7 @@ namespace BillBoardsManagement.Common
            
             if (isAmentment)
             {
-                Paragraph paragraph7 = new Paragraph("Amendment", FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) {Alignment = Element.ALIGN_RIGHT};
+                Paragraph paragraph7 = new Paragraph("AMENDED BILL", FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) {Alignment = Element.ALIGN_RIGHT};
                 document.Add(paragraph7);
             }
             var fntTableFontHdr = FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK);

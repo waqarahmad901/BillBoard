@@ -438,7 +438,7 @@ namespace BillBoardsManagement.Controllers
         }; 
             if (ammementButton != null)
             {
-                pdfCoordinates.Add(new PdfCoordinatesModel { Text = "Amendment", X = 150, Y = 712 });
+                pdfCoordinates.Add(new PdfCoordinatesModel { Text = "AMENDED BILL", X = 150, Y = 712 });
             }
 
             string imageFolderPath = Server.MapPath("~/Images");
