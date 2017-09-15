@@ -165,6 +165,7 @@ namespace BillBoardsManagement.Controllers
             oCustomer.Size2 = customer.Size2;
             oCustomer.Size3 = customer.Size3;
             oCustomer.Size4 = customer.Size4;
+            oCustomer.TotalMeasurment =(float.Parse(customer.Size1) * float.Parse(customer.Size2) * float.Parse(customer.Size3) * float.Parse(customer.Size4)).ToString();
             if (!string.IsNullOrEmpty(customer.NewBrand))
                 oCustomer.Brand = customer.NewBrand;
             else

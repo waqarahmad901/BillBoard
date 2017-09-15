@@ -55,8 +55,8 @@ namespace BillBoardsManagement.Repository
         public string DrivingLicenseNo { get; set; }
         public string BloodGroup { get; set; }
     
+        public virtual lk_role lk_role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bill> bills { get; set; }
-        public virtual lk_role lk_role { get; set; }
     }
 }

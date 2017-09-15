@@ -28,8 +28,8 @@ namespace BillBoardsManagement.Repository
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<lk_catagory_rates> lk_catagory_rates { get; set; }
         public virtual DbSet<lk_rates> lk_rates { get; set; }
-        public virtual DbSet<bill> bills { get; set; }
         public virtual DbSet<lk_role> lk_role { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<bill> bills { get; set; }
     }
 }
