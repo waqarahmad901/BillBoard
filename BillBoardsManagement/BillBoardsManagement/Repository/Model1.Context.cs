@@ -31,5 +31,6 @@ namespace BillBoardsManagement.Repository
         public virtual DbSet<lk_role> lk_role { get; set; }
         public virtual DbSet<user> users { get; set; }
         public virtual DbSet<bill> bills { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
     }
 }

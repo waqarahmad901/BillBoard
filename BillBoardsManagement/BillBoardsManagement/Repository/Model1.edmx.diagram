@@ -13,6 +13,8 @@
         <AssociationConnector Association="BBMSModel.FK_adminuser_lk_role" />
         <EntityTypeShape EntityType="BBMSModel.bill" Width="1.5" PointX="5.25" PointY="12" />
         <AssociationConnector Association="BBMSModel.FK_bill_admin_user" />
+        <EntityTypeShape EntityType="BBMSModel.Comment" Width="1.5" PointX="5.25" PointY="19" />
+        <AssociationConnector Association="BBMSModel.FK_Comments_user" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -302,8 +302,22 @@ namespace BillBoardsManagement.Controllers
             }
             else
             {
+                var catagoryRates = new Repository<lk_catagory_rates>();
+                var allratesCatagory = catagoryRates.GetAll();
+
+                var rates = new Repository<lk_rates>();
+                var allrates = rates.GetAll(); 
                 customers = customers.Where(x => x.Brand == brand).ToList();
-                customerDetailModels = customers.GroupBy(x => x.Description).Select(x => new CustomerDetailModel
+                foreach (var item in customers)
+                {
+                    string catagor = allratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
+                    catagor = catagor == null ? "A+" : catagor;
+
+                    long perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor).Select(x => x.Rate).FirstOrDefault());
+
+                    item.Rates = perAnumRate;
+                }
+                customerDetailModels = customers.GroupBy(x => x.Description.Trim()).Select(x => new CustomerDetailModel
                 {
                     Selected = true,
                     CustomerName = x.Key.Trim(),
@@ -311,6 +325,7 @@ namespace BillBoardsManagement.Controllers
                     
                 }).ToList();
             }
+
             
 
             //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
@@ -351,6 +366,7 @@ namespace BillBoardsManagement.Controllers
                 detailList.BillDate = DateTime.Now;
                 
             }
+            detailList.Comments = new Repository<Comment>().GetAll().Where(x => x.Brand.Trim() == brand.Trim()).ToList();
             detailList.Billid = obill == null ? "0" : obill.BillId;
             return View(detailList);
         }
@@ -358,7 +374,7 @@ namespace BillBoardsManagement.Controllers
        
 
         [HttpPost]
-        public ActionResult SubmitDetail(CstomerDetilPageList details )
+        public ActionResult SubmitDetail(CstomerDetilPageList details ,FormCollection collection)
         {
             var customerList = details.CustomerDetailList.Where(x => x.Selected).Select(x => x.CustomerName.Trim()).ToList();
             var repository = new Repository<Customer>();
@@ -390,10 +406,21 @@ namespace BillBoardsManagement.Controllers
             var catagoryRates = new Repository<lk_catagory_rates>();
             var allratesCatagory = catagoryRates.GetAll();
 
-            IEnumerable<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description.Trim()) && x.Brand.Trim() == details.Brand.Trim()).ToList();
+            List<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description.Trim()) && x.Brand.Trim() == details.Brand.Trim()).ToList();
 
-           
-            
+
+            string[] keys =   collection.AllKeys.Where(x => x.StartsWith("rate_")).ToArray();
+            foreach (var item in keys)
+            {
+                int custId = int.Parse(item.Split('_')[1]);
+                if (!string.IsNullOrEmpty(Request[item]))
+                {
+                    decimal rate = decimal.Parse(Request[item]);
+                    var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                    cust.Rates = rate;
+                }
+            }
+            repository.SaveChanges();
             var repoBill = new Repository<bill>();
             bill obill = null;
              
@@ -427,6 +454,14 @@ namespace BillBoardsManagement.Controllers
             obill.ContactPersonName = details.ContactPersonName;
             obill.ContactPersonName1 = details.ContactPersonName1;
 
+            var comments = Request["txtcomments"];
+            if (!string.IsNullOrEmpty(comments))
+            {
+                var repoComments = new Repository<Comment>();
+                var userId = (Session["user"] as ContextUser).OUser.Id;
+                Comment comm = new Comment { Brand = details.Brand, Comments = comments, CreatedAt = DateTime.Now, UserId = userId };
+                repoComments.Post(comm);
+            }
 
             string ammementButton = Request.Form["ammement"];
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()

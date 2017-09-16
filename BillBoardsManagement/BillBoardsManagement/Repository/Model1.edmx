@@ -35,6 +35,16 @@
           <Property Name="ContactPersonDesignation1" Type="nvarchar" MaxLength="50" />
           <Property Name="ContactPersonMobile1" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Brand" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Comments" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
@@ -59,6 +69,7 @@
           <Property Name="Picture" Type="image" />
           <Property Name="test" Type="int" />
           <Property Name="Catagory" Type="nvarchar" MaxLength="500" />
+          <Property Name="Rates" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="lk_catagory_rates">
           <Key>
@@ -156,10 +167,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Comments_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="lk_role_NewCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
         <Function Name="lk_role_NewDisplayOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
         <EntityContainer Name="BBMSModelStoreContainer">
           <EntitySet Name="bill" EntityType="Self.bill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_catagory_rates" EntityType="Self.lk_catagory_rates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_rates" EntityType="Self.lk_rates" Schema="dbo" store:Type="Tables" />
@@ -172,6 +196,10 @@
           <AssociationSet Name="FK_bill_admin_user" Association="Self.FK_bill_admin_user">
             <End Role="user" EntitySet="user" />
             <End Role="bill" EntitySet="bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comments_user" Association="Self.FK_Comments_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -192,6 +220,11 @@
           <AssociationSet Name="FK_bill_admin_user" Association="BBMSModel.FK_bill_admin_user">
             <End Role="user" EntitySet="users" />
             <End Role="bill" EntitySet="bills" />
+          </AssociationSet>
+          <EntitySet Name="Comments" EntityType="BBMSModel.Comment" />
+          <AssociationSet Name="FK_Comments_user" Association="BBMSModel.FK_Comments_user">
+            <End Role="user" EntitySet="users" />
+            <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Customer">
@@ -218,6 +251,7 @@
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="test" Type="Int32" />
           <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Rates" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="lk_catagory_rates">
           <Key>
@@ -293,6 +327,7 @@
           <Property Name="BloodGroup" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="lk_role" Relationship="BBMSModel.FK_adminuser_lk_role" FromRole="user" ToRole="lk_role" />
           <NavigationProperty Name="bills" Relationship="BBMSModel.FK_bill_admin_user" FromRole="user" ToRole="bill" />
+          <NavigationProperty Name="Comments" Relationship="BBMSModel.FK_Comments_user" FromRole="user" ToRole="Comment" />
         </EntityType>
         <Association Name="FK_adminuser_lk_role">
           <End Type="BBMSModel.lk_role" Role="lk_role" Multiplicity="1" />
@@ -349,6 +384,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Brand" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="user" Relationship="BBMSModel.FK_Comments_user" FromRole="Comment" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_Comments_user">
+          <End Type="BBMSModel.user" Role="user" Multiplicity="1" />
+          <End Type="BBMSModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -358,6 +416,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="BBMSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Rates" ColumnName="Rates" />
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
                 <ScalarProperty Name="test" ColumnName="test" />
                 <ScalarProperty Name="Picture" ColumnName="Picture" />
@@ -484,6 +543,17 @@
                 <ScalarProperty Name="CustomerNames" ColumnName="CustomerNames" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="BillId" ColumnName="BillId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="BBMSModel.Comment">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

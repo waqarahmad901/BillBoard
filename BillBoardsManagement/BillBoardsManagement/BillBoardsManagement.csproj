@@ -235,6 +235,9 @@
     <Compile Include="Repository\bill.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repository\Comment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\Core\IRepository.cs" />
     <Compile Include="Repository\Customer.cs">
       <DependentUpon>Model1.tt</DependentUpon>

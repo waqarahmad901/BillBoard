@@ -37,6 +37,8 @@ namespace BillBoardsManagement.Models
         public string ContactPersonMobile1 { get; set; }
 
         public List<CustomerDetailModel> CustomerDetailList { get; set; }
+
+        public List<Comment> Comments{ get; set; }
         public string Billid { get; set; }
     }
 }
