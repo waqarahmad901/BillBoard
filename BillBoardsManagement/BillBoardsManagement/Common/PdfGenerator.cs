@@ -18,8 +18,8 @@ namespace TmsWebApp.Common
             string newFile = Path.Combine(Path.GetDirectoryName(filePath),DateTime.Now.ToString("ddMMyyyyhhmmsstt")+".pdf");
 
             // open the reader
-            PdfReader reader = new PdfReader(oldFile); 
-
+            PdfReader reader = new PdfReader(oldFile);
+            var fnBoldFnt = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
             byte[] bytes = null;
             using (var ms = new MemoryStream())
             {
@@ -29,7 +29,12 @@ namespace TmsWebApp.Common
                 
                     foreach (var item in pdfCoordinates)
                     {
-                        ColumnText.ShowTextAligned(canvas, item.Alignment, new Phrase(item.Text), item.X, item.Y, 0);
+                        if (item.IsBold)
+                            ColumnText.ShowTextAligned(canvas, item.Alignment, new Phrase(item.Text, fnBoldFnt), item.X, item.Y, 0);
+
+                        else
+
+                            ColumnText.ShowTextAligned(canvas, item.Alignment, new Phrase(item.Text), item.X, item.Y, 0);
                     }
                 }
                 bytes = ms.ToArray();

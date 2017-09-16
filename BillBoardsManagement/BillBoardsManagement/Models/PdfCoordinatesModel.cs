@@ -12,5 +12,6 @@ namespace BillBoardsManagement.Models
         public float Y { get; set; } 
         public int Alignment { get; set; }
         public string Type { get; set; }
+        public bool IsBold { get; set; }
     }
 }
