@@ -469,7 +469,7 @@ namespace BillBoardsManagement.Controllers
                 new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
                 new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 425, Y = 805 },
                 new PdfCoordinatesModel {Text = customers.First().Description, X = 264, Y = 782},
-                  new PdfCoordinatesModel { Type="amount", Text =  "", X = 110, Y = 585 },
+                  new PdfCoordinatesModel { Type="amount", Text =  "", X = 110, Y = 569 },
             new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 761 }
         }; 
             if (ammementButton != null)
