@@ -468,9 +468,9 @@ namespace BillBoardsManagement.Controllers
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = 117, Y = 831 ,IsBold = false},
                 new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 425, Y = 831,IsBold = false },
-                new PdfCoordinatesModel {Text = customers.First().Description, X = 264, Y = 806,IsBold = false},
+                new PdfCoordinatesModel {Text = customers.First().Description, X = 264, Y = 806,IsBold = true},
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = 427, Y = 590 ,IsBold = true},
-            new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 781 ,IsBold = false}
+            new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 781 ,IsBold = true}
         }; 
             if (ammementButton != null)
             {
