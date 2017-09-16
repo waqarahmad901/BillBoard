@@ -85,6 +85,12 @@ namespace BillBoardsManagement.Repository
             
         }
 
+        public bool SaveChanges()
+        {
+            return Context.SaveChanges() > 0;
+
+        }
+
         //Update exisitng entity
         public T Put(int id, T entity)
         {

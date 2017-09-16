@@ -18,6 +18,7 @@ namespace BillBoardsManagement.Repository
         public user()
         {
             this.bills = new HashSet<bill>();
+            this.Comments = new HashSet<Comment>();
         }
     
         public int Id { get; set; }
@@ -58,5 +59,7 @@ namespace BillBoardsManagement.Repository
         public virtual lk_role lk_role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bill> bills { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

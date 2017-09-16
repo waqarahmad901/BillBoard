@@ -112,8 +112,11 @@ namespace BillBoardsManagement.Common
 
                 string catagor = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
                 catagor = catagor == null ? "A+" : catagor;
-                long perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor && x.Brand == brand.IsBrand).Select(x => x.Rate).FirstOrDefault() * brand.NumberMonth);
-
+                long perAnumRate = 0;
+                if (item.Rates == null)
+                    perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor && x.Brand == brand.IsBrand).Select(x => x.Rate).FirstOrDefault() * brand.NumberMonth);
+                else
+                    perAnumRate = (long)(item.Rates.Value * brand.NumberMonth);
                 table.AddCell(new PdfPCell(new Phrase(perAnumRate + "", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 long amount =(long) (perAnumRate * decimal.Parse(item.TotalMeasurment));
                 table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
