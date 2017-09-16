@@ -431,15 +431,15 @@ namespace BillBoardsManagement.Controllers
             string ammementButton = Request.Form["ammement"];
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
-                new PdfCoordinatesModel {Text = obill.BillId, X = 125, Y = 805 },
-                new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 425, Y = 805 },
-                new PdfCoordinatesModel {Text = customers.First().Description, X = 264, Y = 782},
-                  new PdfCoordinatesModel { Type="amount", Text =  "", X = 110, Y = 569 },
-            new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 761 }
+                new PdfCoordinatesModel {Text = obill.BillId, X = 117, Y = 831 },
+                new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 425, Y = 831 },
+                new PdfCoordinatesModel {Text = customers.First().Description, X = 264, Y = 806},
+                  new PdfCoordinatesModel { Type="amount", Text =  "", X = 427, Y = 590 },
+            new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 781 }
         }; 
             if (ammementButton != null)
             {
-                pdfCoordinates.Add(new PdfCoordinatesModel { Text = "AMENDED BILL", X = 150, Y = 712 });
+                pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = 260, Y = 709  });
             }
 
             string imageFolderPath = Server.MapPath("~/Images");
