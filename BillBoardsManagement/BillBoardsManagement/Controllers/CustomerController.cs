@@ -466,8 +466,8 @@ namespace BillBoardsManagement.Controllers
             string ammementButton = Request.Form["ammement"];
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
-                new PdfCoordinatesModel {Text = obill.BillId, X = 117, Y = 831 ,IsBold = false},
-                new PdfCoordinatesModel {Text =   details.BillDate.ToString("MM/dd/yyyy"), X = 425, Y = 831,IsBold = false },
+                new PdfCoordinatesModel {Text = obill.BillId, X = 117, Y = 831 ,IsBold = true},
+                new PdfCoordinatesModel {Text =   details.BillDate.ToString("dd/MM/yyyy"), X = 425, Y = 831,IsBold = true },
                 new PdfCoordinatesModel {Text = customers.First().Description, X = 264, Y = 806,IsBold = true},
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = 427, Y = 590 ,IsBold = true},
             new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 781 ,IsBold = true}

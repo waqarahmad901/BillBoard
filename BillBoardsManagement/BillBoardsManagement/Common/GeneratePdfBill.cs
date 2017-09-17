@@ -47,7 +47,7 @@ namespace BillBoardsManagement.Common
             };
 
             billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno +"/MC/RT/B/PHA/RWP ", FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
-            billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + brand.BillDate.ToString("MM/dd/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
+            billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + brand.BillDate.ToString("dd/MM/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
              
             document.Add(header);
             document.Add(paragraph1);
@@ -108,7 +108,18 @@ namespace BillBoardsManagement.Common
                 table.AddCell(new PdfPCell(new Phrase(item.Size3, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Size4, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(item.TotalMeasurment, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+
+
+                int string_length = item.TotalMeasurment.IndexOf('0');
+                string [] str_temp = item.TotalMeasurment.Split('.');
+                string val;
+                if (str_temp[1].Contains("0"))
+                {
+                    val = str_temp[0];
+                }
+                else
+                    val = item.TotalMeasurment;
+                table.AddCell(new PdfPCell(new Phrase(val, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
                 string catagor = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
                 catagor = catagor == null ? "A+" : catagor;
