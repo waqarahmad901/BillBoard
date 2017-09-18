@@ -101,25 +101,25 @@ namespace BillBoardsManagement.Common
                 table.AddCell(new PdfPCell(new Phrase(item.Location, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Near, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Type, fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(item.Size1, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(removedec(item.Size1), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(item.Size2, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(removedec(item.Size2), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(item.Size3, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(removedec(item.Size3), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(item.Size4, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(removedec(item.Size4), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
 
-                int string_length = item.TotalMeasurment.IndexOf('0');
-                string [] str_temp = item.TotalMeasurment.Split('.');
-                string val;
-                if (str_temp[1].Contains("0"))
-                {
-                    val = str_temp[0];
-                }
-                else
-                    val = item.TotalMeasurment;
-                table.AddCell(new PdfPCell(new Phrase(val, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                //int string_length = item.TotalMeasurment.IndexOf('0');
+                //string [] str_temp = item.TotalMeasurment.Split('.');
+                //string val;
+                //if (str_temp[1].Contains("0"))
+                //{
+                //    val = str_temp[0];
+                //}
+                //else
+                //    val = item.TotalMeasurment;
+                table.AddCell(new PdfPCell(new Phrase(removedec(item.TotalMeasurment), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
                 string catagor = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
                 catagor = catagor == null ? "A+" : catagor;
@@ -168,6 +168,26 @@ namespace BillBoardsManagement.Common
              
 
             return totalAmount;
+        }
+
+        private static string removedec (string str)
+        {
+            //            int string_length = str.IndexOf('0');
+
+            if (str.Contains('.'))
+            {
+                string[] str_temp = str.Split('.');
+                string val;
+                if (str_temp[1].Contains("0") || str_temp[1].Contains("00"))
+                {
+                    val = str_temp[0];
+                }
+                else
+                    val = str;
+
+                return val;
+            }
+            return str;
         }
 
         private static void PageNumbering(string filePath)
