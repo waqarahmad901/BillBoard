@@ -158,6 +158,8 @@ $(document).on('click', '.card-actions a', function(e){
     $('#myModal').modal('show');
   }
 
+  $('.date').calendarsPicker();
+
 });
 
 function capitalizeFirstLetter(string) {

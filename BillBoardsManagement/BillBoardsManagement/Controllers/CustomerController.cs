@@ -601,5 +601,24 @@ namespace BillBoardsManagement.Controllers
             bills = repository.GetAll();
             return View(bills);
         }
+
+        [HttpGet]
+        public ActionResult BillReport(string filter, string search2,string search3)
+        {
+            ViewBag.search1 = filter;
+            ViewBag.search2 = search2;
+            ViewBag.search3 = search3;
+            var date1 = string.IsNullOrEmpty(search2) ? DateTime.MinValue : DateTime.ParseExact(search2,"dd/MM/yyyy", CultureInfo.InvariantCulture);
+            var date2 = string.IsNullOrEmpty(search3) ? DateTime.MinValue : DateTime.ParseExact(search3, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+           
+            IEnumerable<bill> bills;
+            var repository = new Repository<bill>();
+            bills = repository.GetAll().Where(x=> 
+                (string.IsNullOrEmpty(filter) || x.Brand.ToLower().Contains(filter.ToLower())) &&
+                (date1 == DateTime.MinValue || x.CreatedAt >= date1) &&
+                (date2 == DateTime.MinValue || x.CreatedAt <= date2.AddDays(1)) 
+                ).ToList();
+            return View(bills);
+        }
     }
 }

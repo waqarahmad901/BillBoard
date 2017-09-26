@@ -16,6 +16,10 @@
         <li class="nav-item  @(@currentUrl.Contains("Account") ? "active" : "")">
             <a class="nav-link" href="@Url.Action("UserList", "Account")"><i class="fa fa-credit-card"></i> User</a>
         </li>
+
+            <li class="nav-item  @(@currentUrl.Contains("BillReport") ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("BillReport", "Customer")"><i class="fa fa-credit-card"></i> Bill Reprot</a>
+            </li>
         </ul>
 
 

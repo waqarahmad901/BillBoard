@@ -676,6 +676,7 @@
     <Content Include="Uploads\Bill\BillAggrementTemplate.pdf" />
     <Content Include="Views\Account\EditUser.cshtml" />
     <Content Include="Views\Account\UserList.cshtml" />
+    <Content Include="Views\Customer\BillReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
