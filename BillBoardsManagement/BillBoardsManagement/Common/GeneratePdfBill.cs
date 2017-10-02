@@ -16,7 +16,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address,string imagePath)
+        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_BillAppender> billAppender, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address,string imagePath)
         {
 
             string oldFile = filePath;
@@ -45,8 +45,9 @@ namespace BillBoardsManagement.Common
                 SpacingBefore = 5,
                 DefaultCell = { Padding = 5,Border = 0 }
             };
-
-            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno +"/MC/RT/B/PHA/RWP ", FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
+            var catagory = customers.Select(x => x.Catagory).FirstOrDefault();
+            string billApp = billAppender.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x=>x.BillNumberAppender).FirstOrDefault() + " ";
+            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno + billApp, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
             billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + brand.BillDate.ToString("dd/MM/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
              
             document.Add(header);
@@ -69,14 +70,7 @@ namespace BillBoardsManagement.Common
                 SpacingBefore = 20 ,
                 DefaultCell = { Padding = 5}
             };
-
-             //   table.HeaderRows = 1;
-
-        
-
-            //table.SplitRows = false;
-            //table.Complete = false;
-            //table.SplitLate = false;
+            
             table.SetWidths(new int[] { 60, 150, 150, 80, 65,35, 65, 35, 65, 35, 65, 70, 70, 90, 150 });
             table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });

@@ -294,8 +294,7 @@ namespace BillBoardsManagement.Controllers
                  customerDetailModels = customers.GroupBy(x => x.Description).Select(x => new CustomerDetailModel
                 {
                     CustomerName = x.Key.Trim(),
-                    Selected = billCustomers.Contains(x.Key.Trim()),
-                    
+                    Selected = billCustomers.Contains(x.Key.Trim()), 
                     Customers = x.ToList()
                 }).OrderByDescending(x=>x.Selected).ToList();
 
@@ -359,6 +358,8 @@ namespace BillBoardsManagement.Controllers
                 detailList.BrandAddress1 = obill.BrandAddress1;
                 detailList.BrandAddress2 = obill.BrandAddress2;
                 detailList.BrandAddress3 = obill.BrandAddress3;
+                detailList.BillPath = obill.FilePath;
+                detailList.AmmementBillPath = obill.AmmendentBill;
             }
             else
             {
@@ -455,12 +456,17 @@ namespace BillBoardsManagement.Controllers
             obill.ContactPersonName1 = details.ContactPersonName1;
 
             var comments = Request["txtcomments"];
-            if (!string.IsNullOrEmpty(comments))
+            button = Request.Form["comment"];
+            if (button != null )
             {
-                var repoComments = new Repository<Comment>();
-                var userId = (Session["user"] as ContextUser).OUser.Id;
-                Comment comm = new Comment { Brand = details.Brand, Comments = comments, CreatedAt = DateTime.Now, UserId = userId };
-                repoComments.Post(comm);
+                if (!string.IsNullOrEmpty(comments))
+                {
+                    var repoComments = new Repository<Comment>();
+                    var userId = (Session["user"] as ContextUser).OUser.Id;
+                    Comment comm = new Comment { Brand = details.Brand, Comments = comments, CreatedAt = DateTime.Now, UserId = userId };
+                    repoComments.Post(comm);
+                }
+                return RedirectToAction("Detail", new { brand = details.Brand });
             }
 
             string ammementButton = Request.Form["ammement"];
@@ -484,8 +490,8 @@ namespace BillBoardsManagement.Controllers
             string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
             string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
             string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
-
-            var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+            var billAppernders = new Repository<lk_BillAppender>().GetAll();
+            var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, billAppernders, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath);
 
             pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
@@ -497,7 +503,7 @@ namespace BillBoardsManagement.Controllers
             if (!string.IsNullOrEmpty(details.BrandAddress1))
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, billAppernders, allratesCatagory,
                  obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath);
                 pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
@@ -509,7 +515,7 @@ namespace BillBoardsManagement.Controllers
             if (!string.IsNullOrEmpty(details.BrandAddress2))
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, billAppernders, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
@@ -520,7 +526,7 @@ namespace BillBoardsManagement.Controllers
             if (!string.IsNullOrEmpty(details.BrandAddress3))
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, billAppernders, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
@@ -547,8 +553,8 @@ namespace BillBoardsManagement.Controllers
             { 
                 repoBill.Post(obill);
             }
-             
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Detail", new { brand = details.Brand });
         }
 
         public static bool MergePDFs(IEnumerable<string> fileNames, string targetPdf)

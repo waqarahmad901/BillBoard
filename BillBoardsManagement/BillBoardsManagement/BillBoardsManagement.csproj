@@ -242,6 +242,9 @@
     <Compile Include="Repository\Customer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repository\lk_BillAppender.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\lk_catagory_rates.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -266,6 +269,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Repository\Partial\Customer.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Repository\user.cs">
       <DependentUpon>Model1.tt</DependentUpon>

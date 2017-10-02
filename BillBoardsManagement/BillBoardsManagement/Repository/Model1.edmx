@@ -71,6 +71,14 @@
           <Property Name="Catagory" Type="nvarchar" MaxLength="500" />
           <Property Name="Rates" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="lk_BillAppender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Catagory" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillNumberAppender" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="lk_catagory_rates">
           <Key>
             <PropertyRef Name="Id" />
@@ -185,6 +193,7 @@
           <EntitySet Name="bill" EntityType="Self.bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lk_BillAppender" EntityType="Self.lk_BillAppender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_catagory_rates" EntityType="Self.lk_catagory_rates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_rates" EntityType="Self.lk_rates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_role" EntityType="Self.lk_role" Schema="dbo" store:Type="Tables" />
@@ -226,6 +235,7 @@
             <End Role="user" EntitySet="users" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
+          <EntitySet Name="lk_BillAppender" EntityType="BBMSModel.lk_BillAppender" />
           </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -407,6 +417,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="lk_BillAppender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Catagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillNumberAppender" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -554,6 +572,15 @@
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lk_BillAppender">
+            <EntityTypeMapping TypeName="BBMSModel.lk_BillAppender">
+              <MappingFragment StoreEntitySet="lk_BillAppender">
+                <ScalarProperty Name="BillNumberAppender" ColumnName="BillNumberAppender" />
+                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

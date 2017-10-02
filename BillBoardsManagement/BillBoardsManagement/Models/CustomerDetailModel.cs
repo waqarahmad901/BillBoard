@@ -35,6 +35,8 @@ namespace BillBoardsManagement.Models
         public string ContactPersonName1 { get; set; }
         public string ContactPersonDesignation1 { get; set; }
         public string ContactPersonMobile1 { get; set; }
+        public string BillPath { get; set; }
+        public string AmmementBillPath { get; set; }
 
         public List<CustomerDetailModel> CustomerDetailList { get; set; }
 
