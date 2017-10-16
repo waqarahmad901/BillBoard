@@ -35,5 +35,6 @@ namespace BillBoardsManagement.Repository
         public Nullable<int> test { get; set; }
         public string Catagory { get; set; }
         public Nullable<decimal> Rates { get; set; }
+        public string PublicityFloatCatagory { get; set; }
     }
 }

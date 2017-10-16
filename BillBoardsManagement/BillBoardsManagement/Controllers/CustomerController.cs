@@ -145,7 +145,11 @@ namespace BillBoardsManagement.Controllers
             Customer customer = repository.FindAll(x => x.RowGuid == id).FirstOrDefault() ?? new Customer();
             ViewBag.typesdd = repository.GetAll().GroupBy(x => x.Type).Select(x =>
            new SelectListItem { Text = x.First().Type, Value = x.First().Type }).ToList();
-            
+
+            var typefloatrepository = new Repository<lk_publicity_float>();
+            ViewBag.typefloatdd = typefloatrepository.GetAll().Select(x =>
+          new SelectListItem { Text = x.Catagory, Value = x.Catagory }).ToList();
+
             ViewBag.branddd = repository.GetAll().GroupBy(x => x.Brand).Select(x =>
           new SelectListItem { Text = x.First().Brand, Value = x.First().Brand }).ToList();
             var billAppender = new Repository<lk_BillAppender>();
@@ -190,7 +194,10 @@ namespace BillBoardsManagement.Controllers
             oCustomer.SurveyDate = customer.SurveyDate;
             oCustomer.BookNumber = customer.BookNumber;
             oCustomer.Catagory = customer.Catagory;
-
+            if (customer.Type.ToLower() == "publicity float")
+            {
+                oCustomer.PublicityFloatCatagory = customer.PublicityFloatCatagory;
+            }
             if (file != null)
             {
                 string fileName = "~/Images/" + oCustomer.BookNumber + "/" + oCustomer.SrNo + System.IO.Path.GetExtension(file.FileName);

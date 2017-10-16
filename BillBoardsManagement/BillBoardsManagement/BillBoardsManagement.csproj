@@ -248,6 +248,9 @@
     <Compile Include="Repository\lk_catagory_rates.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repository\lk_publicity_float.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\lk_rates.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

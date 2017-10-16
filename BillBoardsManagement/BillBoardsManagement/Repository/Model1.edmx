@@ -70,6 +70,7 @@
           <Property Name="test" Type="int" />
           <Property Name="Catagory" Type="nvarchar" MaxLength="500" />
           <Property Name="Rates" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PublicityFloatCatagory" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="lk_BillAppender">
           <Key>
@@ -86,6 +87,17 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Road" Type="nvarchar" MaxLength="50" />
           <Property Name="Catagory" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="lk_publicity_float">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Catagory" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PerDay" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Perweek" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PerTwoWeek" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PerMonth" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="lk_rates">
           <Key>
@@ -195,6 +207,7 @@
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_BillAppender" EntityType="Self.lk_BillAppender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_catagory_rates" EntityType="Self.lk_catagory_rates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lk_publicity_float" EntityType="Self.lk_publicity_float" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_rates" EntityType="Self.lk_rates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_role" EntityType="Self.lk_role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
@@ -236,6 +249,7 @@
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
           <EntitySet Name="lk_BillAppender" EntityType="BBMSModel.lk_BillAppender" />
+          <EntitySet Name="lk_publicity_float" EntityType="BBMSModel.lk_publicity_float" />
           </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -262,6 +276,7 @@
           <Property Name="test" Type="Int32" />
           <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Rates" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PublicityFloatCatagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="lk_catagory_rates">
           <Key>
@@ -425,6 +440,17 @@
           <Property Name="Catagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillNumberAppender" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="lk_publicity_float">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Catagory" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PerDay" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Perweek" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PerTwoWeek" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PerMonth" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -434,6 +460,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="BBMSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
                 <ScalarProperty Name="Rates" ColumnName="Rates" />
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
                 <ScalarProperty Name="test" ColumnName="test" />
@@ -580,6 +607,18 @@
             <EntityTypeMapping TypeName="BBMSModel.lk_BillAppender">
               <MappingFragment StoreEntitySet="lk_BillAppender">
                 <ScalarProperty Name="BillNumberAppender" ColumnName="BillNumberAppender" />
+                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lk_publicity_float">
+            <EntityTypeMapping TypeName="BBMSModel.lk_publicity_float">
+              <MappingFragment StoreEntitySet="lk_publicity_float">
+                <ScalarProperty Name="PerMonth" ColumnName="PerMonth" />
+                <ScalarProperty Name="PerTwoWeek" ColumnName="PerTwoWeek" />
+                <ScalarProperty Name="Perweek" ColumnName="Perweek" />
+                <ScalarProperty Name="PerDay" ColumnName="PerDay" />
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

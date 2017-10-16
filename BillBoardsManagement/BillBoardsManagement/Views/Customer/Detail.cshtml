@@ -232,9 +232,27 @@
                                             <td>@item.Location</td>
                                             <td>@item.Near</td>
                                             <td style="width:267px">
-                                                <input type="text" name="rate_@item.Id" value="@item.Rates" />
+                                              
+                                                @if (item.Type == "Publicity Float")
+                                                {
+                                                    <input type="text" style="width:80px; float:left" disabled value="@item.PublicityFloatCatagory" />
+                                                    @Html.DropDownList("floatfre_" + item.Id , new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="Per day", Value = "Per day" },
+                                                            new SelectListItem{ Text="Per week" , Value = "Per week" },
+                                                            new SelectListItem{ Text="Per 2 Week", Value = "Per 2 Week" },
+                                                            new SelectListItem{ Text="Per Month", Value = "Per Month" },
+                                                         }, new { @style="float:left;width:100px; margin-left:10px; height:28px", onchange="changefre(this)" })
+
+                                                    <input type="text" id="floatmonth_@item.Id" style="width:30px; float:left; margin-left:10px; display:none" value="1" />
+
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" name="rate_@item.Id" value="@item.Rates" />
+                                                }
                                             </td>
-                                            <td>@item.SurveyDate</td>
+                                            <td>@(item.SurveyDate.HasValue ? item.SurveyDate.Value.ToShortDateString() : "")</td>
                                             @{
                                                 string baseUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/" + HttpContext.Current.Request.ApplicationPath;
                                                 string imgPsth = string.Format(baseUrl + "/Images/{0}/{1}.jpg", item.BookNumber, item.SrNo);
@@ -252,7 +270,7 @@
                         </div>
                     </div>
 
-                                                }
+                }
 
 
                 <h4 style="margin-top:15%">Comments</h4>
@@ -299,6 +317,17 @@
                                                 }
 </main>
 <script type="text/javascript">
+    function changefre(obj)
+    {
+        debugger;
+        var id = $(obj).attr("name").replace("floatfre_", "");
+        if ($(obj).val() == "Per Month") {
+            $("#floatmonth_" + id).show();
+        }
+        else {
+            $("#floatmonth_" + id).hide();
+        }
+    }
     function onNameClick(obj) {
         $(obj).parent().parent().find('table').toggle();
     }
