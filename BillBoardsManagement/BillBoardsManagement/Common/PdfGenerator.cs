@@ -20,6 +20,7 @@ namespace TmsWebApp.Common
             // open the reader
             PdfReader reader = new PdfReader(oldFile);
             var fnBoldFnt = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
+        
             byte[] bytes = null;
             using (var ms = new MemoryStream())
             {
@@ -29,12 +30,13 @@ namespace TmsWebApp.Common
                 
                     foreach (var item in pdfCoordinates)
                     {
+                        var fnNormalFnt = FontFactory.GetFont("Arial", item.FontSize, Font.NORMAL, BaseColor.BLACK);
                         if (item.IsBold)
                             ColumnText.ShowTextAligned(canvas, item.Alignment, new Phrase(item.Text, fnBoldFnt), item.X, item.Y, 0);
 
                         else
 
-                            ColumnText.ShowTextAligned(canvas, item.Alignment, new Phrase(item.Text), item.X, item.Y, 0);
+                            ColumnText.ShowTextAligned(canvas, item.Alignment, new Phrase(item.Text, fnNormalFnt), item.X, item.Y, 0);
                     }
                 }
                 bytes = ms.ToArray();

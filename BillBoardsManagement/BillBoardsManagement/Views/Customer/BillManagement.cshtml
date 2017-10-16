@@ -3,6 +3,24 @@
     var request = Request.Url?.GetLeftPart(UriPartial.Authority) + Url.Content("~");
 }
 
+
+<script type="text/javascript">
+
+    var baseUrl = "@Request.Path";
+
+    function searchClick() {
+
+
+        
+        var search2 = $("#search2").val();
+        var search3 = $("#search3").val();
+
+        var searchString = '?search2=' + search2 + "&search3=" + search3;
+        window.location.href = baseUrl + searchString;
+
+    }
+</script>
+
 <main class="main">
 
 <!-- Breadcrumb -->
@@ -11,35 +29,40 @@
     </li>
     <li class="breadcrumb-item active">Customer</li>
     <!-- Breadcrumb Menu-->
- 
+
 </ol>
 
 <div class="container-fluid">
     <div class="animated fadeIn">
         <div class="row">
-            <div class="input-group global-search">
-                <input type="text" name="global-search" class="form-control" id="search" placeholder="Search" value="@ViewBag.searchQuery">
-                <span class="input-group-addon">
-                    <i class="fa fa-search"></i>
-                </span>
+            <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                <input type="text" name="global-search" class="form-control " id="search2" placeholder="Brand" value="@ViewBag.search2">
             </div>
-          
+            <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                <input type="text" name="global-search" class="form-control" id="search3" placeholder="Customer" value="@ViewBag.search3">
+            </div>
+           
+
+            <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                <button type="submit" class="btn btn-sm btn-primary" onclick="searchClick()"><i class="fa fa-search"></i> Submit</button>
+            </div>
+
             <table class="table table-hover table-outline mb-0">
                 <thead class="thead-default">
-                <tr> 
+                <tr>
                     <th>Bill Id</th>
                     <th>Brand</th>
                     <th>Customers</th>
                     <th>File</th>
                     <th>Ammenment Bill</th>
-                    
+
                 </tr>
                 </thead>
                 <tbody>
                 @foreach (var item in Model.ToList())
                 {
-                    <tr> 
-                        
+                    <tr>
+
                         <td>@item.BillId</td>
                         <td>@item.Brand</td>
                         <td>@(item.CustomerNames.Length > 30 ? item.CustomerNames.Substring(0,30) + "..." : item.CustomerNames )</td>
@@ -52,7 +75,7 @@
                         {
                             <td></td>
                         }
-                        
+
                     </tr>
                 }
                 </tbody>

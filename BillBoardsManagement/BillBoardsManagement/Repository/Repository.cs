@@ -116,7 +116,7 @@ namespace BillBoardsManagement.Repository
                 return Context.SaveChanges();
             }
             return 0;
-        }
+        } 
 
         //Count of the collection
         public int Count()

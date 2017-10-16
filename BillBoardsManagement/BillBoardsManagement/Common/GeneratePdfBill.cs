@@ -16,7 +16,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_BillAppender> billAppender, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address,string imagePath)
+        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address,string imagePath,string billapp)
         {
 
             string oldFile = filePath;
@@ -46,8 +46,8 @@ namespace BillBoardsManagement.Common
                 DefaultCell = { Padding = 5,Border = 0 }
             };
             var catagory = customers.Select(x => x.Catagory).FirstOrDefault();
-            string billApp = billAppender.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x=>x.BillNumberAppender).FirstOrDefault() + " ";
-            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno + billApp, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
+       //     string billApp = billAppender.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x=>x.BillNumberAppender).FirstOrDefault() + " ";
+            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno + billapp, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
             billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + brand.BillDate.ToString("dd/MM/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
              
             document.Add(header);

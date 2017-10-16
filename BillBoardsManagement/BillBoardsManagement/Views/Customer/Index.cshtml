@@ -7,6 +7,23 @@
      
 }
 
+<script type="text/javascript">
+
+    var baseUrl = "@Request.Path";
+
+    function searchClick() {
+
+
+        var search = $("#search1").val();
+        var search2 = $("#search2").val();
+        var search3 = $("#search3").val();
+
+        var searchString = '?filter=' + search + "&search2=" + search2 + "&search3=" + search3;
+        window.location.href = baseUrl + searchString;
+
+    }
+</script>
+
 <main class="main">
 
     <!-- Breadcrumb -->
@@ -28,23 +45,30 @@
     <div class="container-fluid">
         <div class="animated fadeIn">
             <div class="row">
-                <div class="input-group global-search">
-                    <input type="text" name="global-search" class="form-control" id="search" placeholder="Search" value="@ViewBag.searchQuery">
-                    <span class="input-group-addon">
-                        <i class="fa fa-search"></i>
-                    </span>
+                <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                    <input type="text" name="global-search" class="form-control " id="search3" placeholder="Brand" value="@ViewBag.search3">
+                </div>
+                <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                    <input type="text" name="global-search" class="form-control" id="search1" placeholder="catagory" value="@ViewBag.search1">
+                </div>
+                <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                    <input type="text" name="global-search" class="form-control " id="search2" placeholder="Near" value="@ViewBag.search2">
+                </div>
+               
+                <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                    <button type="submit" class="btn btn-sm btn-primary" onclick="searchClick()"><i class="fa fa-search"></i> Submit</button>
                 </div>
                 @*<div class="input-group global-search">
                     @Html.DropDownList( "Books", (List<SelectListItem>)ViewBag.booksdd, new { @style = "margin-left:10px",@class="form-control", @onchange="onPageClick(1)",@id="Books" })
                 </div>*@
                 <table class="table table-hover table-outline mb-0">
                     <thead class="thead-default">
-                    <tr>  
+                    <tr>
                         <th>Brand</th>
                         <th>Survey Date</th>
                         <th>Bill Amount</th>
                         <th>Bill</th>
-                        <th>Amment Bill</th> 
+                        <th>Amment Bill</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -53,7 +77,7 @@
                     {
                         var bill = bills.FirstOrDefault(x => x.Brand == item.Brand);
 
-                    <tr>  
+                    <tr>
                             <td>@item.Brand</td>
                         @if (item.SurveyDate != null)
                         {
@@ -68,7 +92,7 @@
                             {
                                 <td>@bill.BillAmountGenerated</td>
                                 <td><a href="@(request + bill.FilePath.Replace("~/", ""))" target="_blank">View Bill</a></td>
-                                
+
 
                             }
                             else
@@ -76,7 +100,7 @@
                                 <td></td>
                                 <td></td>
                             }
-                        
+
                         @if (bill?.AmmendentBill != null)
                         {
                             <td><a href="@(request + bill.AmmendentBill.Replace("~/", ""))" target="_blank">View Ammentment Bill</a></td>
@@ -94,9 +118,9 @@
             </div>
         </div>
     </div>
-    
-    
-    
-   
+
+
+
+
 
 </main>

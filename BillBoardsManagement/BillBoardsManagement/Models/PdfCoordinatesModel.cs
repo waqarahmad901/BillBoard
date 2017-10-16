@@ -13,5 +13,7 @@ namespace BillBoardsManagement.Models
         public int Alignment { get; set; }
         public string Type { get; set; }
         public bool IsBold { get; set; }
+
+        public int FontSize { get; set; } = 12;
     }
 }

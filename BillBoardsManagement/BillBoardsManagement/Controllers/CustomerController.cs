@@ -31,7 +31,7 @@ namespace BillBoardsManagement.Controllers
     public class CustomerController : Controller
     {
         // GET: Customer
-        public ActionResult Index(string sortOrder, string filter = "", string archived = "", int page = 1, Guid? archive = null,int book = 1)
+        public ActionResult Index(string sortOrder, string archived = "", int page = 1, Guid? archive = null,int book = 1,string filter = "", string search2 = "", string search3 = "")
         {
             ViewBag.searchQuery = string.IsNullOrEmpty(filter) ? "" : filter;
             ViewBag.showArchived = (archived ?? "") == "on";
@@ -39,13 +39,20 @@ namespace BillBoardsManagement.Controllers
             page = page > 0 ? page : 1;
             int pageSize = 0;
             pageSize = pageSize > 0 ? pageSize : 100;
-
+            ViewBag.search1 = filter;
+            ViewBag.search2 = search2;
+            ViewBag.search3 = search3;
             ViewBag.CurrentSort = sortOrder;
 
             IEnumerable<Customer> customers;
             var repository = new Repository<Customer>();
             
-            customers = repository.GetAll().Where(x => filter != null && x.Brand.ToLower().Contains(filter.ToLower()));; 
+            customers = repository.GetAll().Where(x => 
+            (string.IsNullOrEmpty(filter) || x.Catagory == null || x.Catagory.ToLower().Contains(filter.ToLower()))
+            && (string.IsNullOrEmpty(search2) || x.Near == null || x.Near.ToLower().Contains(search2.ToLower()))
+            && (string.IsNullOrEmpty(search3) || x.Brand == null || x.Brand.ToLower().Contains(search3.ToLower()))
+         
+            ); 
             //if (string.IsNullOrEmpty(filter))
             //{
             //    customers = repository.GetAll();
@@ -75,7 +82,7 @@ namespace BillBoardsManagement.Controllers
           
            
 
-            return View(customers.ToPagedList(page, pageSize));
+            return View(customers.ToPagedList(1, 100000));
         }
 
        
@@ -138,10 +145,20 @@ namespace BillBoardsManagement.Controllers
             Customer customer = repository.FindAll(x => x.RowGuid == id).FirstOrDefault() ?? new Customer();
             ViewBag.typesdd = repository.GetAll().GroupBy(x => x.Type).Select(x =>
            new SelectListItem { Text = x.First().Type, Value = x.First().Type }).ToList();
-
+            
             ViewBag.branddd = repository.GetAll().GroupBy(x => x.Brand).Select(x =>
           new SelectListItem { Text = x.First().Brand, Value = x.First().Brand }).ToList();
+            var billAppender = new Repository<lk_BillAppender>();
+            ViewBag.catdd = billAppender.GetAll().Select(x =>
+       new SelectListItem { Text = x.Catagory, Value = x.Catagory }).ToList();
             return View(customer);
+        }
+        public ActionResult Delete(Guid? id,string brand)
+        {
+            var repository = new Repository<Customer>();
+            Customer customer = repository.FindAll(x => x.RowGuid == id).FirstOrDefault();
+            repository.Delete(customer.Id);
+            return RedirectToAction("Detail",new { brand = brand });
         }
         [HttpPost]
         public ActionResult Edit(Customer customer, HttpPostedFileBase file)
@@ -172,6 +189,7 @@ namespace BillBoardsManagement.Controllers
                 oCustomer.Brand = customer.Brand;
             oCustomer.SurveyDate = customer.SurveyDate;
             oCustomer.BookNumber = customer.BookNumber;
+            oCustomer.Catagory = customer.Catagory;
 
             if (file != null)
             {
@@ -469,10 +487,16 @@ namespace BillBoardsManagement.Controllers
                 return RedirectToAction("Detail", new { brand = details.Brand });
             }
 
+            var billAppernders = new Repository<lk_BillAppender>().GetAll(); 
+            var catagory = customers.Select(x => x.Catagory).FirstOrDefault();
+            catagory = string.IsNullOrEmpty(catagory) ? "Default" : catagory;
+            string billApp = billAppernders.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x => x.BillNumberAppender).FirstOrDefault() + " ";
+
             string ammementButton = Request.Form["ammement"];
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = 117, Y = 831 ,IsBold = true},
+                new PdfCoordinatesModel {Text = billApp, X = 160, Y = 830 ,IsBold = false,FontSize=14},
                 new PdfCoordinatesModel {Text =   details.BillDate.ToString("dd/MM/yyyy"), X = 425, Y = 831,IsBold = true },
                 new PdfCoordinatesModel {Text = customers.First().Description, X = 264, Y = 806,IsBold = true},
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = 427, Y = 590 ,IsBold = true},
@@ -490,9 +514,8 @@ namespace BillBoardsManagement.Controllers
             string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
             string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
             string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
-            var billAppernders = new Repository<lk_BillAppender>().GetAll();
-            var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, billAppernders, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath);
+            var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath, billApp);
 
             pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
             pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
@@ -503,8 +526,8 @@ namespace BillBoardsManagement.Controllers
             if (!string.IsNullOrEmpty(details.BrandAddress1))
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, billAppernders, allratesCatagory,
-                 obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath);
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                 obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath, billApp);
                 pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
 
@@ -515,8 +538,8 @@ namespace BillBoardsManagement.Controllers
             if (!string.IsNullOrEmpty(details.BrandAddress2))
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, billAppernders, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath);
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath, billApp);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
                 aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
@@ -526,8 +549,8 @@ namespace BillBoardsManagement.Controllers
             if (!string.IsNullOrEmpty(details.BrandAddress3))
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, billAppernders, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath);
+                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath, billApp);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 
@@ -600,11 +623,17 @@ namespace BillBoardsManagement.Controllers
 
 
         [HttpGet]
-        public ActionResult BillManagement()
+        public ActionResult BillManagement( string search2, string search3)
         {
-            IEnumerable<bill> bills;
+            IEnumerable<bill> bills; 
+            ViewBag.search2 = search2;
+            ViewBag.search3 = search3; 
+
             var repository = new Repository<bill>();
-            bills = repository.GetAll();
+            bills = repository.GetAll().Where(x =>
+            (string.IsNullOrEmpty(search2) || x.Brand == null || x.Brand.ToLower().Contains(search2.ToLower()))
+            && (string.IsNullOrEmpty(search3) || x.CustomerNames == null || x.CustomerNames.ToLower().Contains(search3.ToLower()))
+         );
             return View(bills);
         }
 

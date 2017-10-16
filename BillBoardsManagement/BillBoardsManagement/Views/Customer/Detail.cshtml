@@ -45,24 +45,34 @@
         <div class="container-fluid">
             <div class="animated fadeIn">
                 <div class="row">
-                    <div class="input-group global-search" style="margin-right:50%;">
-                        <input type="text" name="global-search" class="form-control" id="search" placeholder="Search" value="@ViewBag.searchQuery">
-                        <span class="input-group-addon">
-                            <i class="fa fa-search"></i>
-                        </span>
-                    </div>
-                    @if (Model.BillPath != null)
-                    {
-                    <div class="" style="margin-right:15px;">
-                        <a href="@(request + Model.BillPath.Replace("~/", ""))" target="_blank">View Bill</a>
-                    </div>
-                    }
-                    @if (Model.AmmementBillPath != null)
-                    {
-                    <div class="" style="margin-right:15px;">
-                        <a href="@(request + Model.AmmementBillPath.Replace("~/", ""))" target="_blank">View Ammement Bill</a>
-                    </div>
-                }
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <div class="input-group global-search" style="float:left; max-width:50%">
+                                    <input type="text" name="global-search" class="form-control" id="search" placeholder="Search" value="@ViewBag.searchQuery">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            @if (!string.IsNullOrEmpty(Model.BillPath))
+                            {
+                                <td>
+                                    <div class="" style="margin-right:15px;">
+                                        <a href="@(request + Model.BillPath.Replace("~/", ""))" target="_blank">View Bill</a>
+                                    </div>
+                                </td>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.AmmementBillPath))
+                            {
+                                <td>
+                                    <div class="" style="margin-right:15px;">
+                                        <a href="@(request + Model.AmmementBillPath.Replace("~/", ""))" target="_blank">View Ammement Bill</a>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    </table>
                 </div>
                 <div class="card">
                     <div class="card-block">
@@ -221,14 +231,19 @@
                                             <td>@item.Type</td>
                                             <td>@item.Location</td>
                                             <td>@item.Near</td>
-                                            <td><input type="text" name="rate_@item.Id" value="@item.Rates"/></td>
+                                            <td style="width:267px">
+                                                <input type="text" name="rate_@item.Id" value="@item.Rates" />
+                                            </td>
                                             <td>@item.SurveyDate</td>
                                             @{
                                                 string baseUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/" + HttpContext.Current.Request.ApplicationPath;
                                                 string imgPsth = string.Format(baseUrl + "/Images/{0}/{1}.jpg", item.BookNumber, item.SrNo);
                                             }
                                             <td><img src="@imgPsth" width="200" height="100" /> </td>
-                                            <td><a href="@Url.Action("Edit", new {id = item.RowGuid})" title="Edit"><i class="fa fa-pencil"></i></a></td>
+                                            <td>
+                                                <a href="@Url.Action("Edit", new {id = item.RowGuid})" title="Edit"><i class="fa fa-pencil"></i></a>
+                                                <a href="#" onclick="deleterec('@item.RowGuid')" title="Delete"><i class="fa fa-trash-o"></i></a>
+                                            </td>
                                         </tr>
                                                 }
                                 </tbody>
@@ -241,13 +256,13 @@
 
 
                 <h4 style="margin-top:15%">Comments</h4>
-                <table class="table table-hover table-outline mb-0" >
+                <table class="table table-hover table-outline mb-0">
                     <thead class="thead-default">
                         <tr>
                             <th>Comment</th>
                             <th>User Name</th>
                             <th>Date</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -259,9 +274,9 @@
                                     @item.Comments
                                 </td>
                                 <td>@item.user.Username</td>
-                                <td>@item.CreatedAt</td> 
+                                <td>@item.CreatedAt</td>
                             </tr>
-                                    }
+                        }
                     </tbody>
 
                 </table>
@@ -270,15 +285,15 @@
                     <label for="name" style="float: left;margin-right: 1%;">Add Comment.</label>
                     <textarea id="txtAr" rows="5" cols="50" name="txtcomments"></textarea>
                 </div>
-                <div class="form-group col-sm-12" >
-                    <button type="submit" class="btn btn-sm btn-primary pull-left"  name="comment" value="comment"><i class="fa fa-dot-circle-o"></i> Add Comments</button>
+                <div class="form-group col-sm-12">
+                    <button type="submit" class="btn btn-sm btn-primary pull-left" name="comment" value="comment"><i class="fa fa-dot-circle-o"></i> Add Comments</button>
 
-                    </div>
-                    <div style="width: 100%; margin-top: 23%; margin-bottom:27%">
-                        <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Generate Bill</button>
-                        <button type="submit" class="btn btn-sm btn-primary pull-right" name="ammement" value="ammement" style="margin-right:10px"><i class="fa fa-dot-circle-o"></i> Generate Ammement Bill</button>
-                    </div>
                 </div>
+                <div style="width: 100%; margin-top: 23%; margin-bottom:27%">
+                    <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Generate Bill</button>
+                    <button type="submit" class="btn btn-sm btn-primary pull-right" name="ammement" value="ammement" style="margin-right:10px"><i class="fa fa-dot-circle-o"></i> Generate Ammement Bill</button>
+                </div>
+            </div>
         </div>
 
                                                 }
@@ -286,6 +301,15 @@
 <script type="text/javascript">
     function onNameClick(obj) {
         $(obj).parent().parent().find('table').toggle();
+    }
+    function deleterec(id)
+    {
+        if (confirm('are you sure you want to delete record')) {
+            location.href = "/Customer/Delete/" + id + "?brand=" + '@brandquery';
+        }
+        else {
+            return false;
+        }
     }
 
 </script> 
