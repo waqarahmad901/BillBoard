@@ -36,5 +36,8 @@ namespace BillBoardsManagement.Repository
         public string Catagory { get; set; }
         public Nullable<decimal> Rates { get; set; }
         public string PublicityFloatCatagory { get; set; }
+        public string BillFrequency { get; set; }
+        public Nullable<int> FloatNumberMonth { get; set; }
+        public Nullable<decimal> FloatRate { get; set; }
     }
 }

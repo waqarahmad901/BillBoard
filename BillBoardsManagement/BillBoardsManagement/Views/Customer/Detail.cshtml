@@ -87,7 +87,7 @@
                                 <td>@Html.TextBoxFor(x => x.Billid, new { @style = "margin-left:10%" })</td>
 
                                 <td><label for="name" style="float: left;margin-right: 1%;">Bill Date.</label></td>
-                                <td>@Html.TextBoxFor(x => x.BillDate, "{0:MM/dd/yyyy}", new { @style = "margin-left:13%" })</td>
+                                <td>@Html.TextBoxFor(x => x.BillDate, "{0:dd/MM/yyyy}", new { @style = "margin-left:13%" })</td>
                             </tr>
                             <tr>
                                 <td>Address 1</td>
@@ -118,7 +118,7 @@
                                     @Html.TextBoxFor(x => x.TrakingNumber, new { @style = "margin-left:8%" })
                                 </td>
                                 <td><label for="name" style="float: left;margin-right: 1%;">ShippingDate.</label></td>
-                                <td>@Html.TextBoxFor(x => x.ShippingDate, "{0:MM/dd/yyyy}", new { @style = "margin-left:8%" })</td>
+                                <td>@Html.TextBoxFor(x => x.ShippingDate, "{0:dd/MM/yyyy}", new { @style = "margin-left:8%" })</td>
                             </tr>
                             <tr>
                                 <td><label for="name" style="float: left;margin-right: 1%;">Number Of Month.</label></td>
@@ -231,20 +231,21 @@
                                             <td>@item.Type</td>
                                             <td>@item.Location</td>
                                             <td>@item.Near</td>
-                                            <td style="width:267px">
+                                            <td style="width:350px">
                                               
                                                 @if (item.Type == "Publicity Float")
                                                 {
                                                     <input type="text" style="width:80px; float:left" disabled value="@item.PublicityFloatCatagory" />
                                                     @Html.DropDownList("floatfre_" + item.Id , new List<SelectListItem>
                                                         {
-                                                            new SelectListItem{ Text="Per day", Value = "Per day" },
-                                                            new SelectListItem{ Text="Per week" , Value = "Per week" },
-                                                            new SelectListItem{ Text="Per 2 Week", Value = "Per 2 Week" },
-                                                            new SelectListItem{ Text="Per Month", Value = "Per Month" },
+                                                            new SelectListItem{ Text="Per day", Value = "Per day",Selected = item.BillFrequency == "Per day" },
+                                                            new SelectListItem{ Text="Per week" , Value = "Per week",Selected = item.BillFrequency == "Per week" },
+                                                            new SelectListItem{ Text="Per 2 Week", Value = "Per 2 Week" ,Selected = item.BillFrequency == "Per 2 Week"},
+                                                            new SelectListItem{ Text="Per Month", Value = "Per Month" ,Selected = item.BillFrequency == "Per Month"},
                                                          }, new { @style="float:left;width:100px; margin-left:10px; height:28px", onchange="changefre(this)" })
-
-                                                    <input type="text" id="floatmonth_@item.Id" style="width:30px; float:left; margin-left:10px; display:none" value="1" />
+                                                    var style = (item.BillFrequency == "Per Month") ? "" : "display:none";
+                                                    <input type="text" id="floatrate_@item.Id" name="floatrate_@item.Id" style="width:70px; float:left; margin-left:10px;" value="@item.FloatRate" />
+                                                    <input type="text" id="floatmonth_@item.Id" name="floatmonth_@item.Id" style="width:30px; float:left; margin-left:10px; @style" value="@item.FloatNumberMonth" />
 
                                                 }
                                                 else
@@ -319,8 +320,13 @@
 <script type="text/javascript">
     function changefre(obj)
     {
-        debugger;
+
         var id = $(obj).attr("name").replace("floatfre_", "");
+        $.get("/Customer/GetFloatRate?id=" + id + "&val="+$(obj).val() , function (res) {
+
+            $("#floatrate_" + id).val(res);
+        });
+       
         if ($(obj).val() == "Per Month") {
             $("#floatmonth_" + id).show();
         }

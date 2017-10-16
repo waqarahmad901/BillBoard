@@ -89,19 +89,19 @@ namespace BillBoardsManagement.Common
 
             foreach (var item in customers)
             {
-               
+                bool isPublicityFLoat = item.Type == "Publicity Float";
 
                 table.AddCell(new PdfPCell(new Phrase(row++ + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Location, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Near, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(item.Type, fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(removedec(item.Size1), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(removedec(item.Size2), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(removedec(item.Size3), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase("X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(removedec(item.Size4), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? item.PublicityFloatCatagory : item.Type, fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size1), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size2), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size3), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size4), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
 
                 //int string_length = item.TotalMeasurment.IndexOf('0');
@@ -113,18 +113,37 @@ namespace BillBoardsManagement.Common
                 //}
                 //else
                 //    val = item.TotalMeasurment;
-                table.AddCell(new PdfPCell(new Phrase(removedec(item.TotalMeasurment), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase((isPublicityFLoat && item.BillFrequency == "Per Month") ? item.FloatNumberMonth?.ToString() : removedec(item.TotalMeasurment), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
                 string catagor = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
                 catagor = catagor == null ? "A+" : catagor;
                 long perAnumRate = 0;
-                if (item.Rates == null)
-                    perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor && x.Brand == brand.IsBrand).Select(x => x.Rate).FirstOrDefault() * brand.NumberMonth);
+                if (isPublicityFLoat)
+                {
+                    perAnumRate = (long)item.FloatRate;
+                }
                 else
-                    perAnumRate = (long)(item.Rates.Value * brand.NumberMonth);
+                {
+                    if (item.Rates == null)
+                        perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor && x.Brand == brand.IsBrand).Select(x => x.Rate).FirstOrDefault() * brand.NumberMonth);
+                    else
+                        perAnumRate = (long)(item.Rates.Value * brand.NumberMonth);
+                }
                 table.AddCell(new PdfPCell(new Phrase(perAnumRate + "", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 long amount =(long) (perAnumRate * decimal.Parse(item.TotalMeasurment));
-                table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                if (isPublicityFLoat)
+                {
+                    if (item.FloatNumberMonth != null && item.BillFrequency == "Per Month")
+                        amount = (long)(item.FloatNumberMonth * perAnumRate);
+                    else
+                         amount = perAnumRate;
+                    table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+
+                }
+                else
+                {
+                    table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                }
                 totalAmount += amount;
                 string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
                 if (File.Exists(filepath))

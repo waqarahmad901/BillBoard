@@ -316,7 +316,7 @@ namespace BillBoardsManagement.Controllers
                 obill = new Repository<bill>().Get(billid);
                 var billCustomers = obill.CustomerNames.Split(',');
                 customers = customers.Where(x => x.Brand == obill.Brand).ToList();
-                 customerDetailModels = customers.GroupBy(x => x.Description).Select(x => new CustomerDetailModel
+                 customerDetailModels = customers.GroupBy(x => x.Description.Trim()).Select(x => new CustomerDetailModel
                 {
                     CustomerName = x.Key.Trim(),
                     Selected = billCustomers.Contains(x.Key.Trim()), 
@@ -334,12 +334,25 @@ namespace BillBoardsManagement.Controllers
                 customers = customers.Where(x => x.Brand == brand).ToList();
                 foreach (var item in customers)
                 {
-                    string catagor = allratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
-                    catagor = catagor == null ? "A+" : catagor;
+                    if (item.Type == "Publicity Float")
+                    {
+                        
+                        var publicityfloatrate = new Repository<lk_publicity_float>();
+                        var pCatagory = publicityfloatrate.GetAll().Where(x => x.Catagory == item.PublicityFloatCatagory).FirstOrDefault();
+                        if (pCatagory != null)
+                        {
+                            item.FloatRate = pCatagory.PerDay;
+                        }
+                    }
+                    else
+                    {
+                        string catagor = allratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
+                        catagor = catagor == null ? "A+" : catagor;
 
-                    long perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor).Select(x => x.Rate).FirstOrDefault());
+                        long perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor).Select(x => x.Rate).FirstOrDefault());
 
-                    item.Rates = perAnumRate;
+                        item.Rates = perAnumRate;
+                    }
                 }
                 customerDetailModels = customers.GroupBy(x => x.Description.Trim()).Select(x => new CustomerDetailModel
                 {
@@ -397,7 +410,28 @@ namespace BillBoardsManagement.Controllers
             return View(detailList);
         }
 
-       
+
+        public ActionResult GetFloatRate(int id, string val)
+        {
+            var customerFloatCata = new Repository<Customer>().Get(id).PublicityFloatCatagory;
+            if(customerFloatCata == null)
+                return Json("0.00", JsonRequestBehavior.AllowGet);
+
+            var publicityfloatrate = new Repository<lk_publicity_float>().GetAll().Where(x=>x.Catagory == customerFloatCata).FirstOrDefault();
+            if (val == "Per day")
+                return Json(publicityfloatrate.PerDay, JsonRequestBehavior.AllowGet);
+            if (val == "Per week")
+                return Json(publicityfloatrate.Perweek, JsonRequestBehavior.AllowGet);
+            if (val == "Per 2 Week")
+                return Json(publicityfloatrate.PerTwoWeek, JsonRequestBehavior.AllowGet);
+            if (val == "Per Month")
+                return Json(publicityfloatrate.PerMonth, JsonRequestBehavior.AllowGet);
+            return Json("0.00", JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
 
         [HttpPost]
         public ActionResult SubmitDetail(CstomerDetilPageList details ,FormCollection collection)
@@ -446,6 +480,45 @@ namespace BillBoardsManagement.Controllers
                     cust.Rates = rate;
                 }
             }
+             
+             keys = collection.AllKeys.Where(x => x.StartsWith("floatfre_")).ToArray();
+            foreach (var item in keys)
+            {
+                int custId = int.Parse(item.Split('_')[1]);
+                if (!string.IsNullOrEmpty(Request[item]))
+                {
+                    var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                    cust.BillFrequency = Request[item];
+                }
+            }
+            
+           keys = collection.AllKeys.Where(x => x.StartsWith("floatrate_")).ToArray();
+            foreach (var item in keys)
+            {
+                int custId = int.Parse(item.Split('_')[1]);
+                if (!string.IsNullOrEmpty(Request[item]))
+                {
+                    decimal rate = decimal.Parse(Request[item]);
+                    var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                    cust.FloatRate = rate;
+                }
+            }
+
+            keys = collection.AllKeys.Where(x => x.StartsWith("floatmonth_")).ToArray();
+            foreach (var item in keys)
+            {
+                int custId = int.Parse(item.Split('_')[1]);
+                if (!string.IsNullOrEmpty(Request[item]))
+                {
+                    int month = int.Parse(Request[item]);
+                    var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                    cust.FloatNumberMonth = month;
+                }
+            }
+
+
+
+
             repository.SaveChanges();
             var repoBill = new Repository<bill>();
             bill obill = null;
@@ -455,8 +528,10 @@ namespace BillBoardsManagement.Controllers
                 var rnd = new Random();
                 var num = rnd.Next(0000000, 9999999);
                 obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "101" : (int.Parse(repoBill.GetAll().Select(x=>x.BillId).Max()) + 1).ToString().PadLeft(3,'0') };
-                } 
-          
+                obill.BillDate = DateTime.Now;
+
+            }
+
             obill.Brand = details.Brand;
             obill.CustomerNames = string.Join(",", customerList); 
             obill.CreatedAt = DateTime.Now;

@@ -71,6 +71,9 @@
           <Property Name="Catagory" Type="nvarchar" MaxLength="500" />
           <Property Name="Rates" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PublicityFloatCatagory" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillFrequency" Type="nvarchar" MaxLength="50" />
+          <Property Name="FloatNumberMonth" Type="int" />
+          <Property Name="FloatRate" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="lk_BillAppender">
           <Key>
@@ -277,6 +280,9 @@
           <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Rates" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PublicityFloatCatagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillFrequency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FloatNumberMonth" Type="Int32" />
+          <Property Name="FloatRate" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="lk_catagory_rates">
           <Key>
@@ -460,6 +466,9 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="BBMSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="FloatRate" ColumnName="FloatRate" />
+                <ScalarProperty Name="FloatNumberMonth" ColumnName="FloatNumberMonth" />
+                <ScalarProperty Name="BillFrequency" ColumnName="BillFrequency" />
                 <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
                 <ScalarProperty Name="Rates" ColumnName="Rates" />
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
