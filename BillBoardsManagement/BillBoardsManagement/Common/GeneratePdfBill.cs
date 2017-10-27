@@ -94,7 +94,7 @@ namespace BillBoardsManagement.Common
                 table.AddCell(new PdfPCell(new Phrase(row++ + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Location, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Near, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? item.PublicityFloatCatagory : item.Type, fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "FLOAT" : item.Type, fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size1), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size2), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });

@@ -129,8 +129,14 @@ namespace BillBoardsManagement.Controllers
                         customer.Catagory = GetValue(sheet, row, 17) ;
                         //  customer.Picture = ConvertImageToBytes(Path.Combine(path , customer.SrNo + ""));
                         customer.CreatedAt = DateTime.Now;
-                        if(!string.IsNullOrEmpty(customer.Description) && !string.IsNullOrEmpty(customer.Location) && !string.IsNullOrEmpty(customer.Near))
+                       // if(!string.IsNullOrEmpty(customer.Description) && !string.IsNullOrEmpty(customer.Location) && !string.IsNullOrEmpty(customer.Near))
                         customers.Add(customer);
+
+                        if (customers.Count >= 500)
+                        {
+                            repository.PostAll(customers);
+                            customers.Clear();
+                        }
                     }
                     repository.PostAll(customers);
                      

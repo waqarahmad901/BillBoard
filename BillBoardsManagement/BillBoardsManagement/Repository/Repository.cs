@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
-using System.Linq.Expressions; 
+using System.Linq.Expressions;
+using System.Data.Entity.Validation;
 
 namespace BillBoardsManagement.Repository
 {
@@ -81,8 +82,25 @@ namespace BillBoardsManagement.Repository
         public bool PostAll(List<T> entity)
         {
             Context.Set<T>().AddRange(entity);
-            return Context.SaveChanges() > 0;
-            
+            try
+            {
+
+                return Context.SaveChanges() > 0;
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         }
 
         public bool SaveChanges()
