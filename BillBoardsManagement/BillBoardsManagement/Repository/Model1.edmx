@@ -51,7 +51,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="SrNo" Type="int" Nullable="false" />
+          <Property Name="SrNo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" />
           <Property Name="Location" Type="nvarchar" MaxLength="1000" />
           <Property Name="Near" Type="nvarchar" MaxLength="1000" />
@@ -61,7 +61,7 @@
           <Property Name="Size3" Type="nvarchar" MaxLength="1000" />
           <Property Name="Size4" Type="nvarchar" MaxLength="1000" />
           <Property Name="TotalMeasurment" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Brand" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Brand" Type="nvarchar" MaxLength="4000" />
           <Property Name="SurveyDate" Type="datetime" />
           <Property Name="BookNumber" Type="int" />
           <Property Name="CreatedAt" Type="datetime" />
@@ -232,7 +232,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="BBMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="BBMSEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Customers" EntityType="BBMSModel.Customer" />
           <EntitySet Name="lk_catagory_rates" EntityType="BBMSModel.lk_catagory_rates" />
           <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
           <EntitySet Name="lk_role" EntityType="BBMSModel.lk_role" />
@@ -253,37 +252,8 @@
           </AssociationSet>
           <EntitySet Name="lk_BillAppender" EntityType="BBMSModel.lk_BillAppender" />
           <EntitySet Name="lk_publicity_float" EntityType="BBMSModel.lk_publicity_float" />
+          <EntitySet Name="Customers" EntityType="BBMSModel.Customer" />
           </EntityContainer>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RowGuid" Type="Guid" Nullable="false" />
-          <Property Name="SrNo" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Location" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Near" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Size1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Size2" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Size3" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Size4" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="TotalMeasurment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Brand" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="SurveyDate" Type="DateTime" Precision="3" />
-          <Property Name="BookNumber" Type="Int32" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="test" Type="Int32" />
-          <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Rates" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PublicityFloatCatagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BillFrequency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FloatNumberMonth" Type="Int32" />
-          <Property Name="FloatRate" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
         <EntityType Name="lk_catagory_rates">
           <Key>
             <PropertyRef Name="Id" />
@@ -457,43 +427,42 @@
           <Property Name="PerTwoWeek" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PerMonth" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="SrNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Near" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size2" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size3" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size4" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TotalMeasurment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="SurveyDate" Type="DateTime" Precision="3" />
+          <Property Name="BookNumber" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="test" Type="Int32" />
+          <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Rates" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PublicityFloatCatagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillFrequency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FloatNumberMonth" Type="Int32" />
+          <Property Name="FloatRate" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="BBMSModelStoreContainer" CdmEntityContainer="BBMSEntities">
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="BBMSModel.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="FloatRate" ColumnName="FloatRate" />
-                <ScalarProperty Name="FloatNumberMonth" ColumnName="FloatNumberMonth" />
-                <ScalarProperty Name="BillFrequency" ColumnName="BillFrequency" />
-                <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
-                <ScalarProperty Name="Rates" ColumnName="Rates" />
-                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
-                <ScalarProperty Name="test" ColumnName="test" />
-                <ScalarProperty Name="Picture" ColumnName="Picture" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
-                <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />
-                <ScalarProperty Name="Size4" ColumnName="Size4" />
-                <ScalarProperty Name="Size3" ColumnName="Size3" />
-                <ScalarProperty Name="Size2" ColumnName="Size2" />
-                <ScalarProperty Name="Size1" ColumnName="Size1" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Near" ColumnName="Near" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
-                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="lk_catagory_rates">
             <EntityTypeMapping TypeName="BBMSModel.lk_catagory_rates">
               <MappingFragment StoreEntitySet="lk_catagory_rates">
@@ -629,6 +598,37 @@
                 <ScalarProperty Name="Perweek" ColumnName="Perweek" />
                 <ScalarProperty Name="PerDay" ColumnName="PerDay" />
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="BBMSModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="FloatRate" ColumnName="FloatRate" />
+                <ScalarProperty Name="FloatNumberMonth" ColumnName="FloatNumberMonth" />
+                <ScalarProperty Name="BillFrequency" ColumnName="BillFrequency" />
+                <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
+                <ScalarProperty Name="Rates" ColumnName="Rates" />
+                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="test" ColumnName="test" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
+                <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />
+                <ScalarProperty Name="Size4" ColumnName="Size4" />
+                <ScalarProperty Name="Size3" ColumnName="Size3" />
+                <ScalarProperty Name="Size2" ColumnName="Size2" />
+                <ScalarProperty Name="Size1" ColumnName="Size1" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Near" ColumnName="Near" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

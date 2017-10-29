@@ -25,7 +25,6 @@ namespace BillBoardsManagement.Repository
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<lk_catagory_rates> lk_catagory_rates { get; set; }
         public virtual DbSet<lk_rates> lk_rates { get; set; }
         public virtual DbSet<lk_role> lk_role { get; set; }
@@ -34,5 +33,6 @@ namespace BillBoardsManagement.Repository
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<lk_BillAppender> lk_BillAppender { get; set; }
         public virtual DbSet<lk_publicity_float> lk_publicity_float { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
     }
 }

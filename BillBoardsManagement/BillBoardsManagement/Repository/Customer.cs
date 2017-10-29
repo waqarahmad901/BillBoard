@@ -16,7 +16,7 @@ namespace BillBoardsManagement.Repository
     {
         public int Id { get; set; }
         public System.Guid RowGuid { get; set; }
-        public int SrNo { get; set; }
+        public string SrNo { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
         public string Near { get; set; }

@@ -113,7 +113,7 @@ namespace BillBoardsManagement.Controllers
                     {
                         Customer customer = new Customer();
                         customer.RowGuid = Guid.NewGuid();
-                        customer.SrNo = GetIntValue(sheet,row,1);
+                        customer.SrNo = GetValue(sheet,row,1);
                         customer.Description =GetValue(sheet,row,2).ToUpper();
                         customer.Location = GetValue(sheet,row,3).ToUpper();
                         customer.Near = GetValue(sheet,row,4).ToUpper();
@@ -132,7 +132,7 @@ namespace BillBoardsManagement.Controllers
                        // if(!string.IsNullOrEmpty(customer.Description) && !string.IsNullOrEmpty(customer.Location) && !string.IsNullOrEmpty(customer.Near))
                         customers.Add(customer);
 
-                        if (customers.Count >= 500)
+                        if (customers.Count >= 1000)
                         {
                             repository.PostAll(customers);
                             customers.Clear();
