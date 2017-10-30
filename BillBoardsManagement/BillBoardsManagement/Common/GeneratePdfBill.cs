@@ -134,9 +134,9 @@ namespace BillBoardsManagement.Common
                 if (isPublicityFLoat)
                 {
                     if (item.FloatNumberMonth != null && item.BillFrequency == "Per Month")
-                        amount = (long)(item.FloatNumberMonth * perAnumRate);
+                        amount = (long)(item.FloatNumberMonth * perAnumRate * decimal.Parse(item.TotalMeasurment));
                     else
-                         amount = perAnumRate;
+                         amount = (long)(perAnumRate * decimal.Parse(item.TotalMeasurment) );
                     table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
                 }
