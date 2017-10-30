@@ -37,7 +37,7 @@ namespace BillBoardsManagement.Common
             Paragraph paragraph1 = new Paragraph("RAJA BABAR LATIF CONTRACTOR ADVERTISEMENT FEE 2017 - 2018.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph2 = new Paragraph("RAWAL TOWN AREA.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph3 = new Paragraph("BILL.", FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
-            Paragraph paragraph4 = new Paragraph(customers.First().Description, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
+            Paragraph paragraph4 = new Paragraph(customers.First().Brand, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
 
             var billTable = new PdfPTable(2) 
             {
