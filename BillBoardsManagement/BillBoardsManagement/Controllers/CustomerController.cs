@@ -533,7 +533,7 @@ namespace BillBoardsManagement.Controllers
                if(obill == null) { 
                 var rnd = new Random();
                 var num = rnd.Next(0000000, 9999999);
-                obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "101" : (int.Parse(repoBill.GetAll().Select(x=>x.BillId).Max()) + 1).ToString().PadLeft(3,'0') };
+                obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "101" : (repoBill.GetAll().Select( x => int.Parse(x.BillId)).Max() + 1).ToString()};
                 obill.BillDate = DateTime.Now;
 
             }
