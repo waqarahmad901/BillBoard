@@ -71,10 +71,10 @@ namespace BillBoardsManagement.Common
                 DefaultCell = { Padding = 5}
             };
             
-            table.SetWidths(new int[] { 60, 150, 150, 80, 65,35, 65, 35, 65, 35, 65, 70, 70, 90, 150 });
+            table.SetWidths(new int[] { 60, 160, 150, 80, 65,35, 65, 35, 65, 35, 65, 70, 70, 90, 150 });
             table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+            table.AddCell(new PdfPCell(new Phrase("DESCRIPTION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-            table.AddCell(new PdfPCell(new Phrase("NEAR", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("TYPE OF ADVERTISEMENT", fntTableFontHdr)) { Rotation = 90, FixedHeight = 100, VerticalAlignment = Element.ALIGN_MIDDLE, HorizontalAlignment = Element.ALIGN_CENTER, PaddingBottom = 5 });
             PdfPCell cell = new PdfPCell(new Paragraph("MEASURMENT", fntTableFontHdr) { Alignment = Element.ALIGN_CENTER }) { Colspan = 7, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE };
             table.AddCell(cell);
@@ -90,10 +90,14 @@ namespace BillBoardsManagement.Common
             foreach (var item in customers)
             {
                 bool isPublicityFLoat = item.Type == "Publicity Float";
+                if (item.Type == "FLEX")
+                {
+                    int abc = 0;
+                }
 
                 table.AddCell(new PdfPCell(new Phrase(row++ + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(item.Description, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Location, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(item.Near, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "FLOAT" : item.Type, fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size1), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
@@ -117,6 +121,7 @@ namespace BillBoardsManagement.Common
 
                 string catagor = ratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
                 catagor = catagor == null ? "A+" : catagor;
+
                 long perAnumRate = 0;
                 if (isPublicityFLoat)
                 {
