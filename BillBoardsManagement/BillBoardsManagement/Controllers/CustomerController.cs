@@ -483,6 +483,7 @@ namespace BillBoardsManagement.Controllers
                 {
                     decimal rate = decimal.Parse(Request[item]);
                     var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                    if(cust != null)
                     cust.Rates = rate;
                 }
             }
@@ -494,7 +495,8 @@ namespace BillBoardsManagement.Controllers
                 if (!string.IsNullOrEmpty(Request[item]))
                 {
                     var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    cust.BillFrequency = Request[item];
+                    if(cust != null)
+                        cust.BillFrequency = Request[item];
                 }
             }
             
@@ -506,7 +508,8 @@ namespace BillBoardsManagement.Controllers
                 {
                     decimal rate = decimal.Parse(Request[item]);
                     var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    cust.FloatRate = rate;
+                    if(cust != null)
+                        cust.FloatRate = rate;
                 }
             }
 
@@ -518,7 +521,8 @@ namespace BillBoardsManagement.Controllers
                 {
                     int month = int.Parse(Request[item]);
                     var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    cust.FloatNumberMonth = month;
+                    if(cust != null)
+                        cust.FloatNumberMonth = month;
                 }
             }
 
