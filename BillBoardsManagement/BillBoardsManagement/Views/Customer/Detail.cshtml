@@ -180,6 +180,20 @@
                                 <td>      @Html.TextBoxFor(x => x.billamountpaid, new { @style = "margin-left:8%" })</td>
                             </tr>
 
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                     @Html.CheckBoxFor(x => x.discountcheck, new { @style = "float:left; margin:5px", @onchange="changecheck(this)" })
+                                    <label for="name" style="float: left;margin-right: 1%;">Discount.</label>
+                                </td>
+                                <td>      
+                                @{ string disabled = Model.discountamountpaid > 0 ? "" : "disabled";}
+                                @Html.TextBoxFor(x => x.discountamountpaid, new { @style = "margin-left:8%",disabled })</td>
+                            </tr>
+
                         </table>
 
 
@@ -318,6 +332,16 @@
                                                 }
 </main>
 <script type="text/javascript">
+    function changecheck(obj)
+    {
+        if ($(obj).is(":checked")) {
+            $("#discountamountpaid").removeAttr("disabled");
+        }
+        else {
+            $("#discountamountpaid").attr("disabled", "disabled");
+        
+        }
+    }
     function changefre(obj)
     {
 

@@ -22,6 +22,8 @@ namespace BillBoardsManagement.Models
         public int NumberMonth { get; set; }
         public decimal billamountgenerated { get; set; }
         public decimal billamountpaid { get; set; }
+        public decimal discountamountpaid { get; set; }
+        public bool discountcheck { get; set; }
         public DateTime ShippingDate { get; set; }
         public string BrandAddress { get; set; }
         public string BrandAddress1 { get; set; }
