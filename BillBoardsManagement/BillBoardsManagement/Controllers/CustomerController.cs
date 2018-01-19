@@ -612,7 +612,7 @@ namespace BillBoardsManagement.Controllers
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath, billApp,obill.Discount ?? 0);
 
-            pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
+            pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount - obill.Discount) + "/-";
             pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
 
             string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
