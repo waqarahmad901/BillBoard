@@ -404,6 +404,7 @@ namespace BillBoardsManagement.Controllers
                 detailList.BrandAddress3 = obill.BrandAddress3;
                 detailList.BillPath = obill.FilePath;
                 detailList.AmmementBillPath = obill.AmmendentBill;
+                detailList.discountamountpaid = obill.Discount??0;
             }
             else
             {
@@ -465,6 +466,7 @@ namespace BillBoardsManagement.Controllers
                 bill.ContactPersonMobile1 = details.ContactPersonMobile1;
                 bill.ContactPersonName = details.ContactPersonName;
                 bill.ContactPersonName1 = details.ContactPersonName1;
+                bill.Discount = details.discountamountpaid;
                 repobill.Put(bill.Id, bill);
                 return RedirectToAction("Index");
             }
@@ -564,6 +566,7 @@ namespace BillBoardsManagement.Controllers
             obill.ContactPersonMobile1 = details.ContactPersonMobile1;
             obill.ContactPersonName = details.ContactPersonName;
             obill.ContactPersonName1 = details.ContactPersonName1;
+            obill.Discount = details.discountamountpaid;
 
             var comments = Request["txtcomments"];
             button = Request.Form["comment"];
@@ -607,7 +610,7 @@ namespace BillBoardsManagement.Controllers
             string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
             string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath, billApp);
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath, billApp,obill.Discount ?? 0);
 
             pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
             pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
@@ -619,7 +622,7 @@ namespace BillBoardsManagement.Controllers
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                 obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath, billApp);
+                 obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
 
@@ -631,7 +634,7 @@ namespace BillBoardsManagement.Controllers
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath, billApp);
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
                 aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
@@ -642,7 +645,7 @@ namespace BillBoardsManagement.Controllers
             {
                 filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath, billApp);
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 

@@ -16,7 +16,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address,string imagePath,string billapp)
+        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address,string imagePath,string billapp,decimal discount)
         {
 
             string oldFile = filePath;
@@ -167,12 +167,23 @@ namespace BillBoardsManagement.Common
             var table2 = new PdfPTable(2)
             {
                 HorizontalAlignment = Element.ALIGN_RIGHT,
-                WidthPercentage = 50f,
+                WidthPercentage = 55f,
                 DefaultCell = { Padding = 10 }
             };
-            table2.SetWidths(new int[]{140,95});
+            table2.SetWidths(new int[]{150,95});
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
             table2.AddCell(new Phrase("Rs. "+totalAmount.ToString("0") + "/-", fntTableFontHdr));
+
+            if (discount > 0)
+            {
+
+                table2.AddCell(new Phrase("Discount Amount After Negotiation", fntTableFontHdr));
+                table2.AddCell(new Phrase("Rs. " + discount.ToString("0") + "/-", fntTableFontHdr));
+
+                table2.AddCell(new Phrase("Billed Amount", fntTableFontHdr));
+                table2.AddCell(new Phrase("Rs. " + (totalAmount - discount).ToString("0") + "/-", fntTableFontHdr));
+
+            }
             table.Complete = true;
             document.Add(table);
             document.Add(table2);

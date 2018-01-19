@@ -39,6 +39,7 @@ namespace BillBoardsManagement.Repository
         public string ContactPersonName1 { get; set; }
         public string ContactPersonDesignation1 { get; set; }
         public string ContactPersonMobile1 { get; set; }
+        public Nullable<decimal> Discount { get; set; }
     
         public virtual user user { get; set; }
     }

@@ -186,12 +186,19 @@
                                 <td>
                                 </td>
                                 <td>
-                                     @Html.CheckBoxFor(x => x.discountcheck, new { @style = "float:left; margin:5px", @onchange="changecheck(this)" })
+                                    @{
+                                        string checkeda = Model.discountamountpaid > 0 ? "checked" : "";
+                                    }
+                                    <input type="checkbox" name="discountcheck" style="float:left; margin:5px" onchange="changecheck(this)" @checkeda/> 
                                     <label for="name" style="float: left;margin-right: 1%;">Discount.</label>
                                 </td>
                                 <td>      
-                                @{ string disabled = Model.discountamountpaid > 0 ? "" : "disabled";}
-                                @Html.TextBoxFor(x => x.discountamountpaid, new { @style = "margin-left:8%",disabled })</td>
+                                    
+                                @{
+                                    string disabled = Model.discountamountpaid > 0 ? "" : "disabled";
+                                 }
+                                   <input type="text" value="@Model.discountamountpaid" name="discountamountpaid" id="discountamountpaid" style="margin-left:8%"  @disabled/>
+                      
                             </tr>
 
                         </table>
