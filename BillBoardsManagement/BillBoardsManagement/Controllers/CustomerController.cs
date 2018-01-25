@@ -600,15 +600,30 @@ namespace BillBoardsManagement.Controllers
             if (ammementButton != null)
             {
                 pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = 260, Y = 709, IsBold = true });
+                if (obill.AmmendentBill != null)
+                { 
+                    if (System.IO.File.Exists(Server.MapPath(obill.AmmendentBill)))
+                    {
+                        System.IO.File.Delete(Server.MapPath(obill.AmmendentBill));
+                    }
+                }
             }
 
             string imageFolderPath = Server.MapPath("~/Images");
 
-            string filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
-            string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
-            string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
-            string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
-            string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
+            string filename = obill.FilePath == null ? Guid.NewGuid().ToString() + ".pdf" : Path.GetFileName(obill.FilePath);
+
+            if (System.IO.File.Exists(Server.MapPath(obill.FilePath)))
+            {
+                System.IO.File.Delete(Server.MapPath(obill.FilePath));
+            }
+
+
+            string filePath = Path.Combine("~/Uploads", filename);
+            string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
+            string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
+            string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
+            string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath, billApp,obill.Discount ?? 0);
 
@@ -620,7 +635,7 @@ namespace BillBoardsManagement.Controllers
 
             if (!string.IsNullOrEmpty(details.BrandAddress1))
             {
-                filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
+                filePath = Path.Combine("~/Uploads", filename);
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                  obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "/-";
@@ -632,7 +647,7 @@ namespace BillBoardsManagement.Controllers
             }
             if (!string.IsNullOrEmpty(details.BrandAddress2))
             {
-                filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
+                filePath = Path.Combine("~/Uploads", filename);
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
@@ -643,7 +658,7 @@ namespace BillBoardsManagement.Controllers
             }
             if (!string.IsNullOrEmpty(details.BrandAddress3))
             {
-                filePath = Path.Combine("~/Uploads", Guid.NewGuid()  + ".pdf");
+                filePath = Path.Combine("~/Uploads", filename);
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
@@ -652,7 +667,7 @@ namespace BillBoardsManagement.Controllers
                 MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
                  
             }
-            string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), Guid.NewGuid() + ".pdf"));
+            string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
 
             MergePDFs(new List<string> { destinationFile, destinationFile1,destinationFile2,destinationFile3}, mergerdFile);
 
