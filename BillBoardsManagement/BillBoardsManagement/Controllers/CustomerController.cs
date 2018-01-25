@@ -596,34 +596,38 @@ namespace BillBoardsManagement.Controllers
                 new PdfCoordinatesModel {Text = customers.First().Brand, X = 264, Y = 806,IsBold = true},
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = 427, Y = 590 ,IsBold = true},
             new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 781 ,IsBold = true}
-        }; 
+        };
             if (ammementButton != null)
             {
                 pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = 260, Y = 709, IsBold = true });
-                if (obill.AmmendentBill != null)
-                { 
-                    if (System.IO.File.Exists(Server.MapPath(obill.AmmendentBill)))
+                if (System.IO.File.Exists(Server.MapPath(obill.AmmendentBill)))
+                {
+                    string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.AmmendentBill).Remove(Path.GetFileNameWithoutExtension(obill.AmmendentBill).Length - 1) + "*.pdf");
+                    foreach (var item in files)
                     {
-                        System.IO.File.Delete(Server.MapPath(obill.AmmendentBill));
+                        System.IO.File.Delete(item);
                     }
                 }
             }
-
-            string imageFolderPath = Server.MapPath("~/Images");
-
-            string filename = obill.FilePath == null ? Guid.NewGuid().ToString() + ".pdf" : Path.GetFileName(obill.FilePath);
-
-            if (System.IO.File.Exists(Server.MapPath(obill.FilePath)))
+            else
             {
-                System.IO.File.Delete(Server.MapPath(obill.FilePath));
+                if (System.IO.File.Exists(Server.MapPath(obill.FilePath)))
+                {
+                    string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.FilePath).Remove(Path.GetFileNameWithoutExtension(obill.FilePath).Length - 1) + "*.pdf");
+                    foreach (var item in files)
+                    {
+                        System.IO.File.Delete(item);
+
+                    }
+                }
             }
-
-
-            string filePath = Path.Combine("~/Uploads", filename);
-            string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
-            string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
-            string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
-            string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
+            string imageFolderPath = Server.MapPath("~/Images");
+            string ufileName = Guid.NewGuid().ToString();
+            string filePath = Path.Combine("~/Uploads", ufileName + "1.pdf");
+            string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "2.pdf"));
+            string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "3.pdf"));
+            string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "4.pdf"));
+            string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "5.pdf"));
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath, billApp,obill.Discount ?? 0);
 
@@ -635,7 +639,7 @@ namespace BillBoardsManagement.Controllers
 
             if (!string.IsNullOrEmpty(details.BrandAddress1))
             {
-                filePath = Path.Combine("~/Uploads", filename);
+                filePath = Path.Combine("~/Uploads", ufileName + "6.pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                  obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "/-";
@@ -647,7 +651,7 @@ namespace BillBoardsManagement.Controllers
             }
             if (!string.IsNullOrEmpty(details.BrandAddress2))
             {
-                filePath = Path.Combine("~/Uploads", filename);
+                filePath = Path.Combine("~/Uploads", ufileName + "7.pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
@@ -658,7 +662,7 @@ namespace BillBoardsManagement.Controllers
             }
             if (!string.IsNullOrEmpty(details.BrandAddress3))
             {
-                filePath = Path.Combine("~/Uploads", filename);
+                filePath = Path.Combine("~/Uploads", ufileName + "8.pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
@@ -667,7 +671,7 @@ namespace BillBoardsManagement.Controllers
                 MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
                  
             }
-            string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), filename));
+            string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "9.pdf"));
 
             MergePDFs(new List<string> { destinationFile, destinationFile1,destinationFile2,destinationFile3}, mergerdFile);
 
