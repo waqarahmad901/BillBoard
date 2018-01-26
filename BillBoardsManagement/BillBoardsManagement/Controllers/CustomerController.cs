@@ -31,7 +31,7 @@ namespace BillBoardsManagement.Controllers
     public class CustomerController : Controller
     {
         // GET: Customer
-        public ActionResult Index(string sortOrder, string archived = "", int page = 1, Guid? archive = null,int book = 1,string filter = "", string search2 = "", string search3 = "")
+        public ActionResult Index(string sortOrder, string archived = "", int page = 1, Guid? archive = null, int book = 1, string filter = "", string search2 = "", string search3 = "")
         {
             ViewBag.searchQuery = string.IsNullOrEmpty(filter) ? "" : filter;
             ViewBag.showArchived = (archived ?? "") == "on";
@@ -46,13 +46,13 @@ namespace BillBoardsManagement.Controllers
 
             IEnumerable<Customer> customers;
             var repository = new Repository<Customer>();
-            
-            customers = repository.GetAll().Where(x => 
+
+            customers = repository.GetAll().Where(x =>
             (string.IsNullOrEmpty(filter) || x.Catagory == null || x.Catagory.ToLower().Contains(filter.ToLower()))
             && (string.IsNullOrEmpty(search2) || x.Near == null || x.Near.ToLower().Contains(search2.ToLower()))
             && (string.IsNullOrEmpty(search3) || x.Brand == null || x.Brand.ToLower().Contains(search3.ToLower()))
-         
-            ); 
+
+            );
             //if (string.IsNullOrEmpty(filter))
             //{
             //    customers = repository.GetAll();
@@ -67,7 +67,7 @@ namespace BillBoardsManagement.Controllers
 
             customers = from x in customers
                         group x by x.Brand.Trim() into grp
-                select grp.First();
+                        select grp.First();
 
             //   customers = customers.GroupBy(x => x.Brand).Select(x => x.First());
 
@@ -79,13 +79,13 @@ namespace BillBoardsManagement.Controllers
             //Sorting order
             customers = customers.OrderBy(x => x.Brand);
             ViewBag.Count = customers.Count();
-          
-           
+
+
 
             return View(customers.ToPagedList(1, 100000));
         }
 
-       
+
 
         public ActionResult UploadExcel()
         {
@@ -97,39 +97,39 @@ namespace BillBoardsManagement.Controllers
             string fileName = "~/Uploads/" + file.FileName;
             string filePath = Server.MapPath(fileName);
             file.SaveAs(filePath);
-           
+
             var repository = new Repository<Customer>();
             using (ExcelPackage xlPackage = new ExcelPackage(new FileInfo(filePath)))
             {
-                for (int book= 1; book <= xlPackage.Workbook.Worksheets.Count; book++)
+                for (int book = 1; book <= xlPackage.Workbook.Worksheets.Count; book++)
                 {
                     var sheet = xlPackage.Workbook.Worksheets[book];
-                    if(sheet.Dimension == null)
+                    if (sheet.Dimension == null)
                         return View();
-                    string path = Path.Combine(ConfigurationManager.AppSettings["ImagePath"],"Book "+book);
+                    string path = Path.Combine(ConfigurationManager.AppSettings["ImagePath"], "Book " + book);
                     List<Customer> customers = new List<Customer>();
                     var rowCnt = sheet.Dimension.End.Row;
                     for (int row = 2; row <= rowCnt; row++)
                     {
                         Customer customer = new Customer();
                         customer.RowGuid = Guid.NewGuid();
-                        customer.SrNo = GetValue(sheet,row,1);
-                        customer.Description =GetValue(sheet,row,2).ToUpper();
-                        customer.Location = GetValue(sheet,row,3).ToUpper();
-                        customer.Near = GetValue(sheet,row,4).ToUpper();
-                        customer.Type = GetValue(sheet,row,5).ToUpper();
-                        customer.Size1 = GetFloatValue(sheet,row,6) + "";
-                        customer.Size2 = GetFloatValue(sheet,row,8) + "";
-                        customer.Size3 = GetFloatValue(sheet,row,10) + "";
-                        customer.Size4 = GetFloatValue(sheet,row,12) + "";
-                        customer.TotalMeasurment = GetFloatValue(sheet,row,13) + "";
-                        customer.Brand = GetValue(sheet,row,14).ToUpper();
-                        customer.SurveyDate = GetDateValue(sheet,row,15); 
+                        customer.SrNo = GetValue(sheet, row, 1);
+                        customer.Description = GetValue(sheet, row, 2).ToUpper();
+                        customer.Location = GetValue(sheet, row, 3).ToUpper();
+                        customer.Near = GetValue(sheet, row, 4).ToUpper();
+                        customer.Type = GetValue(sheet, row, 5).ToUpper();
+                        customer.Size1 = GetFloatValue(sheet, row, 6) + "";
+                        customer.Size2 = GetFloatValue(sheet, row, 8) + "";
+                        customer.Size3 = GetFloatValue(sheet, row, 10) + "";
+                        customer.Size4 = GetFloatValue(sheet, row, 12) + "";
+                        customer.TotalMeasurment = GetFloatValue(sheet, row, 13) + "";
+                        customer.Brand = GetValue(sheet, row, 14).ToUpper();
+                        customer.SurveyDate = GetDateValue(sheet, row, 15);
                         customer.BookNumber = GetIntValue(sheet, row, 16);
-                        customer.Catagory = GetValue(sheet, row, 17) ;
+                        customer.Catagory = GetValue(sheet, row, 17);
                         //  customer.Picture = ConvertImageToBytes(Path.Combine(path , customer.SrNo + ""));
                         customer.CreatedAt = DateTime.Now;
-                       // if(!string.IsNullOrEmpty(customer.Description) && !string.IsNullOrEmpty(customer.Location) && !string.IsNullOrEmpty(customer.Near))
+                        // if(!string.IsNullOrEmpty(customer.Description) && !string.IsNullOrEmpty(customer.Location) && !string.IsNullOrEmpty(customer.Near))
                         customers.Add(customer);
 
                         if (customers.Count >= 1000)
@@ -139,9 +139,9 @@ namespace BillBoardsManagement.Controllers
                         }
                     }
                     repository.PostAll(customers);
-                     
-                } 
-            } 
+
+                }
+            }
             return View();
         }
 
@@ -163,20 +163,20 @@ namespace BillBoardsManagement.Controllers
        new SelectListItem { Text = x.Catagory, Value = x.Catagory }).ToList();
             return View(customer);
         }
-        public ActionResult Delete(Guid? id,string brand)
+        public ActionResult Delete(Guid? id, string brand)
         {
             var repository = new Repository<Customer>();
             Customer customer = repository.FindAll(x => x.RowGuid == id).FirstOrDefault();
             repository.Delete(customer.Id);
-            return RedirectToAction("Detail",new { brand = brand });
+            return RedirectToAction("Detail", new { brand = brand });
         }
         [HttpPost]
         public ActionResult Edit(Customer customer, HttpPostedFileBase file)
         {
             var repository = new Repository<Customer>();
             Customer oCustomer = repository.Get(customer.Id);
-           
-             
+
+
             if (oCustomer == null)
                 oCustomer = new Customer();
             oCustomer.RowGuid = Guid.NewGuid();
@@ -184,15 +184,15 @@ namespace BillBoardsManagement.Controllers
             oCustomer.Description = customer.Description;
             oCustomer.Location = customer.Location;
             oCustomer.Near = customer.Near;
-            if(!string.IsNullOrEmpty(customer.NewType))
+            if (!string.IsNullOrEmpty(customer.NewType))
                 oCustomer.Type = customer.NewType;
             else
-             oCustomer.Type = customer.Type;
+                oCustomer.Type = customer.Type;
             oCustomer.Size1 = customer.Size1;
             oCustomer.Size2 = customer.Size2;
             oCustomer.Size3 = customer.Size3;
             oCustomer.Size4 = customer.Size4;
-            oCustomer.TotalMeasurment =(float.Parse(customer.Size1) * float.Parse(customer.Size2) * float.Parse(customer.Size3) * float.Parse(customer.Size4)).ToString();
+            oCustomer.TotalMeasurment = (float.Parse(customer.Size1) * float.Parse(customer.Size2) * float.Parse(customer.Size3) * float.Parse(customer.Size4)).ToString();
             if (!string.IsNullOrEmpty(customer.NewBrand))
                 oCustomer.Brand = customer.NewBrand;
             else
@@ -213,7 +213,7 @@ namespace BillBoardsManagement.Controllers
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 }
                 file.SaveAs(filePath);
-                
+
             }
             if (customer.Id == 0)
             {
@@ -222,14 +222,14 @@ namespace BillBoardsManagement.Controllers
             else
             {
 
-                repository.Put(oCustomer.Id,oCustomer);
+                repository.Put(oCustomer.Id, oCustomer);
             }
             return RedirectToAction("Index");
         }
 
         public byte[] ConvertImageToBytes(string path)
         {
-           
+
             if (System.IO.File.Exists(path))
             {
                 using (System.Drawing.Image image = System.Drawing.Image.FromFile(path))
@@ -238,7 +238,7 @@ namespace BillBoardsManagement.Controllers
                     using (MemoryStream m = new MemoryStream())
                     {
                         resizedImage.Save(m, ImageFormat.Bmp);
-                        return m.ToArray();  
+                        return m.ToArray();
                     }
                 }
             }
@@ -266,9 +266,9 @@ namespace BillBoardsManagement.Controllers
             }
             string value = GetValue(sheet, row, col);
             DateTime date = DateTime.Now;
-            string[] formats = {"M/d/yyyy", "MM/d/yyyy"};
+            string[] formats = { "M/d/yyyy", "MM/d/yyyy" };
 
-            if (DateTime.TryParse(value,out date))
+            if (DateTime.TryParse(value, out date))
                 return date;
             return null;
         }
@@ -298,22 +298,22 @@ namespace BillBoardsManagement.Controllers
         }
 
 
-        public ActionResult Detail(string brand, string filter = "", string archived="", int page = 1, Guid? archive = null, int book = 1,int billid = 0)
+        public ActionResult Detail(string brand, string filter = "", string archived = "", int page = 1, Guid? archive = null, int book = 1, int billid = 0)
         {
             ViewBag.searchQuery = string.IsNullOrEmpty(filter) ? "" : filter;
             ViewBag.showArchived = (archived ?? "") == "on";
 
             page = page > 0 ? page : 1;
             int pageSize = 0;
-            pageSize = pageSize > 0 ? pageSize : 100; 
+            pageSize = pageSize > 0 ? pageSize : 100;
             IEnumerable<Customer> customers;
             var repository = new Repository<Customer>();
             customers = repository.GetAll();
-           
+
             List<CustomerDetailModel> customerDetailModels = null;
             var brandBill = new Repository<bill>().GetAll().FirstOrDefault(x => x.Brand == brand);
 
-        
+
 
             billid = brandBill?.Id ?? 0;
             bill obill = null;
@@ -322,12 +322,12 @@ namespace BillBoardsManagement.Controllers
                 obill = new Repository<bill>().Get(billid);
                 var billCustomers = obill.CustomerNames.Split(',');
                 customers = customers.Where(x => x.Brand == obill.Brand).ToList();
-                 customerDetailModels = customers.GroupBy(x => x.Description.Trim()).Select(x => new CustomerDetailModel
+                customerDetailModels = customers.GroupBy(x => x.Description.Trim()).Select(x => new CustomerDetailModel
                 {
                     CustomerName = x.Key.Trim(),
-                    Selected = billCustomers.Contains(x.Key.Trim()), 
+                    Selected = billCustomers.Contains(x.Key.Trim()),
                     Customers = x.ToList()
-                }).OrderByDescending(x=>x.Selected).ToList();
+                }).OrderByDescending(x => x.Selected).ToList();
 
             }
             else
@@ -336,13 +336,13 @@ namespace BillBoardsManagement.Controllers
                 var allratesCatagory = catagoryRates.GetAll();
 
                 var rates = new Repository<lk_rates>();
-                var allrates = rates.GetAll(); 
+                var allrates = rates.GetAll();
                 customers = customers.Where(x => x.Brand == brand).ToList();
                 foreach (var item in customers)
                 {
                     if (item.Type == "Publicity Float")
                     {
-                        
+
                         var publicityfloatrate = new Repository<lk_publicity_float>();
                         var pCatagory = publicityfloatrate.GetAll().Where(x => x.Catagory == item.PublicityFloatCatagory).FirstOrDefault();
                         if (pCatagory != null)
@@ -365,11 +365,11 @@ namespace BillBoardsManagement.Controllers
                     Selected = true,
                     CustomerName = x.Key.Trim(),
                     Customers = x.ToList(),
-                    
+
                 }).ToList();
             }
 
-            
+
 
             //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
             // new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
@@ -404,13 +404,13 @@ namespace BillBoardsManagement.Controllers
                 detailList.BrandAddress3 = obill.BrandAddress3;
                 detailList.BillPath = obill.FilePath;
                 detailList.AmmementBillPath = obill.AmmendentBill;
-                detailList.discountamountpaid = obill.Discount??0;
+                detailList.discountamountpaid = obill.Discount ?? 0;
             }
             else
             {
                 detailList.NumberMonth = 12;
                 detailList.BillDate = DateTime.Now;
-                
+
             }
             detailList.Comments = new Repository<Comment>().GetAll().Where(x => x.Brand.Trim() == brand.Trim()).ToList();
             detailList.Billid = obill == null ? "0" : obill.BillId;
@@ -421,10 +421,10 @@ namespace BillBoardsManagement.Controllers
         public ActionResult GetFloatRate(int id, string val)
         {
             var customerFloatCata = new Repository<Customer>().Get(id).PublicityFloatCatagory;
-            if(customerFloatCata == null)
+            if (customerFloatCata == null)
                 return Json("0.00", JsonRequestBehavior.AllowGet);
 
-            var publicityfloatrate = new Repository<lk_publicity_float>().GetAll().Where(x=>x.Catagory == customerFloatCata).FirstOrDefault();
+            var publicityfloatrate = new Repository<lk_publicity_float>().GetAll().Where(x => x.Catagory == customerFloatCata).FirstOrDefault();
             if (val == "Per day")
                 return Json(publicityfloatrate.PerDay, JsonRequestBehavior.AllowGet);
             if (val == "Per week")
@@ -441,7 +441,7 @@ namespace BillBoardsManagement.Controllers
 
 
         [HttpPost]
-        public ActionResult SubmitDetail(CstomerDetilPageList details ,FormCollection collection)
+        public ActionResult SubmitDetail(CstomerDetilPageList details, FormCollection collection)
         {
             var customerList = details.CustomerDetailList.Where(x => x.Selected).Select(x => x.CustomerName.Trim()).ToList();
             var repository = new Repository<Customer>();
@@ -451,7 +451,7 @@ namespace BillBoardsManagement.Controllers
             if (button != null)
             {
                 var repobill = new Repository<bill>();
-                var bill = repobill.GetAll().Where(x=>x.Brand == details.Brand).FirstOrDefault();
+                var bill = repobill.GetAll().Where(x => x.Brand == details.Brand).FirstOrDefault();
                 bill.BrandAddress = details.BrandAddress;
                 bill.ShippingDate = details.ShippingDate;
                 bill.BillAmountPaid = details.billamountpaid;
@@ -477,7 +477,7 @@ namespace BillBoardsManagement.Controllers
             List<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description.Trim()) && x.Brand.Trim() == details.Brand.Trim()).ToList();
 
 
-            string[] keys =   collection.AllKeys.Where(x => x.StartsWith("rate_")).ToArray();
+            string[] keys = collection.AllKeys.Where(x => x.StartsWith("rate_")).ToArray();
             foreach (var item in keys)
             {
                 int custId = int.Parse(item.Split('_')[1]);
@@ -485,24 +485,24 @@ namespace BillBoardsManagement.Controllers
                 {
                     decimal rate = decimal.Parse(Request[item]);
                     var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    if(cust != null)
-                    cust.Rates = rate;
+                    if (cust != null)
+                        cust.Rates = rate;
                 }
             }
-             
-             keys = collection.AllKeys.Where(x => x.StartsWith("floatfre_")).ToArray();
+
+            keys = collection.AllKeys.Where(x => x.StartsWith("floatfre_")).ToArray();
             foreach (var item in keys)
             {
                 int custId = int.Parse(item.Split('_')[1]);
                 if (!string.IsNullOrEmpty(Request[item]))
                 {
                     var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    if(cust != null)
+                    if (cust != null)
                         cust.BillFrequency = Request[item];
                 }
             }
-            
-           keys = collection.AllKeys.Where(x => x.StartsWith("floatrate_")).ToArray();
+
+            keys = collection.AllKeys.Where(x => x.StartsWith("floatrate_")).ToArray();
             foreach (var item in keys)
             {
                 int custId = int.Parse(item.Split('_')[1]);
@@ -510,7 +510,7 @@ namespace BillBoardsManagement.Controllers
                 {
                     decimal rate = decimal.Parse(Request[item]);
                     var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    if(cust != null)
+                    if (cust != null)
                         cust.FloatRate = rate;
                 }
             }
@@ -523,7 +523,7 @@ namespace BillBoardsManagement.Controllers
                 {
                     int month = int.Parse(Request[item]);
                     var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    if(cust != null)
+                    if (cust != null)
                         cust.FloatNumberMonth = month;
                 }
             }
@@ -534,18 +534,19 @@ namespace BillBoardsManagement.Controllers
             repository.SaveChanges();
             var repoBill = new Repository<bill>();
             bill obill = null;
-             
-                obill = repoBill.GetAll().FirstOrDefault(x => x.Brand == details.Brand);
-               if(obill == null) { 
+
+            obill = repoBill.GetAll().FirstOrDefault(x => x.Brand == details.Brand);
+            if (obill == null)
+            {
                 var rnd = new Random();
                 var num = rnd.Next(0000000, 9999999);
-                obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "101" : (repoBill.GetAll().Select( x => int.Parse(x.BillId)).Max() + 1).ToString()};
+                obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "101" : (repoBill.GetAll().Select(x => int.Parse(x.BillId)).Max() + 1).ToString() };
                 obill.BillDate = DateTime.Now;
 
             }
 
             obill.Brand = details.Brand;
-            obill.CustomerNames = string.Join(",", customerList); 
+            obill.CustomerNames = string.Join(",", customerList);
             obill.CreatedAt = DateTime.Now;
             obill.CreatedBy = 1;
             obill.BrandAddress = details.BrandAddress;
@@ -555,8 +556,8 @@ namespace BillBoardsManagement.Controllers
             else obill.ShippingDate = details.ShippingDate;
             obill.BillAmountPaid = details.billamountpaid;
             obill.BillDate = details.BillDate;
-            if(details.Billid != "0")
-             obill.BillId = details.Billid;
+            if (details.Billid != "0")
+                obill.BillId = details.Billid;
             obill.BrandAddress1 = details.BrandAddress1;
             obill.BrandAddress2 = details.BrandAddress2;
             obill.BrandAddress3 = details.BrandAddress3;
@@ -570,7 +571,7 @@ namespace BillBoardsManagement.Controllers
 
             var comments = Request["txtcomments"];
             button = Request.Form["comment"];
-            if (button != null )
+            if (button != null)
             {
                 if (!string.IsNullOrEmpty(comments))
                 {
@@ -582,7 +583,7 @@ namespace BillBoardsManagement.Controllers
                 return RedirectToAction("Detail", new { brand = details.Brand });
             }
 
-            var billAppernders = new Repository<lk_BillAppender>().GetAll(); 
+            var billAppernders = new Repository<lk_BillAppender>().GetAll();
             var catagory = customers.Select(x => x.Catagory).FirstOrDefault();
             catagory = string.IsNullOrEmpty(catagory) ? "Default" : catagory;
             string billApp = billAppernders.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x => x.BillNumberAppender).FirstOrDefault() + " ";
@@ -629,7 +630,7 @@ namespace BillBoardsManagement.Controllers
             string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "4.pdf"));
             string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "5.pdf"));
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress,imageFolderPath, billApp,obill.Discount ?? 0);
+                obill.BillId, "", ammementButton != null, details, details.BrandAddress, imageFolderPath, billApp, obill.Discount ?? 0);
 
             pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount - obill.Discount) + "/-";
             pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
@@ -642,12 +643,12 @@ namespace BillBoardsManagement.Controllers
                 filePath = Path.Combine("~/Uploads", ufileName + "6.pdf");
                 PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                  obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath, billApp, obill.Discount ?? 0);
-                pdfCoordinates.Where(x=>x.Type == "amount").First().Text = totalamount + "/-";
+                pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
 
-                aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates); 
+                aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
                 MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile1);
-                 
+
             }
             if (!string.IsNullOrEmpty(details.BrandAddress2))
             {
@@ -657,8 +658,8 @@ namespace BillBoardsManagement.Controllers
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
                 aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                  MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile2);
-               
+                MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile2);
+
             }
             if (!string.IsNullOrEmpty(details.BrandAddress3))
             {
@@ -667,31 +668,53 @@ namespace BillBoardsManagement.Controllers
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath, billApp, obill.Discount ?? 0);
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                
-                MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
-                 
-            }
-            string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "9.pdf"));
 
-            MergePDFs(new List<string> { destinationFile, destinationFile1,destinationFile2,destinationFile3}, mergerdFile);
+                MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
+
+            }
+            string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "_final.pdf"));
+
+            MergePDFs(new List<string> { destinationFile, destinationFile1, destinationFile2, destinationFile3 }, mergerdFile);
+
+            DeleteTempFiles(ufileName);
 
             obill.BillAmountGenerated = totalamount;
 
-            if(ammementButton != null)
+            if (ammementButton != null)
                 obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(mergerdFile);
             else
-                obill.FilePath = "~/Uploads/" + Path.GetFileName(mergerdFile);
+            {
 
+                obill.FilePath = "~/Uploads/" + Path.GetFileName(mergerdFile);
+            }
             if (obill.Id > 0)
-            { 
+            {
                 repoBill.Put(obill.Id, obill);
             }
             else
-            { 
+            {
                 repoBill.Post(obill);
             }
 
             return RedirectToAction("Detail", new { brand = details.Brand });
+        }
+
+        private void DeleteTempFiles(string ufileName)
+        {
+            string[] tempFiles = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(ufileName) + "*.pdf");
+            tempFiles = tempFiles.Where(x => !x.Contains("_final")).ToArray();
+            foreach (var item in tempFiles)
+            {
+                System.IO.File.Delete(item);
+            }
+
+            string[] tempFilesBill = Directory.GetFiles(Server.MapPath("~/uploads/Bill"), "*.pdf");
+            tempFilesBill = tempFilesBill.Where(x => !x.Contains("BillAggrementTemplate")).ToArray();
+            foreach (var item in tempFilesBill)
+            {
+                System.IO.File.Delete(item);
+            }
+
         }
 
         public static bool MergePDFs(IEnumerable<string> fileNames, string targetPdf)
@@ -737,11 +760,11 @@ namespace BillBoardsManagement.Controllers
 
 
         [HttpGet]
-        public ActionResult BillManagement( string search2, string search3)
+        public ActionResult BillManagement(string search2, string search3)
         {
-            IEnumerable<bill> bills; 
+            IEnumerable<bill> bills;
             ViewBag.search2 = search2;
-            ViewBag.search3 = search3; 
+            ViewBag.search3 = search3;
 
             var repository = new Repository<bill>();
             bills = repository.GetAll().Where(x =>
@@ -752,20 +775,20 @@ namespace BillBoardsManagement.Controllers
         }
 
         [HttpGet]
-        public ActionResult BillReport(string filter, string search2,string search3)
+        public ActionResult BillReport(string filter, string search2, string search3)
         {
             ViewBag.search1 = filter;
             ViewBag.search2 = search2;
             ViewBag.search3 = search3;
-            var date1 = string.IsNullOrEmpty(search2) ? DateTime.MinValue : DateTime.ParseExact(search2,"dd/MM/yyyy", CultureInfo.InvariantCulture);
+            var date1 = string.IsNullOrEmpty(search2) ? DateTime.MinValue : DateTime.ParseExact(search2, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             var date2 = string.IsNullOrEmpty(search3) ? DateTime.MinValue : DateTime.ParseExact(search3, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-           
+
             IEnumerable<bill> bills;
             var repository = new Repository<bill>();
-            bills = repository.GetAll().Where(x=> 
+            bills = repository.GetAll().Where(x =>
                 (string.IsNullOrEmpty(filter) || x.Brand.ToLower().Contains(filter.ToLower())) &&
                 (date1 == DateTime.MinValue || x.CreatedAt >= date1) &&
-                (date2 == DateTime.MinValue || x.CreatedAt <= date2.AddDays(1)) 
+                (date2 == DateTime.MinValue || x.CreatedAt <= date2.AddDays(1))
                 ).ToList();
             return View(bills);
         }
