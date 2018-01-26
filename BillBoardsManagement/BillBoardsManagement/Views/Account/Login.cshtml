@@ -1,8 +1,12 @@
 ﻿@using BillBoardsManagement.Models
+@using System.Configuration;
 @model BillBoardsManagement.Models.LoginViewModel
 @{
     ViewBag.Title = "Log in";
     Layout = "";
+
+    string region = ConfigurationManager.AppSettings["Region"];
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -19,13 +23,16 @@
 
 <body class="app flex-row align-items-center login">
     <div class="container">
+        <div style="text-align:center"><b>@region</b></div>
         <div class="row justify-content-center">
- 
+         
             <div class="col-md-5">
                 <div class="card-group">
                     <div class="card mt-3 mb-3">
+                      
                         <div class="card-block">
                             <h3>Sign in</h3>
+                          
                             <p class="text-muted">Sign in to your account</p>
                             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
