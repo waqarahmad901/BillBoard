@@ -1,9 +1,9 @@
-﻿  @{ 
-      string currentUrl = "";
-  }
+﻿@{
+    string currentUrl = "";
+}
 <div class="sidebar">
     <nav class="sidebar-nav">
-       
+
         <ul class="nav">
             <li class="nav-item  @(@currentUrl.Contains("Index") ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("Index", "Customer")"><i class="fa fa-credit-card"></i> Dashboard</a>
@@ -11,14 +11,18 @@
             <li class="nav-item  @(@currentUrl.Contains("BillManagement") ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("BillManagement", "Customer")"><i class="fa fa-credit-card"></i> Bills</a>
             </li>
-       
 
-        <li class="nav-item  @(@currentUrl.Contains("Account") ? "active" : "")">
-            <a class="nav-link" href="@Url.Action("UserList", "Account")"><i class="fa fa-credit-card"></i> User</a>
-        </li>
+
+            <li class="nav-item  @(@currentUrl.Contains("Account") ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("UserList", "Account")"><i class="fa fa-credit-card"></i> User</a>
+            </li>
 
             <li class="nav-item  @(@currentUrl.Contains("BillReport") ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("BillReport", "Customer")"><i class="fa fa-credit-card"></i> Bill Reprot</a>
+            </li>
+
+            <li class="nav-item  @(@currentUrl.Contains("Index2") ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index2", "Customer")"><i class="fa fa-credit-card"></i> Brand</a>
             </li>
         </ul>
 
