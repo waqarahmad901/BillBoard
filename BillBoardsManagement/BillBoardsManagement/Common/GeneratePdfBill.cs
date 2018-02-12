@@ -155,12 +155,20 @@ namespace BillBoardsManagement.Common
                 }
                 totalAmount += amount;
                 string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
+                //string filepath1 = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".JPG");
                 if (File.Exists(filepath))
                 {
                     var img = iTextSharp.text.Image.GetInstance(filepath);
 
                     table.AddCell(img);
                 }
+                //else if(File.Exists(filepath1))
+                  //  {
+                 //   var img = iTextSharp.text.Image.GetInstance(filepath1);
+
+                   // table.AddCell(img);
+
+                //}
                 else
                 {
                     table.AddCell("");

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿
+@using System.Configuration;
+ string region = ConfigurationManager.AppSettings["Region"];
+<!DOCTYPE html>
 @{ 
     string lan = "en";
     string dir = "ltr";
@@ -14,8 +17,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Raja Bajar Parking Plaza</title>
+    <title>@ConfigurationManager.AppSettings["Region"]</title>
+    <!--><title>Raja Bajar Parking Plaza</title>
+   <!----<title>/title>-->
     <!-- Icons -->
     <link href="~/Content/font-awesome.min.css" rel="stylesheet">
     <link href="~/Content/simple-line-icons.css" rel="stylesheet">
