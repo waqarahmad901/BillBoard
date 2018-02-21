@@ -94,49 +94,30 @@ namespace BillBoardsManagement.Controllers
             page = page > 0 ? page : 1;
             int pageSize = 0;
             pageSize = pageSize > 0 ? pageSize : 100;
-            ViewBag.search1 = filter;
-            ViewBag.search2 = search2;
-            ViewBag.search3 = search3;
+            ViewBag.search1 = filter.Replace("andop", "&");
+            ViewBag.search2 = search2.Replace("andop", "&");
+            ViewBag.search3 = search3.Replace("andop", "&");
             ViewBag.CurrentSort = sortOrder;
 
             IEnumerable<Customer> customers;
             var repository = new Repository<Customer>();
 
             customers = repository.GetAll().Where(x =>
-            (string.IsNullOrEmpty(filter) || x.Catagory == null || x.Catagory.ToLower().Contains(filter.ToLower()))
-            && (string.IsNullOrEmpty(search2) || x.Near == null || x.Near.ToLower().Contains(search2.ToLower()))
-            && (string.IsNullOrEmpty(search3) || x.Brand == null || x.Brand.ToLower().Contains(search3.ToLower()))
+            (string.IsNullOrEmpty(filter) || x.Catagory == null || x.Catagory.ToLower().Contains(filter.Replace("andop", "&").ToLower()))
+            && (string.IsNullOrEmpty(search2) || x.Near == null || x.Near.ToLower().Contains(search2.Replace("andop", "&").ToLower()))
+            && (string.IsNullOrEmpty(search3) || x.Brand == null || x.Brand.ToLower().Contains(search3.Replace("andop", "&").ToLower()))
 
-            );
-            //if (string.IsNullOrEmpty(filter))
-            //{
-            //    customers = repository.GetAll();
-            //}
-            //else
-            //{
-            //    customers = repository.GetAll(i => i,
-            //        x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
-            //        i => i.Brand, false, null);
-            //}
-
-
+            ); 
             customers = from x in customers
                         group x by x.Brand.Trim() into grp
                         select grp.First();
 
-            //   customers = customers.GroupBy(x => x.Brand).Select(x => x.First());
-
-            //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
-            // new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
-
-            //ViewBag.booksdd = books;
+            
             ViewBag.bills = new Repository<bill>().GetAll();
-            //Sorting order
+           
             customers = customers.OrderBy(x => x.Brand);
             ViewBag.Count = customers.Count();
-
-
-
+             
             return View(customers.ToPagedList(1, 100000));
         }
 
@@ -148,7 +129,7 @@ namespace BillBoardsManagement.Controllers
 
             var repository = new Repository<Customer>();
             IQueryable<Customer> customers = repository.GetAllQueriable();
-            var oldBrands = customers.Where(x => x.Brand.ToLower().Equals(oldBrand));
+            var oldBrands = customers.Where(x => x.Brand.ToLower().Equals(oldBrand.Replace("andop", "&")));
             foreach (var item in oldBrands)
             {
                 item.Brand = newBrand;

@@ -14,9 +14,9 @@
     function searchClick() {
 
 
-        var search = $("#search1").val();
-        var search2 = $("#search2").val();
-        var search3 = $("#search3").val();
+        var search = $("#search1").val().replace('&', 'andop');
+        var search2 = $("#search2").val().replace('&', 'andop');
+        var search3 = $("#search3").val().replace('&', 'andop');
 
         var searchString = '?filter=' + search + "&search2=" + search2 + "&search3=" + search3;
         window.location.href = baseUrl + searchString;
