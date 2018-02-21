@@ -11,6 +11,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using Font = iTextSharp.text.Font;
+using System.Configuration;
 
 namespace BillBoardsManagement.Common
 {
@@ -34,8 +35,11 @@ namespace BillBoardsManagement.Common
            // cb.SetFontAndSize(fCb, 9);
             var headerFont = FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK);
             Paragraph header = new Paragraph("PARKS & HORTICULTURE AUTHORITY RAWALPINDI.", headerFont) { Alignment = Element.ALIGN_CENTER };
-            Paragraph paragraph1 = new Paragraph("RAJA BABAR LATIF CONTRACTOR ADVERTISEMENT FEE 2017 - 2018.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
-            Paragraph paragraph2 = new Paragraph("RAWAL TOWN AREA.", FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
+            string region = ConfigurationManager.AppSettings["Region"];
+            string contrator= ConfigurationManager.AppSettings["Contactor"];
+            //ConfigurationManager.AppSettings["Region"]
+            Paragraph paragraph1 = new Paragraph(contrator, FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
+            Paragraph paragraph2 = new Paragraph(region, FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph3 = new Paragraph("BILL.", FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph4 = new Paragraph(customers.First().Brand, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
 
@@ -151,12 +155,20 @@ namespace BillBoardsManagement.Common
                 }
                 totalAmount += amount;
                 string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
+                //string filepath1 = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".JPG");
                 if (File.Exists(filepath))
                 {
                     var img = iTextSharp.text.Image.GetInstance(filepath);
 
                     table.AddCell(img);
                 }
+                //else if(File.Exists(filepath1))
+                  //  {
+                 //   var img = iTextSharp.text.Image.GetInstance(filepath1);
+
+                   // table.AddCell(img);
+
+                //}
                 else
                 {
                     table.AddCell("");
@@ -170,17 +182,17 @@ namespace BillBoardsManagement.Common
                 WidthPercentage = 55f,
                 DefaultCell = { Padding = 10 }
             };
-            table2.SetWidths(new int[]{150,95});
+            table2.SetWidths(new int[]{190,95});
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
             table2.AddCell(new Phrase("Rs. "+totalAmount.ToString("0") + "/-", fntTableFontHdr));
 
             if (discount > 0)
             {
 
-                table2.AddCell(new Phrase("Discount Amount After Negotiation", fntTableFontHdr));
+                table2.AddCell(new Phrase("After Negotitaion, Special Discount", fntTableFontHdr));
                 table2.AddCell(new Phrase("Rs. " + discount.ToString("0") + "/-", fntTableFontHdr));
 
-                table2.AddCell(new Phrase("Billed Amount", fntTableFontHdr));
+                table2.AddCell(new Phrase("Payable Amount", fntTableFontHdr));
                 table2.AddCell(new Phrase("Rs. " + (totalAmount - discount).ToString("0") + "/-", fntTableFontHdr));
 
             }
