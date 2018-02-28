@@ -34,7 +34,8 @@ namespace BillBoardsManagement.Common
             BaseFont fCb = BaseFont.CreateFont("c:\\windows\\fonts\\calibrib.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
            // cb.SetFontAndSize(fCb, 9);
             var headerFont = FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK);
-            Paragraph header = new Paragraph("PARKS & HORTICULTURE AUTHORITY RAWALPINDI.", headerFont) { Alignment = Element.ALIGN_CENTER };
+            string parks= ConfigurationManager.AppSettings["Area"];
+            Paragraph header = new Paragraph(parks, headerFont) { Alignment = Element.ALIGN_CENTER };
             string region = ConfigurationManager.AppSettings["Region"];
             string contrator= ConfigurationManager.AppSettings["Contactor"];
             //ConfigurationManager.AppSettings["Region"]

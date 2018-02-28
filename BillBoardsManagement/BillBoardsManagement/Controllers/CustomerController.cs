@@ -642,6 +642,25 @@ namespace BillBoardsManagement.Controllers
             string billApp = billAppernders.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x => x.BillNumberAppender).FirstOrDefault() + " ";
 
             string ammementButton = Request.Form["ammement"];
+            float x_billid = float.Parse(ConfigurationManager.AppSettings["bill_id_X"]);
+            float y_billid = float.Parse(ConfigurationManager.AppSettings["bill_id_Y"]);
+
+            float x_billApp= float.Parse(ConfigurationManager.AppSettings["billApp_X"]);
+            float y_billApp= float.Parse(ConfigurationManager.AppSettings["billApp_Y"]);
+
+            float x_date_position = float.Parse(ConfigurationManager.AppSettings["date_position_X"]);
+            float y_date_position = float.Parse(ConfigurationManager.AppSettings["date_position_Y"]);
+
+            float x_name_position = float.Parse(ConfigurationManager.AppSettings["name_position_X"]);
+            float y_name_position = float.Parse(ConfigurationManager.AppSettings["name_position_Y"]);
+
+            float x_amount_position = float.Parse(ConfigurationManager.AppSettings["amount_position_X"]);
+            float y_amount_position = float.Parse(ConfigurationManager.AppSettings["amount_position_Y"]);
+
+            float x_address = float.Parse(ConfigurationManager.AppSettings["address_X"]);
+            float y_address = float.Parse(ConfigurationManager.AppSettings["address_Y"]);
+
+            /*
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = 117, Y = 831 ,IsBold = true},
@@ -650,6 +669,16 @@ namespace BillBoardsManagement.Controllers
                 new PdfCoordinatesModel {Text = customers.First().Brand, X = 264, Y = 806,IsBold = true},
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = 427, Y = 590 ,IsBold = true},
             new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 781 ,IsBold = true}
+            */
+
+            List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
+            {
+                new PdfCoordinatesModel {Text = obill.BillId, X = x_billid, Y = y_billid ,IsBold = true},
+                new PdfCoordinatesModel {Text = billApp, X = x_billApp, Y = y_billApp ,IsBold = false,FontSize=14},
+                new PdfCoordinatesModel {Text =   details.BillDate.ToString("dd/MM/yyyy"), X = x_date_position, Y = y_date_position,IsBold = true },
+                new PdfCoordinatesModel {Text = customers.First().Brand, X = x_name_position, Y = y_name_position,IsBold = true},
+                  new PdfCoordinatesModel { Type="amount", Text =  "", X = x_amount_position, Y = y_amount_position ,IsBold = true},
+            new PdfCoordinatesModel {Type="address", Text = "", X = x_address, Y =y_address ,IsBold = true}
         };
             if (ammementButton != null)
             {
