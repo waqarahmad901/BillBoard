@@ -680,27 +680,30 @@ namespace BillBoardsManagement.Controllers
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = x_amount_position, Y = y_amount_position ,IsBold = true},
             new PdfCoordinatesModel {Type="address", Text = "", X = x_address, Y =y_address ,IsBold = true}
         };
-            if (ammementButton != null)
+            if (!bool.Parse(ConfigurationManager.AppSettings["BillCopy"]))
             {
-                pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = 260, Y = 709, IsBold = true });
-                if (System.IO.File.Exists(Server.MapPath(obill.AmmendentBill)))
+                if (ammementButton != null)
                 {
-                    string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.AmmendentBill).Remove(Path.GetFileNameWithoutExtension(obill.AmmendentBill).Length - 1) + "*.pdf");
-                    foreach (var item in files)
+                    pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = 260, Y = 709, IsBold = true });
+                    if (System.IO.File.Exists(Server.MapPath(obill.AmmendentBill)))
                     {
-                        System.IO.File.Delete(item);
+                        string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.AmmendentBill).Remove(Path.GetFileNameWithoutExtension(obill.AmmendentBill).Length - 1) + "*.pdf");
+                        foreach (var item in files)
+                        {
+                            System.IO.File.Delete(item);
+                        }
                     }
                 }
-            }
-            else
-            {
-                if (System.IO.File.Exists(Server.MapPath(obill.FilePath)))
+                else
                 {
-                    string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.FilePath).Remove(Path.GetFileNameWithoutExtension(obill.FilePath).Length - 1) + "*.pdf");
-                    foreach (var item in files)
+                    if (System.IO.File.Exists(Server.MapPath(obill.FilePath)))
                     {
-                        System.IO.File.Delete(item);
+                        string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.FilePath).Remove(Path.GetFileNameWithoutExtension(obill.FilePath).Length - 1) + "*.pdf");
+                        foreach (var item in files)
+                        {
+                            System.IO.File.Delete(item);
 
+                        }
                     }
                 }
             }
