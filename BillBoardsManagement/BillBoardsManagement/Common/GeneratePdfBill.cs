@@ -36,7 +36,7 @@ namespace BillBoardsManagement.Common
             var headerFont = FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK);
             string parks= ConfigurationManager.AppSettings["Area"];
             Paragraph header = new Paragraph(parks, headerFont) { Alignment = Element.ALIGN_CENTER };
-            string region = ConfigurationManager.AppSettings["Region"];
+            string region = ConfigurationManager.AppSettings["Region_on_pdf"];
             string contrator= ConfigurationManager.AppSettings["Contactor"];
             //ConfigurationManager.AppSettings["Region"]
             Paragraph paragraph1 = new Paragraph(contrator, FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
