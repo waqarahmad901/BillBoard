@@ -14,7 +14,7 @@ namespace BillBoardsManagement.Common
         {
             bool merged = true;
             using (FileStream stream = new FileStream(targetPdf, FileMode.Create))
-            {
+            {     
                 Document document = new Document();
                 PdfCopy pdf = new PdfCopy(document, stream);
                 PdfReader reader = null;

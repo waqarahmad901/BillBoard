@@ -11,7 +11,7 @@ namespace BillBoardsManagement.Common
         {
             var hash = System.Security.Cryptography.SHA1.Create();
             var encoder = new System.Text.ASCIIEncoding();
-            var combined = encoder.GetBytes(value ?? "");
+            var combined = encoder.GetBytes(value ?? "");   
             return BitConverter.ToString(hash.ComputeHash(combined)).ToLower().Replace("-", "");
         }
     }
