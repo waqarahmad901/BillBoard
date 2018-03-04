@@ -17,7 +17,7 @@ namespace BillBoardsManagement.Common
 {
     public class PdfGenerator
     {
-        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory,string billno, string billDate,bool isAmentment, CstomerDetilPageList brand,string address,string imagePath,string billapp,decimal discount)
+        public static decimal GenerateOnflyPdf(string filePath, IEnumerable<Customer> customers, IEnumerable<lk_rates> allrates, IEnumerable<lk_catagory_rates> ratesCatagory, string billno, string billDate, bool isAmentment, CstomerDetilPageList brand, string address, string imagePath, string billapp, decimal discount)
         {
 
             string oldFile = filePath;
@@ -29,42 +29,42 @@ namespace BillBoardsManagement.Common
             // Writer class using the document and the filestrem in the constructor.
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
             document.Open();
-          //  PdfContentByte cb = writer.DirectContent;
-           // cb.BeginText();
+            //  PdfContentByte cb = writer.DirectContent;
+            // cb.BeginText();
             BaseFont fCb = BaseFont.CreateFont("c:\\windows\\fonts\\calibrib.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-           // cb.SetFontAndSize(fCb, 9);
+            // cb.SetFontAndSize(fCb, 9);
             var headerFont = FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK);
-            string parks= ConfigurationManager.AppSettings["Area"];
+            string parks = ConfigurationManager.AppSettings["Area"];
             Paragraph header = new Paragraph(parks, headerFont) { Alignment = Element.ALIGN_CENTER };
             string region = ConfigurationManager.AppSettings["Region_on_pdf"];
-            string contrator= ConfigurationManager.AppSettings["Contactor"];
+            string contrator = ConfigurationManager.AppSettings["Contactor"];
             //ConfigurationManager.AppSettings["Region"]
             Paragraph paragraph1 = new Paragraph(contrator, FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph2 = new Paragraph(region, FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph3 = new Paragraph("BILL.", FontFactory.GetFont("Arial", 20, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_CENTER };
             Paragraph paragraph4 = new Paragraph(customers.First().Brand, FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
 
-            var billTable = new PdfPTable(2) 
+            var billTable = new PdfPTable(2)
             {
                 WidthPercentage = 100,
                 SpacingBefore = 5,
-                DefaultCell = { Padding = 5,Border = 0 }
+                DefaultCell = { Padding = 5, Border = 0 }
             };
             var catagory = customers.Select(x => x.Catagory).FirstOrDefault();
-       //     string billApp = billAppender.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x=>x.BillNumberAppender).FirstOrDefault() + " ";
-            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno + billapp, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT,Border = iTextSharp.text.Rectangle.NO_BORDER});
+            //     string billApp = billAppender.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x=>x.BillNumberAppender).FirstOrDefault() + " ";
+            billTable.AddCell(new PdfPCell(new Phrase("Bill No. " + billno + billapp, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT, Border = iTextSharp.text.Rectangle.NO_BORDER });
             billTable.AddCell(new PdfPCell(new Phrase("Bill Date. " + brand.BillDate.ToString("dd/MM/yyyy"), FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = iTextSharp.text.Rectangle.NO_BORDER });
-             
+
             document.Add(header);
             document.Add(paragraph1);
             document.Add(paragraph2);
             document.Add(paragraph3);
             document.Add(paragraph4);
-            document.Add(billTable); 
-           
+            document.Add(billTable);
+
             if (isAmentment)
             {
-                Paragraph paragraph7 = new Paragraph("AMENDED BILL", FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) {Alignment = Element.ALIGN_RIGHT};
+                Paragraph paragraph7 = new Paragraph("AMENDED BILL", FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)) { Alignment = Element.ALIGN_RIGHT };
                 document.Add(paragraph7);
             }
             var fntTableFontHdr = FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK);
@@ -72,11 +72,11 @@ namespace BillBoardsManagement.Common
             var table = new PdfPTable(15)
             {
                 WidthPercentage = 100,
-                SpacingBefore = 20 ,
-                DefaultCell = { Padding = 5}
+                SpacingBefore = 20,
+                DefaultCell = { Padding = 5 }
             };
-            
-            table.SetWidths(new int[] { 60, 160, 150, 80, 65,35, 65, 35, 65, 35, 65, 70, 70, 90, 150 });
+
+            table.SetWidths(new int[] { 60, 160, 150, 80, 65, 35, 65, 35, 65, 35, 65, 70, 70, 90, 150 });
             table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("DESCRIPTION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
@@ -103,11 +103,11 @@ namespace BillBoardsManagement.Common
                 table.AddCell(new PdfPCell(new Phrase(row++ + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Description, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(item.Location, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "FLOAT" : item.Type, fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "FLOAT" : item.Type, fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size1), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size2), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size3), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : "X", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 table.AddCell(new PdfPCell(new Phrase(isPublicityFLoat ? "" : removedec(item.Size4), fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
@@ -139,14 +139,14 @@ namespace BillBoardsManagement.Common
                     else
                         perAnumRate = (long)(item.Rates.Value * brand.NumberMonth);
                 }
-                table.AddCell(new PdfPCell(new Phrase(perAnumRate + "", fntTableFontRow)){ HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                long amount =(long) (perAnumRate * decimal.Parse(item.TotalMeasurment));
+                table.AddCell(new PdfPCell(new Phrase(perAnumRate + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+                long amount = (long)(perAnumRate * decimal.Parse(item.TotalMeasurment));
                 if (isPublicityFLoat)
                 {
                     if (item.FloatNumberMonth != null && item.BillFrequency == "Per Month")
                         amount = (long)(item.FloatNumberMonth * perAnumRate * decimal.Parse(item.TotalMeasurment));
                     else
-                         amount = (long)(perAnumRate * decimal.Parse(item.TotalMeasurment) );
+                        amount = (long)(perAnumRate * decimal.Parse(item.TotalMeasurment));
                     table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
                 }
@@ -155,8 +155,8 @@ namespace BillBoardsManagement.Common
                     table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 }
                 totalAmount += amount;
-                string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
-                //string filepath1 = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".JPG");
+                //string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
+                string filepath = Path.Combine(imagePath, item.BookNumber + "/1.jpg");
                 if (File.Exists(filepath))
                 {
                     var img = iTextSharp.text.Image.GetInstance(filepath);
@@ -164,10 +164,10 @@ namespace BillBoardsManagement.Common
                     table.AddCell(img);
                 }
                 //else if(File.Exists(filepath1))
-                  //  {
-                 //   var img = iTextSharp.text.Image.GetInstance(filepath1);
+                //  {
+                //   var img = iTextSharp.text.Image.GetInstance(filepath1);
 
-                   // table.AddCell(img);
+                // table.AddCell(img);
 
                 //}
                 else
@@ -175,7 +175,7 @@ namespace BillBoardsManagement.Common
                     table.AddCell("");
                 }
 
-              
+
             }
             var table2 = new PdfPTable(2)
             {
@@ -183,9 +183,9 @@ namespace BillBoardsManagement.Common
                 WidthPercentage = 55f,
                 DefaultCell = { Padding = 10 }
             };
-            table2.SetWidths(new int[]{190,95});
+            table2.SetWidths(new int[] { 190, 95 });
             table2.AddCell(new Phrase("TOTAL AMOUNT", fntTableFontHdr));
-            table2.AddCell(new Phrase("Rs. "+totalAmount.ToString("0") + "/-", fntTableFontHdr));
+            table2.AddCell(new Phrase("Rs. " + totalAmount.ToString("0") + "/-", fntTableFontHdr));
 
             if (discount > 0)
             {
@@ -201,18 +201,18 @@ namespace BillBoardsManagement.Common
             document.Add(table);
             document.Add(table2);
 
-            Paragraph addressParagraph = new Paragraph(address, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT};
+            Paragraph addressParagraph = new Paragraph(address, FontFactory.GetFont("Arial", 10, Font.NORMAL, BaseColor.BLACK)) { Alignment = Element.ALIGN_LEFT };
 
-           // document.Add(addressParagraph);
-         //   cb.EndText();
+            // document.Add(addressParagraph);
+            //   cb.EndText();
             document.Close();
             PageNumbering(filePath);
-             
+
 
             return totalAmount;
         }
 
-        private static string removedec (string str)
+        private static string removedec(string str)
         {
             //            int string_length = str.IndexOf('0');
 
@@ -232,9 +232,56 @@ namespace BillBoardsManagement.Common
             return str;
         }
 
+        private static void ExtractPages(string sourcePDFpath, string outputPDFpath, int startpage, int endpage)
+        {
+            PdfReader reader = null;
+            Document sourceDocument = null;
+            PdfCopy pdfCopyProvider = null;
+            PdfImportedPage importedPage = null;
+
+            reader = new PdfReader(sourcePDFpath);
+            sourceDocument = new Document(reader.GetPageSizeWithRotation(startpage));
+            pdfCopyProvider = new PdfCopy(sourceDocument, new System.IO.FileStream(outputPDFpath, System.IO.FileMode.Create));
+
+            sourceDocument.Open();
+
+            for (int i = startpage; i <= endpage; i++)
+            {
+                importedPage = pdfCopyProvider.GetImportedPage(reader, i);
+                pdfCopyProvider.AddPage(importedPage);
+            }
+            sourceDocument.Close();
+            reader.Close();
+        }
+
         private static void PageNumbering(string filePath)
         {
+            List<string> fileNames = new List<string>();
             int numbers = GetNumberOfPages(filePath);
+            int numberOfPages = 2;
+            int buffer = (numbers / numberOfPages) + 1;
+            for (int i = 1; i <= buffer; i++)
+            {
+                int start = (numberOfPages * (i - 1)) + 1;
+                int end = start + (numberOfPages - 1);
+                end = end > numbers ? numbers : end;
+                string tempFile1 = Path.GetDirectoryName(filePath) + "/" + "filetemp" + i + ".pdf";
+                ExtractPages(filePath, tempFile1, start, end);
+                MarkNumberOfPages(tempFile1, numbers, start,numberOfPages);
+                fileNames.Add(tempFile1);
+            }
+
+
+            Utility.MergePDFs(fileNames, filePath);
+            foreach (var item in fileNames)
+            {
+                if (File.Exists(item))
+                    File.Delete(item);
+            }
+        }
+
+        private static void MarkNumberOfPages(string filePath, int total, int start, int totalpages)
+        {
             byte[] bytesfile = System.IO.File.ReadAllBytes(filePath);
             PdfReader reader = new PdfReader(filePath);
 
@@ -243,18 +290,20 @@ namespace BillBoardsManagement.Common
             {
                 using (PdfStamper stamper = new PdfStamper(reader, ms))
                 {
-                    for (int i = 1; i <= numbers; i++)
+                    for (int i = 1; i <= totalpages; i++)
                     {
                         PdfContentByte canvas = stamper.GetOverContent(i);
-
-                        ColumnText.ShowTextAligned(canvas, 0, new Phrase(i + " / " + numbers, FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLACK)), 570, 27, 0);
+                        if (canvas != null)
+                            ColumnText.ShowTextAligned(canvas, 0, new Phrase(start + (i -1) + " / " + total, FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLACK)), 570, 27, 0);
                     }
                 }
+               
                 bytes = ms.ToArray();
+               
+                ms.Close();
             }
             reader.Close();
             File.WriteAllBytes(filePath, bytes);
-
         }
 
         public static int GetNumberOfPages(string path)
@@ -265,6 +314,6 @@ namespace BillBoardsManagement.Common
             return numberOfPages;
         }
 
-    
+
     }
-} 
+}

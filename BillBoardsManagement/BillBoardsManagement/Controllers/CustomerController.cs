@@ -721,7 +721,7 @@ namespace BillBoardsManagement.Controllers
             pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
 
             string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-            MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile);
+            Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile);
 
             if (!string.IsNullOrEmpty(details.BrandAddress1))
             {
@@ -732,7 +732,7 @@ namespace BillBoardsManagement.Controllers
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
 
                 aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile1);
+                Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile1);
 
             }
             if (!string.IsNullOrEmpty(details.BrandAddress2))
@@ -743,7 +743,7 @@ namespace BillBoardsManagement.Controllers
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
                 aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile2);
+                Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile2);
 
             }
             if (!string.IsNullOrEmpty(details.BrandAddress3))
@@ -754,12 +754,12 @@ namespace BillBoardsManagement.Controllers
                 pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
                 pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
 
-                MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
+                Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
 
             }
             string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "_final.pdf"));
 
-            MergePDFs(new List<string> { destinationFile, destinationFile1, destinationFile2, destinationFile3 }, mergerdFile);
+            Utility.MergePDFs(new List<string> { destinationFile, destinationFile1, destinationFile2, destinationFile3 }, mergerdFile);
 
             DeleteTempFiles(ufileName);
 
@@ -802,45 +802,7 @@ namespace BillBoardsManagement.Controllers
 
         }
 
-        public static bool MergePDFs(IEnumerable<string> fileNames, string targetPdf)
-        {
-            bool merged = true;
-            using (FileStream stream = new FileStream(targetPdf, FileMode.Create))
-            {
-                Document document = new Document();
-                PdfCopy pdf = new PdfCopy(document, stream);
-                PdfReader reader = null;
-                try
-                {
-                    document.Open();
-                    foreach (string file in fileNames)
-                    {
-                        if (System.IO.File.Exists(file))
-                        {
-                            reader = new PdfReader(file);
-                            pdf.AddDocument(reader);
-                            reader.Close();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    merged = false;
-                    if (reader != null)
-                    {
-                        reader.Close();
-                    }
-                }
-                finally
-                {
-                    if (document != null)
-                    {
-                        document.Close();
-                    }
-                }
-            }
-            return merged;
-        }
+        
 
 
 
