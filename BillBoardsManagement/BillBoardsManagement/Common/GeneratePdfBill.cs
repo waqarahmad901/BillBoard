@@ -206,7 +206,7 @@ namespace BillBoardsManagement.Common
             // document.Add(addressParagraph);
             //   cb.EndText();
             document.Close();
-            PageNumbering(filePath);
+            MarkNumberOfPages(filePath);
 
 
             return totalAmount;
@@ -232,88 +232,38 @@ namespace BillBoardsManagement.Common
             return str;
         }
 
-        private static void ExtractPages(string sourcePDFpath, string outputPDFpath, int startpage, int endpage)
+        private static void MarkNumberOfPages(string filePath)
         {
-            PdfReader reader = null;
-            Document sourceDocument = null;
-            PdfCopy pdfCopyProvider = null;
-            PdfImportedPage importedPage = null;
+            Document copyDoc = new Document();
+            PdfCopy copyPdf = new PdfCopy(copyDoc, new FileStream(Path.GetDirectoryName(filePath) + "/tempRenameFile.pdf", FileMode.Create));
+            //  copyPdf.SetPageSize(PageSize.A4.Rotate());
+            copyDoc.Open();
 
-            reader = new PdfReader(sourcePDFpath);
-            sourceDocument = new Document(reader.GetPageSizeWithRotation(startpage));
-            pdfCopyProvider = new PdfCopy(sourceDocument, new System.IO.FileStream(outputPDFpath, System.IO.FileMode.Create));
-
-            sourceDocument.Open();
-
-            for (int i = startpage; i <= endpage; i++)
-            {
-                importedPage = pdfCopyProvider.GetImportedPage(reader, i);
-                pdfCopyProvider.AddPage(importedPage);
-            }
-            sourceDocument.Close();
-            reader.Close();
-        }
-
-        private static void PageNumbering(string filePath)
-        {
-            List<string> fileNames = new List<string>();
-            int numbers = GetNumberOfPages(filePath);
-            int numberOfPages = 2;
-            int buffer = (numbers / numberOfPages) + 1;
-            for (int i = 1; i <= buffer; i++)
-            {
-                int start = (numberOfPages * (i - 1)) + 1;
-                int end = start + (numberOfPages - 1);
-                end = end > numbers ? numbers : end;
-                string tempFile1 = Path.GetDirectoryName(filePath) + "/" + "filetemp" + i + ".pdf";
-                ExtractPages(filePath, tempFile1, start, end);
-                MarkNumberOfPages(tempFile1, numbers, start,numberOfPages);
-                fileNames.Add(tempFile1);
-            }
-
-
-            Utility.MergePDFs(fileNames, filePath);
-            foreach (var item in fileNames)
-            {
-                if (File.Exists(item))
-                    File.Delete(item);
-            }
-        }
-
-        private static void MarkNumberOfPages(string filePath, int total, int start, int totalpages)
-        {
-            byte[] bytesfile = System.IO.File.ReadAllBytes(filePath);
+            // read the initial pdf document
             PdfReader reader = new PdfReader(filePath);
+            int totalPages = reader.NumberOfPages;
 
-            byte[] bytes = null;
-            using (var ms = new MemoryStream(bytesfile.Length))
+            PdfImportedPage copiedPage = null;
+            iTextSharp.text.pdf.PdfCopy.PageStamp stamper = null;
+
+            for (int i = 1; i <= totalPages; i++)
             {
-                using (PdfStamper stamper = new PdfStamper(reader, ms))
-                {
-                    for (int i = 1; i <= totalpages; i++)
-                    {
-                        PdfContentByte canvas = stamper.GetOverContent(i);
-                        if (canvas != null)
-                            ColumnText.ShowTextAligned(canvas, 0, new Phrase(start + (i -1) + " / " + total, FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLACK)), 570, 27, 0);
-                    }
-                }
-               
-                bytes = ms.ToArray();
-               
-                ms.Close();
+                // get the page and create a stamper for that page
+                copiedPage = copyPdf.GetImportedPage(reader, (i));
+                stamper = copyPdf.CreatePageStamp(copiedPage);
+
+                // add a page number to the page
+                ColumnText.ShowTextAligned(stamper.GetUnderContent(), 0, new Phrase(i + " / " + totalPages, FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLACK)), 570, 27, 0);
+                stamper.AlterContents();
+
+                // add the altered page to the new document
+                copyPdf.AddPage(copiedPage);
             }
+            copyDoc.Close();
             reader.Close();
-            File.WriteAllBytes(filePath, bytes);
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+            File.Move(Path.GetDirectoryName(filePath) + "/tempRenameFile.pdf", filePath);
         }
-
-        public static int GetNumberOfPages(string path)
-        {
-            PdfReader pdfReader = new PdfReader(path);
-            int numberOfPages = pdfReader.NumberOfPages;
-            pdfReader.Close();
-            return numberOfPages;
-        }
-
-
     }
 }
