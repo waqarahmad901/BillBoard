@@ -155,8 +155,8 @@ namespace BillBoardsManagement.Common
                     table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 }
                 totalAmount += amount;
-                //string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
-                string filepath = Path.Combine(imagePath, item.BookNumber + "/1.jpg");
+                string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
+                //string filepath = Path.Combine(imagePath, item.BookNumber + "/1.jpg");
                 if (File.Exists(filepath))
                 {
                     var img = iTextSharp.text.Image.GetInstance(filepath);
