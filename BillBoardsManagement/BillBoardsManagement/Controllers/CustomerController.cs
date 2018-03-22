@@ -379,8 +379,8 @@ namespace BillBoardsManagement.Controllers
                 {
                     CustomerName = x.Key.Trim(),
                     Selected = billCustomers.Contains(x.Key.Trim()),
-                    Customers = x.ToList()
-                }).OrderByDescending(x => x.Selected).ToList();
+                    Customers = x.OrderBy(y=>y.Type).ToList()
+                }).OrderByDescending(x => x.CustomerName).ToList();
 
             }
             else
