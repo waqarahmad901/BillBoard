@@ -51,8 +51,7 @@ namespace BillBoardsManagement.Controllers
             customers = repository.GetAll().Where(x =>
             (string.IsNullOrEmpty(filter) || x.Catagory == null || x.Catagory.ToLower().Contains(filter.ToLower()))
             && (string.IsNullOrEmpty(search2) || x.Near == null || x.Near.ToLower().Contains(search2.ToLower()))
-            && (string.IsNullOrEmpty(search3) || x.Brand == null || x.Brand.ToLower().Contains(search3.ToLower()))
-
+            && (string.IsNullOrEmpty(search3) || x.Brand == null || x.Brand.ToLower().Contains(search3.ToLower())) 
             );
             //if (string.IsNullOrEmpty(filter))
             //{
@@ -68,9 +67,7 @@ namespace BillBoardsManagement.Controllers
             {
                 var bills = new Repository<bill>().GetAll();
 
-                customers = from cu in customers
-                            join b in bills on cu.Brand equals b.Brand
-                            select cu;
+                customers = customers.Where(x=> !bills.Select(y=>y.Brand).Contains(x.Brand));
             }
             customers = from x in customers
                         group x by x.Brand.Trim() into grp
