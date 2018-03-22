@@ -43,7 +43,7 @@ namespace BillBoardsManagement.Controllers
             ViewBag.search2 = search2;
             ViewBag.search3 = search3;
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.unbill = unbill;
+            ViewBag.unbill = unbill; 
 
             IEnumerable<Customer> customers;
             var repository = new Repository<Customer>();
