@@ -17,8 +17,9 @@
         var search = $("#search1").val();
         var search2 = $("#search2").val();
         var search3 = $("#search3").val();
+        var search4 = $("#chkUnbill").is(":checked");
 
-        var searchString = '?filter=' + search + "&search2=" + search2 + "&search3=" + search3;
+        var searchString = '?filter=' + search + "&search2=" + search2 + "&search3=" + search3 + "&unbill=" + search4;
         window.location.href = baseUrl + searchString;
 
     }
@@ -45,16 +46,27 @@
     <div class="container-fluid">
         <div class="animated fadeIn">
             <div class="row">
-                <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                <div class="input-group global-search" style="margin-right:15px;max-width: 20%;">
                     <input type="text" name="global-search" class="form-control " id="search3" placeholder="Brand" value="@ViewBag.search3">
                 </div>
-                <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                <div class="input-group global-search" style="margin-right:15px;max-width: 20%;">
                     <input type="text" name="global-search" class="form-control" id="search1" placeholder="catagory" value="@ViewBag.search1">
                 </div>
-                <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
+                <div class="input-group global-search" style="margin-right:15px;max-width: 20%;">
                     <input type="text" name="global-search" class="form-control " id="search2" placeholder="Near" value="@ViewBag.search2">
                 </div>
-               
+                <div class="input-group global-search" style="margin-right:15px;max-width: 6%;">
+                    @if (ViewBag.unbill != null && ViewBag.unbill == "true")
+                    {
+                        <input type="checkbox" name="global-search" class="form-control " checked id="chkUnbill" style="margin-top:5px" placeholder="Near"> <label>Un bill</label>
+                    }
+                    else
+                    {
+                       <input type="checkbox" name="global-search" class="form-control " id="chkUnbill" style="margin-top:5px" placeholder="Near"> <label>Un bill</label>
+                    }
+                </div>
+
+
                 <div class="input-group global-search" style="margin-right:15px;max-width: 23%;">
                     <button type="submit" class="btn btn-sm btn-primary" onclick="searchClick()"><i class="fa fa-search"></i> Submit</button>
                 </div>

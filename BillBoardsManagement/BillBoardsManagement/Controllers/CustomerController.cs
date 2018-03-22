@@ -31,7 +31,7 @@ namespace BillBoardsManagement.Controllers
     public class CustomerController : Controller
     {
         // GET: Customer
-        public ActionResult Index(string sortOrder, string archived = "", int page = 1, Guid? archive = null, int book = 1, string filter = "", string search2 = "", string search3 = "")
+        public ActionResult Index(string sortOrder, string archived = "", int page = 1, Guid? archive = null, int book = 1, string filter = "", string search2 = "", string search3 = "", string unbill = "")
         {
             ViewBag.searchQuery = string.IsNullOrEmpty(filter) ? "" : filter;
             ViewBag.showArchived = (archived ?? "") == "on";
@@ -43,6 +43,7 @@ namespace BillBoardsManagement.Controllers
             ViewBag.search2 = search2;
             ViewBag.search3 = search3;
             ViewBag.CurrentSort = sortOrder;
+            ViewBag.unbill = unbill;
 
             IEnumerable<Customer> customers;
             var repository = new Repository<Customer>();
@@ -63,21 +64,23 @@ namespace BillBoardsManagement.Controllers
             //        x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
             //        i => i.Brand, false, null);
             //}
+            if (unbill == "true")
+            {
+                var bills = new Repository<bill>().GetAll();
 
-
+                customers = from cu in customers
+                            join b in bills on cu.Brand equals b.Brand
+                            select cu;
+            }
             customers = from x in customers
                         group x by x.Brand.Trim() into grp
                         select grp.First();
 
-            //   customers = customers.GroupBy(x => x.Brand).Select(x => x.First());
-
-            //var books = repository.GetAll().GroupBy(x=>x.Brand).Select(x=>x.First()).Select(x =>
-            // new SelectListItem { Text = "Book no "+ x.BookNumber , Value = x.BookNumber + "",Selected = x.BookNumber == book }).Distinct().ToList();
-
-            //ViewBag.booksdd = books;
+        
             ViewBag.bills = new Repository<bill>().GetAll();
             //Sorting order
             customers = customers.OrderBy(x => x.Brand);
+
             ViewBag.Count = customers.Count();
 
 
