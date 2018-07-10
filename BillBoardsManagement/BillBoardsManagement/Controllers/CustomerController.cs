@@ -408,7 +408,7 @@ namespace BillBoardsManagement.Controllers
                         string catagor = allratesCatagory.Where(x => x.Road == item.Location).Select(x => x.Catagory).FirstOrDefault();
                         catagor = catagor == null ? "A+" : catagor;
 
-                        long perAnumRate = (long)(allrates.Where(x => x.Type == item.Type && x.Category == catagor).Select(x => x.Rate).FirstOrDefault());
+                        var perAnumRate = (allrates.Where(x => x.Type == item.Type && x.Category == catagor).Select(x => x.Rate).FirstOrDefault());
 
                         item.Rates = perAnumRate;
                     }
