@@ -24,7 +24,7 @@ namespace BillBoardsManagement.Common
 
             FileStream fs = new FileStream(filePath, FileMode.Create);
 
-            Document document = new Document(PageSize.LEGAL, 25, 25, 30, 30);
+            Document document = new Document(PageSize.LEGAL, 10, 10, 30, 30);
             // Create an instance to the PDF file by creating an instance of the PDF 
             // Writer class using the document and the filestrem in the constructor.
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
@@ -76,7 +76,7 @@ namespace BillBoardsManagement.Common
                 DefaultCell = { Padding = 5 }
             };
 
-            table.SetWidths(new int[] { 60, 160, 150, 80, 65, 35, 65, 35, 65, 35, 65, 70, 70, 90, 150 });
+            table.SetWidths(new int[] { 60, 160, 150, 80, 65, 35, 65, 35, 65, 35, 65, 70, 70, 90, 300 });
             table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("DESCRIPTION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
