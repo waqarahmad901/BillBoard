@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using BillBoardsManagement.Models;
 using BillBoardsManagement.Repository;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using Font = iTextSharp.text.Font;
 using System.Configuration;
 
@@ -24,7 +19,7 @@ namespace BillBoardsManagement.Common
 
             FileStream fs = new FileStream(filePath, FileMode.Create);
 
-            Document document = new Document(PageSize.LEGAL, 10, 10, 30, 30);
+            Document document = new Document(PageSize.LEGAL, 20, 20, 30, 30);
             // Create an instance to the PDF file by creating an instance of the PDF 
             // Writer class using the document and the filestrem in the constructor.
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
@@ -76,7 +71,7 @@ namespace BillBoardsManagement.Common
                 DefaultCell = { Padding = 5 }
             };
 
-            table.SetWidths(new int[] { 60, 160, 150, 80, 65, 35, 65, 35, 65, 35, 65, 70, 70, 90, 300 });
+            table.SetWidths(new int[] { 60, 180, 150, 80, 65, 35, 65, 35, 65, 35, 65, 70, 70, 90, 350 });
             table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("DESCRIPTION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
@@ -155,7 +150,11 @@ namespace BillBoardsManagement.Common
                     table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
                 }
                 totalAmount += amount;
+
+
+
                 string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
+
                 //string filepath = Path.Combine(imagePath, item.BookNumber + "/1.jpg");
                 if (File.Exists(filepath))
                 {
@@ -253,7 +252,7 @@ namespace BillBoardsManagement.Common
                 stamper = copyPdf.CreatePageStamp(copiedPage);
 
                 // add a page number to the page
-                ColumnText.ShowTextAligned(stamper.GetUnderContent(), 0, new Phrase(i + " / " + totalPages, FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLACK)), 570, 27, 0);
+                ColumnText.ShowTextAligned(stamper.GetUnderContent(), 0, new Phrase(i + " / " + totalPages, FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLACK)), 570, 100, 0);
                 stamper.AlterContents();
 
                 // add the altered page to the new document
