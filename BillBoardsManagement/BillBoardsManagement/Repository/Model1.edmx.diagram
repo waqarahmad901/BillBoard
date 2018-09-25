@@ -16,7 +16,7 @@
         <AssociationConnector Association="BBMSModel.FK_Comments_user" />
         <EntityTypeShape EntityType="BBMSModel.lk_BillAppender" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="BBMSModel.lk_publicity_float" Width="1.5" PointX="5.375" PointY="3.75" />
-        <EntityTypeShape EntityType="BBMSModel.Customer" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="BBMSModel.Customer" Width="1.5" PointX="7.375" PointY="4.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -19,5 +19,7 @@ namespace BillBoardsManagement.Repository
         public decimal Rate { get; set; }
         public Nullable<bool> Brand { get; set; }
         public string Category { get; set; }
+        public Nullable<int> year { get; set; }
+        public string town { get; set; }
     }
 }

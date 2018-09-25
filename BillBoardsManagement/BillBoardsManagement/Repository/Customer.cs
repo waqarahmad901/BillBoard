@@ -28,16 +28,22 @@ namespace BillBoardsManagement.Repository
         public string TotalMeasurment { get; set; }
         public string Brand { get; set; }
         public Nullable<System.DateTime> SurveyDate { get; set; }
-        public Nullable<int> BookNumber { get; set; }
-        public Nullable<System.DateTime> CreatedAt { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
         public byte[] Picture { get; set; }
-        public Nullable<int> test { get; set; }
+        public string Picture1 { get; set; }
+        public string PictureDiskPath { get; set; }
         public string Catagory { get; set; }
-        public Nullable<decimal> Rates { get; set; }
+        public string Rates1 { get; set; }
         public string PublicityFloatCatagory { get; set; }
         public string BillFrequency { get; set; }
         public Nullable<int> FloatNumberMonth { get; set; }
         public Nullable<decimal> FloatRate { get; set; }
+        public string BookNumber { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<int> test { get; set; }
+        public Nullable<decimal> Rates { get; set; }
+        public string Longitude { get; set; }
+        public string Latiude { get; set; }
+        public string Year { get; set; }
     }
 }
