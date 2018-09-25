@@ -47,7 +47,7 @@ namespace BillBoardsManagement.Repository
         public Nullable<int> UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public string PhotoPath { get; set; }
-        public Nullable<System.DateTime> ValidFrom { get; set; }
+        public System.DateTime ValidFrom { get; set; }
         public Nullable<System.DateTime> ValidUntil { get; set; }
         public bool IsLocked { get; set; }
         public bool IsMobileVerified { get; set; }
