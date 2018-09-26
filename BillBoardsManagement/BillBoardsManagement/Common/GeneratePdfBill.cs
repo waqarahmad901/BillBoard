@@ -71,7 +71,7 @@ namespace BillBoardsManagement.Common
                 DefaultCell = { Padding = 5 }
             };
 
-            table.SetWidths(new int[] { 60, 180, 150, 80, 65, 35, 65, 35, 65, 35, 65, 70, 70, 90, 350 });
+            table.SetWidths(new int[] { 60, 180, 150, 80, 65, 35, 65, 35, 65, 35, 65, 70, 70, 90, 200 });
             table.AddCell(new PdfPCell(new Phrase("SR NO.", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("DESCRIPTION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
             table.AddCell(new PdfPCell(new Phrase("LOCATION", fntTableFontHdr)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
@@ -153,7 +153,7 @@ namespace BillBoardsManagement.Common
 
 
 
-                string filepath = Path.Combine(imagePath, item.BookNumber + "/" + item.SrNo + ".jpg");
+                string filepath = Path.Combine(imagePath, item.Year +"/"+ item.BookNumber + "/" + item.Picture1 + ".jpg");
 
                 //string filepath = Path.Combine(imagePath, item.BookNumber + "/1.jpg");
                 if (File.Exists(filepath))

@@ -64,23 +64,22 @@
           <Property Name="TotalMeasurment" Type="nvarchar" MaxLength="1000" />
           <Property Name="Brand" Type="nvarchar" MaxLength="4000" />
           <Property Name="SurveyDate" Type="datetime" />
+          <Property Name="BookNumber" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="1000" />
           <Property Name="Picture" Type="image" />
           <Property Name="Picture1" Type="nvarchar" MaxLength="1000" />
           <Property Name="PictureDiskPath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="test" Type="int" />
           <Property Name="Catagory" Type="nvarchar" MaxLength="500" />
-          <Property Name="Rates1" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Rates" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Latitude" Type="nvarchar" MaxLength="500" />
+          <Property Name="Longitude" Type="nvarchar" MaxLength="500" />
+          <Property Name="Year" Type="nvarchar" MaxLength="500" />
           <Property Name="PublicityFloatCatagory" Type="nvarchar" MaxLength="1000" />
           <Property Name="BillFrequency" Type="nvarchar" MaxLength="1000" />
           <Property Name="FloatNumberMonth" Type="int" />
           <Property Name="FloatRate" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="BookNumber" Type="nvarchar" MaxLength="1000" />
-          <Property Name="CreatedAt" Type="datetime" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="1000" />
-          <Property Name="test" Type="int" />
-          <Property Name="Rates" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Longitude" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Latiude" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Year" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="lk_BillAppender">
           <Key>
@@ -441,23 +440,22 @@
           <Property Name="TotalMeasurment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Brand" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="SurveyDate" Type="DateTime" Precision="3" />
+          <Property Name="BookNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Picture1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="PictureDiskPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="test" Type="Int32" />
           <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Rates1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Rates" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Latitude" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PublicityFloatCatagory" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="BillFrequency" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="FloatNumberMonth" Type="Int32" />
           <Property Name="FloatRate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BookNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="test" Type="Int32" />
-          <Property Name="Rates" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Longitude" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Latiude" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Year" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -610,23 +608,22 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="BBMSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Latiude" ColumnName="Latiude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Rates" ColumnName="Rates" />
-                <ScalarProperty Name="test" ColumnName="test" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
                 <ScalarProperty Name="FloatRate" ColumnName="FloatRate" />
                 <ScalarProperty Name="FloatNumberMonth" ColumnName="FloatNumberMonth" />
                 <ScalarProperty Name="BillFrequency" ColumnName="BillFrequency" />
                 <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
-                <ScalarProperty Name="Rates1" ColumnName="Rates1" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Rates" ColumnName="Rates" />
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="test" ColumnName="test" />
                 <ScalarProperty Name="PictureDiskPath" ColumnName="PictureDiskPath" />
                 <ScalarProperty Name="Picture1" ColumnName="Picture1" />
                 <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
                 <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />

@@ -107,7 +107,7 @@
                                 <label for="name">Image.</label>
                                 @{
                                     string baseUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/" + HttpContext.Current.Request.ApplicationPath;
-                                    string imgPsth = string.Format(baseUrl + "/Images/{0}/{1}.jpg", Model.BookNumber, Model.SrNo);
+                                    string imgPsth = string.Format(baseUrl + "/Images/{0}/{1}/{2}.jpg",Model.Year, Model.BookNumber, Model.Picture1);
                                 }
                                 <img id="profile-img-tag" src="@imgPsth" width="100px" height="100px" />
 
