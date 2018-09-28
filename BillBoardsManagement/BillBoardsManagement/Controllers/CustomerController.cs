@@ -252,6 +252,7 @@ namespace BillBoardsManagement.Controllers
                 oCustomer.Brand = customer.Brand;
             oCustomer.SurveyDate = customer.SurveyDate;
             oCustomer.BookNumber = customer.BookNumber;
+            oCustomer.Year = customer.Year;
             oCustomer.Catagory = customer.Catagory;
             if (customer.Type.ToLower() == "publicity float")
             {
@@ -259,7 +260,7 @@ namespace BillBoardsManagement.Controllers
             }
             if (file != null)
             {
-                string fileName = "~/Images/" + oCustomer.BookNumber + "/" + oCustomer.SrNo + System.IO.Path.GetExtension(file.FileName);
+                string fileName = $"~/Images/{oCustomer.Year}/{oCustomer.BookNumber}/{oCustomer.Picture1}/{Path.GetExtension(file.FileName)}";
                 string filePath = Server.MapPath(fileName);
                 if (!Directory.Exists(Path.GetDirectoryName(filePath)))
                 {
