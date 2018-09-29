@@ -267,6 +267,7 @@ namespace BillBoardsManagement.Controllers
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 }
                 file.SaveAs(filePath); 
+                //test
                 oCustomer.Picture1 = Path.GetFileNameWithoutExtension(file.FileName);
             }
             if (customer.Id == 0)
