@@ -135,13 +135,13 @@ namespace BillBoardsManagement.Common
                         perAnumRate = (long)(item.Rates.Value * brand.NumberMonth);
                 }
                 table.AddCell(new PdfPCell(new Phrase(perAnumRate + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
-                long amount = (long)(perAnumRate * decimal.Parse(item.TotalMeasurment));
+                long amount = (long)(perAnumRate * decimal.Parse(removedec(item.Size1)) * decimal.Parse(removedec(item.Size2)) * decimal.Parse(removedec(item.Size3)) * decimal.Parse(removedec(item.Size4)));
                 if (isPublicityFLoat)
                 {
                     if (item.FloatNumberMonth != null && item.BillFrequency == "Per Month")
-                        amount = (long)(item.FloatNumberMonth * perAnumRate * decimal.Parse(item.TotalMeasurment));
+                        amount = (long)(item.FloatNumberMonth * perAnumRate *  decimal.Parse(removedec(item.Size1))* decimal.Parse(removedec(item.Size2)) * decimal.Parse(removedec(item.Size3)) * decimal.Parse(removedec(item.Size4)));
                     else
-                        amount = (long)(perAnumRate * decimal.Parse(item.TotalMeasurment));
+                        amount = (long)(perAnumRate *  decimal.Parse(removedec(item.Size1)) * decimal.Parse(removedec(item.Size2)) * decimal.Parse(removedec(item.Size3)) * decimal.Parse(removedec(item.Size4)));
                     table.AddCell(new PdfPCell(new Phrase(amount.ToString("0") + "", fntTableFontRow)) { HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
 
                 }
