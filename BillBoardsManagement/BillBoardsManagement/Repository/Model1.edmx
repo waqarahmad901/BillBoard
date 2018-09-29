@@ -117,8 +117,31 @@
           <Property Name="Rate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Brand" Type="bit" />
           <Property Name="Category" Type="nvarchar" MaxLength="50" />
-          <Property Name="year" Type="int" />
-          <Property Name="town" Type="nvarchar" MaxLength="50" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Town" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="lk_Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contractor" Type="nvarchar" MaxLength="500" />
+          <Property Name="Area" Type="nvarchar" MaxLength="50" />
+          <Property Name="Region" Type="nvarchar" MaxLength="50" />
+          <Property Name="Region_on_pdf" Type="nvarchar" MaxLength="50" />
+          <Property Name="amount_position_X" Type="int" />
+          <Property Name="amount_position_Y" Type="int" />
+          <Property Name="name_position_X" Type="int" />
+          <Property Name="name_position_Y" Type="int" />
+          <Property Name="date_position_X" Type="int" />
+          <Property Name="date_position_Y" Type="int" />
+          <Property Name="bill_id_Y" Type="int" />
+          <Property Name="bill_id_X" Type="int" />
+          <Property Name="billApp_Y" Type="int" />
+          <Property Name="billApp_X" Type="int" />
+          <Property Name="address_X" Type="int" />
+          <Property Name="address_Y" Type="int" />
+          <Property Name="PdfFileName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="lk_role">
           <Key>
@@ -186,6 +209,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bill_admin_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="bill" Type="Self.bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="bill">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Comments_user">
           <End Role="user" Type="Self.user" Multiplicity="1" />
           <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
@@ -208,11 +243,16 @@
           <EntitySet Name="lk_catagory_rates" EntityType="Self.lk_catagory_rates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_publicity_float" EntityType="Self.lk_publicity_float" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_rates" EntityType="Self.lk_rates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lk_Region" EntityType="Self.lk_Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lk_role" EntityType="Self.lk_role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_adminuser_lk_role" Association="Self.FK_adminuser_lk_role">
             <End Role="lk_role" EntitySet="lk_role" />
             <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bill_admin_user" Association="Self.FK_bill_admin_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="bill" EntitySet="bill" />
           </AssociationSet>
           <AssociationSet Name="FK_Comments_user" Association="Self.FK_Comments_user">
             <End Role="user" EntitySet="user" />
@@ -225,7 +265,6 @@
       <Schema Namespace="BBMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="BBMSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="lk_catagory_rates" EntityType="BBMSModel.lk_catagory_rates" />
-          <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
           <EntitySet Name="lk_role" EntityType="BBMSModel.lk_role" />
           <EntitySet Name="users" EntityType="BBMSModel.user" />
           <AssociationSet Name="FK_adminuser_lk_role" Association="BBMSModel.FK_adminuser_lk_role">
@@ -244,6 +283,8 @@
           </AssociationSet>
           <EntitySet Name="lk_BillAppender" EntityType="BBMSModel.lk_BillAppender" />
           <EntitySet Name="lk_publicity_float" EntityType="BBMSModel.lk_publicity_float" />
+          <EntitySet Name="lk_Region" EntityType="BBMSModel.lk_Region" />
+          <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
           <EntitySet Name="Customers" EntityType="BBMSModel.Customer" />
           </EntityContainer>
         <EntityType Name="lk_catagory_rates">
@@ -253,18 +294,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Road" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Catagory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="lk_rates">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Brand" Type="Boolean" />
-          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="year" Type="Int32" />
-          <Property Name="town" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="lk_role">
           <Key>
@@ -422,6 +451,41 @@
           <Property Name="PerTwoWeek" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PerMonth" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="lk_Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contractor" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Region_on_pdf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="amount_position_X" Type="Int32" />
+          <Property Name="amount_position_Y" Type="Int32" />
+          <Property Name="name_position_X" Type="Int32" />
+          <Property Name="name_position_Y" Type="Int32" />
+          <Property Name="date_position_X" Type="Int32" />
+          <Property Name="date_position_Y" Type="Int32" />
+          <Property Name="bill_id_Y" Type="Int32" />
+          <Property Name="bill_id_X" Type="Int32" />
+          <Property Name="billApp_Y" Type="Int32" />
+          <Property Name="billApp_X" Type="Int32" />
+          <Property Name="address_X" Type="Int32" />
+          <Property Name="address_Y" Type="Int32" />
+          <Property Name="PdfFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="lk_rates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Brand" Type="Boolean" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Town" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
@@ -468,19 +532,6 @@
               <MappingFragment StoreEntitySet="lk_catagory_rates">
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
                 <ScalarProperty Name="Road" ColumnName="Road" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="lk_rates">
-            <EntityTypeMapping TypeName="BBMSModel.lk_rates">
-              <MappingFragment StoreEntitySet="lk_rates">
-                <ScalarProperty Name="town" ColumnName="town" />
-                <ScalarProperty Name="year" ColumnName="year" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="Rate" ColumnName="Rate" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -601,6 +652,43 @@
                 <ScalarProperty Name="Perweek" ColumnName="Perweek" />
                 <ScalarProperty Name="PerDay" ColumnName="PerDay" />
                 <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lk_Region">
+            <EntityTypeMapping TypeName="BBMSModel.lk_Region">
+              <MappingFragment StoreEntitySet="lk_Region">
+                <ScalarProperty Name="PdfFileName" ColumnName="PdfFileName" />
+                <ScalarProperty Name="address_Y" ColumnName="address_Y" />
+                <ScalarProperty Name="address_X" ColumnName="address_X" />
+                <ScalarProperty Name="billApp_X" ColumnName="billApp_X" />
+                <ScalarProperty Name="billApp_Y" ColumnName="billApp_Y" />
+                <ScalarProperty Name="bill_id_X" ColumnName="bill_id_X" />
+                <ScalarProperty Name="bill_id_Y" ColumnName="bill_id_Y" />
+                <ScalarProperty Name="date_position_Y" ColumnName="date_position_Y" />
+                <ScalarProperty Name="date_position_X" ColumnName="date_position_X" />
+                <ScalarProperty Name="name_position_Y" ColumnName="name_position_Y" />
+                <ScalarProperty Name="name_position_X" ColumnName="name_position_X" />
+                <ScalarProperty Name="amount_position_Y" ColumnName="amount_position_Y" />
+                <ScalarProperty Name="amount_position_X" ColumnName="amount_position_X" />
+                <ScalarProperty Name="Region_on_pdf" ColumnName="Region_on_pdf" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Contractor" ColumnName="Contractor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lk_rates">
+            <EntityTypeMapping TypeName="BBMSModel.lk_rates">
+              <MappingFragment StoreEntitySet="lk_rates">
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

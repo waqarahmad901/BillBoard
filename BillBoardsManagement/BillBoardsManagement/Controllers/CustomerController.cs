@@ -260,14 +260,14 @@ namespace BillBoardsManagement.Controllers
             }
             if (file != null)
             {
-                string fileName = $"~/Images/{oCustomer.Year}/{oCustomer.BookNumber}/{oCustomer.Picture1}/{Path.GetExtension(file.FileName)}";
+                string fileName = $"~/Images/{oCustomer.Year}/{oCustomer.BookNumber}/{Path.GetFileName(file.FileName)}";
                 string filePath = Server.MapPath(fileName);
                 if (!Directory.Exists(Path.GetDirectoryName(filePath)))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 }
                 file.SaveAs(filePath);
-
+                oCustomer.Picture1 = Path.GetFileNameWithoutExtension(file.FileName);
             }
             if (customer.Id == 0)
             {

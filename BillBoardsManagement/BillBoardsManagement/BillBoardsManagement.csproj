@@ -256,6 +256,9 @@
     <Compile Include="Repository\lk_rates.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repository\lk_Region.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\lk_role.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

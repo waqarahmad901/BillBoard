@@ -26,13 +26,14 @@ namespace BillBoardsManagement.Repository
         }
     
         public virtual DbSet<lk_catagory_rates> lk_catagory_rates { get; set; }
-        public virtual DbSet<lk_rates> lk_rates { get; set; }
         public virtual DbSet<lk_role> lk_role { get; set; }
         public virtual DbSet<user> users { get; set; }
         public virtual DbSet<bill> bills { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<lk_BillAppender> lk_BillAppender { get; set; }
         public virtual DbSet<lk_publicity_float> lk_publicity_float { get; set; }
+        public virtual DbSet<lk_Region> lk_Region { get; set; }
+        public virtual DbSet<lk_rates> lk_rates { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
     }
 }
