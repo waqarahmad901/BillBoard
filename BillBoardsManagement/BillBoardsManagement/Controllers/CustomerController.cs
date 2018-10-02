@@ -260,14 +260,25 @@ namespace BillBoardsManagement.Controllers
             }
             if (file != null)
             {
-                string fileName = $"~/Images/{oCustomer.Year}/{oCustomer.BookNumber}/{Path.GetFileName(file.FileName)}";
+                string imgName = oCustomer.SrNo + "_" + oCustomer.Brand + "_" + oCustomer.Type + "_" + oCustomer.SurveyDate;
+                imgName = imgName.Replace(" ", "_");
+                imgName = imgName.Replace("/", "_");
+
+                imgName = imgName.Replace(":", "_");
+                string withotext = imgName;
+
+                imgName += ".jpg";
+                string fileName = $"~/Images/{oCustomer.Year}/{oCustomer.BookNumber}/";
+                fileName += imgName;
+                
                 string filePath = Server.MapPath(fileName);
                 if (!Directory.Exists(Path.GetDirectoryName(filePath)))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 }
                 file.SaveAs(filePath);
-                oCustomer.Picture1 = Path.GetFileNameWithoutExtension(file.FileName);
+                oCustomer.Picture1 = withotext;
+                //Path.GetFileNameWithoutExtension(file.FileName);
             }
             if (customer.Id == 0)
             {
@@ -660,7 +671,8 @@ namespace BillBoardsManagement.Controllers
 
             float x_address = float.Parse(ConfigurationManager.AppSettings["address_X"]);
             float y_address = float.Parse(ConfigurationManager.AppSettings["address_Y"]);
-
+            float x_ammended =  float.Parse((ConfigurationManager.AppSettings["Ammended_X"]));
+            float y_ammended =  float.Parse((ConfigurationManager.AppSettings["Ammended_Y"]));
             /*
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
@@ -685,7 +697,7 @@ namespace BillBoardsManagement.Controllers
             {
                 if (ammementButton != null)
                 {
-                    pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = 260, Y = 709, IsBold = true });
+                    pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = x_ammended, Y = y_ammended, IsBold = true });
                     if (System.IO.File.Exists(Server.MapPath(obill.AmmendentBill)))
                     {
                         string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.AmmendentBill).Remove(Path.GetFileNameWithoutExtension(obill.AmmendentBill).Length - 1) + "*.pdf");
