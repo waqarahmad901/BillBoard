@@ -710,7 +710,7 @@ namespace BillBoardsManagement.Controllers
             }
             if (bool.Parse(ConfigurationManager.AppSettings["ShowtotalMearment"]))
             {
-                pdfCoordinates.Add(new PdfCoordinatesModel { Text = customers.Sum(x=> int.Parse(x.TotalMeasurment)).ToString(), X = x_total_mearment, Y = y_total_mearment, IsBold = true });
+                pdfCoordinates.Add(new PdfCoordinatesModel { Text = customers.Sum(x=> float.Parse(x.TotalMeasurment)).ToString(), X = x_total_mearment, Y = y_total_mearment, IsBold = true });
 
             }
             if (!bool.Parse(ConfigurationManager.AppSettings["BillCopy"]))
