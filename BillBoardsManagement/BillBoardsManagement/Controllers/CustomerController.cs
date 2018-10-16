@@ -677,6 +677,10 @@ namespace BillBoardsManagement.Controllers
             float x_professional_tax = float.Parse(ConfigurationManager.AppSettings["x_professional_tax"]);
             float y_professional_tax = float.Parse(ConfigurationManager.AppSettings["y_professional_tax"]);
 
+            float x_total_mearment = float.Parse(ConfigurationManager.AppSettings["x_total_mearment"]);
+            float y_total_mearment = float.Parse(ConfigurationManager.AppSettings["y_total_mearment"]);
+
+
             float x_ammended =  float.Parse((ConfigurationManager.AppSettings["Ammended_X"]));
             float y_ammended =  float.Parse((ConfigurationManager.AppSettings["Ammended_Y"]));
             /*
@@ -702,6 +706,11 @@ namespace BillBoardsManagement.Controllers
             if (bool.Parse(ConfigurationManager.AppSettings["ShowProfessionalTax"]))
             {
                 pdfCoordinates.Add( new PdfCoordinatesModel { Text = obill.ProfessionalTax.HasValue ? obill.ProfessionalTax.Value.ToString() : "0.00", X = x_professional_tax, Y = y_professional_tax, IsBold = true });
+
+            }
+            if (bool.Parse(ConfigurationManager.AppSettings["ShowtotalMearment"]))
+            {
+                pdfCoordinates.Add(new PdfCoordinatesModel { Text = customers.Sum(x=> int.Parse(x.TotalMeasurment)).ToString(), X = x_total_mearment, Y = y_total_mearment, IsBold = true });
 
             }
             if (!bool.Parse(ConfigurationManager.AppSettings["BillCopy"]))
