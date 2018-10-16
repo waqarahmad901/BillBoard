@@ -459,6 +459,7 @@ namespace BillBoardsManagement.Controllers
                 detailList.BillPath = obill.FilePath;
                 detailList.AmmementBillPath = obill.AmmendentBill;
                 detailList.discountamountpaid = obill.Discount ?? 0;
+                detailList.professionalTax = obill.ProfessionalTax ?? 0;
             }
             else
             {
@@ -521,6 +522,7 @@ namespace BillBoardsManagement.Controllers
                 bill.ContactPersonName = details.ContactPersonName;
                 bill.ContactPersonName1 = details.ContactPersonName1;
                 bill.Discount = details.discountamountpaid;
+                bill.ProfessionalTax = details.professionalTax;
                 repobill.Put(bill.Id, bill);
                 return RedirectToAction("Index");
             }
@@ -661,6 +663,9 @@ namespace BillBoardsManagement.Controllers
             float x_address = float.Parse(ConfigurationManager.AppSettings["address_X"]);
             float y_address = float.Parse(ConfigurationManager.AppSettings["address_Y"]);
 
+            float x_professional_tax = float.Parse(ConfigurationManager.AppSettings["x_professional_tax"]);
+            float y_professional_tax = float.Parse(ConfigurationManager.AppSettings["y_professional_tax"]);
+
             /*
             List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
@@ -681,6 +686,11 @@ namespace BillBoardsManagement.Controllers
                   new PdfCoordinatesModel { Type="amount", Text =  "", X = x_amount_position, Y = y_amount_position ,IsBold = true},
             new PdfCoordinatesModel {Type="address", Text = "", X = x_address, Y =y_address ,IsBold = true}
         };
+            if (bool.Parse(ConfigurationManager.AppSettings["ShowProfessionalTax"]))
+            {
+                pdfCoordinates.Add( new PdfCoordinatesModel { Text = obill.ProfessionalTax.HasValue ? obill.ProfessionalTax.Value.ToString() : "0.00", X = x_professional_tax, Y = y_professional_tax, IsBold = true });
+
+            }
             if (!bool.Parse(ConfigurationManager.AppSettings["BillCopy"]))
             {
                 if (ammementButton != null)
@@ -718,7 +728,7 @@ namespace BillBoardsManagement.Controllers
             var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
                 obill.BillId, "", ammementButton != null, details, details.BrandAddress, imageFolderPath, billApp, obill.Discount ?? 0);
 
-            pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount - obill.Discount) + "/-";
+            pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount ) + "/-";
             pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
 
             string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);

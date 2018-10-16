@@ -23,6 +23,7 @@ namespace BillBoardsManagement.Models
         public decimal billamountgenerated { get; set; }
         public decimal billamountpaid { get; set; }
         public decimal discountamountpaid { get; set; }
+        public decimal professionalTax { get; set; }
         public bool discountcheck { get; set; }
         public DateTime ShippingDate { get; set; }
         public string BrandAddress { get; set; }

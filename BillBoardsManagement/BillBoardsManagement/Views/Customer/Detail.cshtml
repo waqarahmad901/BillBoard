@@ -181,24 +181,34 @@
                             </tr>
 
                             <tr>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     @{
                                         string checkeda = Model.discountamountpaid > 0 ? "checked" : "";
                                     }
-                                    <input type="checkbox" name="discountcheck" style="float:left; margin:5px" onchange="changecheck(this)" @checkeda/> 
+                                    <input type="checkbox" name="discountcheck" style="float:left; margin:5px" onchange="changecheck(this)" @checkeda />
                                     <label for="name" style="float: left;margin-right: 1%;">Discount.</label>
                                 </td>
-                                <td>      
-                                    
-                                @{
-                                    string disabled = Model.discountamountpaid > 0 ? "" : "disabled";
-                                 }
-                                   <input type="text" value="@Model.discountamountpaid" name="discountamountpaid" id="discountamountpaid" style="margin-left:8%"  @disabled/>
-                      
+                                <td>
+
+                                    @{
+                                        string disabled = Model.discountamountpaid > 0 ? "" : "disabled";
+                                    }
+                                    <input type="text" value="@Model.discountamountpaid" name="discountamountpaid" id="discountamountpaid" style="margin-left:8%" @disabled />
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="name" style="float: left;margin-right: 1%;">Professional Tax.</label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.professionalTax, new { @style = "margin-left:8%" })
+                                </td>
+                                <td>
+                                </td>
+                                <td>      </td>
                             </tr>
 
                         </table>

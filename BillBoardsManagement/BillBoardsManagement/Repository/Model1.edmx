@@ -35,6 +35,7 @@
           <Property Name="ContactPersonDesignation1" Type="nvarchar" MaxLength="500" />
           <Property Name="ContactPersonMobile1" Type="nvarchar" MaxLength="255" />
           <Property Name="Discount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ProfessionalTax" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Comments">
           <Key>
@@ -396,6 +397,7 @@
           <Property Name="ContactPersonMobile1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="user" />
           <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ProfessionalTax" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_bill_admin_user">
           <End Type="BBMSModel.user" Role="user" Multiplicity="1" />
@@ -595,6 +597,7 @@
           <EntitySetMapping Name="bills">
             <EntityTypeMapping TypeName="BBMSModel.bill">
               <MappingFragment StoreEntitySet="bill">
+                <ScalarProperty Name="ProfessionalTax" ColumnName="ProfessionalTax" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="ContactPersonMobile1" ColumnName="ContactPersonMobile1" />
                 <ScalarProperty Name="ContactPersonDesignation1" ColumnName="ContactPersonDesignation1" />
