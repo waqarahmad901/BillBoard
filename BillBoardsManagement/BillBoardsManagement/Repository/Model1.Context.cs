@@ -32,8 +32,10 @@ namespace BillBoardsManagement.Repository
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<lk_BillAppender> lk_BillAppender { get; set; }
         public virtual DbSet<lk_publicity_float> lk_publicity_float { get; set; }
-        public virtual DbSet<lk_Region> lk_Region { get; set; }
         public virtual DbSet<lk_rates> lk_rates { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Customer1> Customer1 { get; set; }
+        public virtual DbSet<lk_town> lk_town { get; set; }
+        public virtual DbSet<Customer12> Customer12 { get; set; }
     }
 }
