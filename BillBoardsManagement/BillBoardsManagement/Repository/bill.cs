@@ -42,7 +42,5 @@ namespace BillBoardsManagement.Repository
         public Nullable<decimal> Discount { get; set; }
         public Nullable<decimal> ProfessionalTax { get; set; }
         public string BusinessType { get; set; }
-    
-        public virtual user user { get; set; }
     }
 }

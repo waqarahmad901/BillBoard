@@ -13,10 +13,10 @@ namespace BillBoardsManagement.Repository
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BBMSEntities : DbContext
+    public partial class BBMSEntities2 : DbContext
     {
-        public BBMSEntities()
-            : base("name=BBMSEntities")
+        public BBMSEntities2()
+            : base("name=BBMSEntities2")
         {
         }
     
@@ -25,17 +25,17 @@ namespace BillBoardsManagement.Repository
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<lk_catagory_rates> lk_catagory_rates { get; set; }
-        public virtual DbSet<lk_role> lk_role { get; set; }
-        public virtual DbSet<user> users { get; set; }
         public virtual DbSet<bill> bills { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<lk_BillAppender> lk_BillAppender { get; set; }
+        public virtual DbSet<lk_catagory_rates> lk_catagory_rates { get; set; }
         public virtual DbSet<lk_publicity_float> lk_publicity_float { get; set; }
         public virtual DbSet<lk_rates> lk_rates { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Customer1> Customer1 { get; set; }
+        public virtual DbSet<lk_role> lk_role { get; set; }
         public virtual DbSet<lk_town> lk_town { get; set; }
+        public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<Customer1> Customer1 { get; set; }
         public virtual DbSet<Customer12> Customer12 { get; set; }
     }
 }

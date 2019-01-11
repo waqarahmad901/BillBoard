@@ -11,15 +11,15 @@ namespace BillBoardsManagement.Repository
     public class Repository<T> : IDisposable, IRepository<T, int> where T : class
     {
         //The dendency for the DbContext specified the current class. 
-        private BBMSEntities Context { get; set; }
+        private BBMSEntities2 Context { get; set; }
 
 
         // *************************
         // *** Constructor ***
         // *************************
-        public Repository(BBMSEntities context = null)
+        public Repository(BBMSEntities2 context = null)
         {
-            Context = context ?? new BBMSEntities();
+            Context = context ?? new BBMSEntities2();
         }
 
 

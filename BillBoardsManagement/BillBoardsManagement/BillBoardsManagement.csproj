@@ -594,13 +594,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\font-awesome.css.map" />
-    <EntityDeploy Include="Repository\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Repository\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
@@ -615,6 +608,13 @@
     <Content Include="Content\maps\bootstrap\bootstrap.css.map" />
     <Content Include="Content\maps\vendors\chart.js\chart.css.map" />
     <None Include="Properties\PublishProfiles\gg.pubxml" />
+    <EntityDeploy Include="Repository\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Repository\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\clander\date.conversion.js" />
     <Content Include="Scripts\clander\jquery.calendars.islamic.js" />

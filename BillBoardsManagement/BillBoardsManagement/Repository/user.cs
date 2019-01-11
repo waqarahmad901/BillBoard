@@ -17,7 +17,6 @@ namespace BillBoardsManagement.Repository
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public user()
         {
-            this.bills = new HashSet<bill>();
             this.Comments = new HashSet<Comment>();
         }
     
@@ -56,10 +55,8 @@ namespace BillBoardsManagement.Repository
         public string DrivingLicenseNo { get; set; }
         public string BloodGroup { get; set; }
     
-        public virtual lk_role lk_role { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<bill> bills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual lk_role lk_role { get; set; }
     }
 }
