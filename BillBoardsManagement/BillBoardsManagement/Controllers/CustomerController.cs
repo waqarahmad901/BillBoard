@@ -509,196 +509,198 @@ namespace BillBoardsManagement.Controllers
         [HttpPost]
         public ActionResult SubmitDetail(CstomerDetilPageList details, FormCollection collection)
         {
-            var customerList = details.CustomerDetailList.Where(x => x.Selected).Select(x => x.CustomerName.Trim()).ToList();
-            var repository = new Repository<Customer>();
-            var rates = new Repository<lk_rates>();
-            var allrates = rates.GetAll();
-            string button = Request.Form["updatebutton"];
-            if (button != null)
+            try
             {
-                var repobill = new Repository<bill>();
-                var bill = repobill.GetAll().Where(x => x.Brand == details.Brand).FirstOrDefault();
-                bill.BrandAddress = details.BrandAddress;
-                bill.ShippingDate = details.ShippingDate;
-                bill.BillAmountPaid = details.billamountpaid;
-                bill.BillDate = details.BillDate;
-                bill.BillId = details.Billid;
-                bill.BrandAddress1 = details.BrandAddress1;
-                bill.BrandAddress2 = details.BrandAddress2;
-                bill.BrandAddress3 = details.BrandAddress3;
-                bill.ContactPersonDesignation = details.ContactPersonDesignation;
-                bill.ContactPersonDesignation1 = details.ContactPersonDesignation1;
-                bill.ContactPersonMobile = details.ContactPersonMobile;
-                bill.ContactPersonMobile1 = details.ContactPersonMobile1;
-                bill.ContactPersonName = details.ContactPersonName;
-                bill.ContactPersonName1 = details.ContactPersonName1;
-                bill.Discount = details.discountamountpaid;
-                bill.ProfessionalTax = details.professionalTax;
-                repobill.Put(bill.Id, bill);
-                return RedirectToAction("Index");
-            }
-
-            var catagoryRates = new Repository<lk_catagory_rates>();
-            var allratesCatagory = catagoryRates.GetAll();
-
-            List<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description.Trim()) && x.Brand.Trim() == details.Brand.Trim()).ToList();
-
-
-            string[] keys = collection.AllKeys.Where(x => x.StartsWith("rate_")).ToArray();
-            foreach (var item in keys)
-            {
-                int custId = int.Parse(item.Split('_')[1]);
-                if (!string.IsNullOrEmpty(Request[item]))
+                var customerList = details.CustomerDetailList.Where(x => x.Selected).Select(x => x.CustomerName.Trim()).ToList();
+                var repository = new Repository<Customer>();
+                var rates = new Repository<lk_rates>();
+                var allrates = rates.GetAll();
+                string button = Request.Form["updatebutton"];
+                if (button != null)
                 {
-                    decimal rate = decimal.Parse(Request[item]);
-                    var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    if (cust != null)
-                        cust.Rates = rate;
+                    var repobill = new Repository<bill>();
+                    var bill = repobill.GetAll().Where(x => x.Brand == details.Brand).FirstOrDefault();
+                    bill.BrandAddress = details.BrandAddress;
+                    bill.ShippingDate = details.ShippingDate;
+                    bill.BillAmountPaid = details.billamountpaid;
+                    bill.BillDate = details.BillDate;
+                    bill.BillId = details.Billid;
+                    bill.BrandAddress1 = details.BrandAddress1;
+                    bill.BrandAddress2 = details.BrandAddress2;
+                    bill.BrandAddress3 = details.BrandAddress3;
+                    bill.ContactPersonDesignation = details.ContactPersonDesignation;
+                    bill.ContactPersonDesignation1 = details.ContactPersonDesignation1;
+                    bill.ContactPersonMobile = details.ContactPersonMobile;
+                    bill.ContactPersonMobile1 = details.ContactPersonMobile1;
+                    bill.ContactPersonName = details.ContactPersonName;
+                    bill.ContactPersonName1 = details.ContactPersonName1;
+                    bill.Discount = details.discountamountpaid;
+                    bill.ProfessionalTax = details.professionalTax;
+                    repobill.Put(bill.Id, bill);
+                    return RedirectToAction("Index");
                 }
-            }
 
-            keys = collection.AllKeys.Where(x => x.StartsWith("floatfre_")).ToArray();
-            foreach (var item in keys)
-            {
-                int custId = int.Parse(item.Split('_')[1]);
-                if (!string.IsNullOrEmpty(Request[item]))
+                var catagoryRates = new Repository<lk_catagory_rates>();
+                var allratesCatagory = catagoryRates.GetAll();
+
+                List<Customer> customers = repository.GetAll().Where(x => customerList.Contains(x.Description.Trim()) && x.Brand.Trim() == details.Brand.Trim()).ToList();
+
+
+                string[] keys = collection.AllKeys.Where(x => x.StartsWith("rate_")).ToArray();
+                foreach (var item in keys)
                 {
-                    var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    if (cust != null)
-                        cust.BillFrequency = Request[item];
+                    int custId = int.Parse(item.Split('_')[1]);
+                    if (!string.IsNullOrEmpty(Request[item]))
+                    {
+                        decimal rate = decimal.Parse(Request[item]);
+                        var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                        if (cust != null)
+                            cust.Rates = rate;
+                    }
                 }
-            }
 
-            keys = collection.AllKeys.Where(x => x.StartsWith("floatrate_")).ToArray();
-            foreach (var item in keys)
-            {
-                int custId = int.Parse(item.Split('_')[1]);
-                if (!string.IsNullOrEmpty(Request[item]))
+                keys = collection.AllKeys.Where(x => x.StartsWith("floatfre_")).ToArray();
+                foreach (var item in keys)
                 {
-                    decimal rate = decimal.Parse(Request[item]);
-                    var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    if (cust != null)
-                        cust.FloatRate = rate;
+                    int custId = int.Parse(item.Split('_')[1]);
+                    if (!string.IsNullOrEmpty(Request[item]))
+                    {
+                        var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                        if (cust != null)
+                            cust.BillFrequency = Request[item];
+                    }
                 }
-            }
 
-            keys = collection.AllKeys.Where(x => x.StartsWith("floatmonth_")).ToArray();
-            foreach (var item in keys)
-            {
-                int custId = int.Parse(item.Split('_')[1]);
-                if (!string.IsNullOrEmpty(Request[item]))
+                keys = collection.AllKeys.Where(x => x.StartsWith("floatrate_")).ToArray();
+                foreach (var item in keys)
                 {
-                    int month = int.Parse(Request[item]);
-                    var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
-                    if (cust != null)
-                        cust.FloatNumberMonth = month;
+                    int custId = int.Parse(item.Split('_')[1]);
+                    if (!string.IsNullOrEmpty(Request[item]))
+                    {
+                        decimal rate = decimal.Parse(Request[item]);
+                        var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                        if (cust != null)
+                            cust.FloatRate = rate;
+                    }
                 }
-            }
 
-
-
-
-            repository.SaveChanges();
-            var repoBill = new Repository<bill>();
-            bill obill = null;
-
-            obill = repoBill.GetAll().FirstOrDefault(x => x.Brand == details.Brand);
-            if (obill == null)
-            {
-                var rnd = new Random();
-                var num = rnd.Next(0000000, 9999999);
-                obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "101" : (repoBill.GetAll().Select(x => int.Parse(x.BillId)).Max() + 1).ToString() };
-                obill.BillDate = DateTime.Now;
-
-            }
-
-            obill.Brand = details.Brand;
-            obill.CustomerNames = string.Join(",", customerList);
-            obill.CreatedAt = DateTime.Now;
-            obill.CreatedBy = 1;
-            obill.BrandAddress = details.BrandAddress;
-            obill.TrakingNumber = details.TrakingNumber;
-            obill.NumberMonth = details.NumberMonth;
-            if (DateTime.MinValue == details.ShippingDate) obill.ShippingDate = null;
-            else obill.ShippingDate = details.ShippingDate;
-            obill.BillAmountPaid = details.billamountpaid;
-            obill.BillDate = details.BillDate;
-            if (details.Billid != "0")
-                obill.BillId = details.Billid;
-            obill.BrandAddress1 = details.BrandAddress1;
-            obill.BrandAddress2 = details.BrandAddress2;
-            obill.BrandAddress3 = details.BrandAddress3;
-            obill.ContactPersonDesignation = details.ContactPersonDesignation;
-            obill.ContactPersonDesignation1 = details.ContactPersonDesignation1;
-            obill.ContactPersonMobile = details.ContactPersonMobile;
-            obill.ContactPersonMobile1 = details.ContactPersonMobile1;
-            obill.ContactPersonName = details.ContactPersonName;
-            obill.ContactPersonName1 = details.ContactPersonName1;
-            obill.Discount = details.discountamountpaid;
-            obill.ProfessionalTax = details.professionalTax;
-
-            var comments = Request["txtcomments"];
-            button = Request.Form["comment"];
-            if (button != null)
-            {
-                if (!string.IsNullOrEmpty(comments))
+                keys = collection.AllKeys.Where(x => x.StartsWith("floatmonth_")).ToArray();
+                foreach (var item in keys)
                 {
-                    var repoComments = new Repository<Comment>();
-                    var userId = (Session["user"] as ContextUser).OUser.Id;
-                    Comment comm = new Comment { Brand = details.Brand, Comments = comments, CreatedAt = DateTime.Now, UserId = userId };
-                    repoComments.Post(comm);
+                    int custId = int.Parse(item.Split('_')[1]);
+                    if (!string.IsNullOrEmpty(Request[item]))
+                    {
+                        int month = int.Parse(Request[item]);
+                        var cust = customers.Where(x => x.Id == custId).FirstOrDefault();
+                        if (cust != null)
+                            cust.FloatNumberMonth = month;
+                    }
                 }
-                return RedirectToAction("Detail", new { brand = details.Brand });
-            }
-
-            var billAppernders = new Repository<lk_BillAppender>().GetAll();
-            var catagory = customers.Select(x => x.Catagory).FirstOrDefault();
-            catagory = string.IsNullOrEmpty(catagory) ? "Default" : catagory;
-            string billApp = billAppernders.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x => x.BillNumberAppender).FirstOrDefault() + " ";
-
-            string ammementButton = Request.Form["ammement"];
-            float x_billid = float.Parse(ConfigurationManager.AppSettings["bill_id_X"]);
-            float y_billid = float.Parse(ConfigurationManager.AppSettings["bill_id_Y"]);
-
-            float x_billApp= float.Parse(ConfigurationManager.AppSettings["billApp_X"]);
-            float y_billApp= float.Parse(ConfigurationManager.AppSettings["billApp_Y"]);
-
-            float x_date_position = float.Parse(ConfigurationManager.AppSettings["date_position_X"]);
-            float y_date_position = float.Parse(ConfigurationManager.AppSettings["date_position_Y"]);
-
-            float x_name_position = float.Parse(ConfigurationManager.AppSettings["name_position_X"]);
-            float y_name_position = float.Parse(ConfigurationManager.AppSettings["name_position_Y"]);
-
-            float x_amount_position = float.Parse(ConfigurationManager.AppSettings["amount_position_X"]);
-            float y_amount_position = float.Parse(ConfigurationManager.AppSettings["amount_position_Y"]);
-
-            float x_address = float.Parse(ConfigurationManager.AppSettings["address_X"]);
-            float y_address = float.Parse(ConfigurationManager.AppSettings["address_Y"]);
-
-            float x_professional_tax = float.Parse(ConfigurationManager.AppSettings["x_professional_tax"]);
-            float y_professional_tax = float.Parse(ConfigurationManager.AppSettings["y_professional_tax"]);
-
-            float x_total_mearment = float.Parse(ConfigurationManager.AppSettings["x_total_mearment"]);
-            float y_total_mearment = float.Parse(ConfigurationManager.AppSettings["y_total_mearment"]);
-
-            float x_total_amount = float.Parse(ConfigurationManager.AppSettings["x_total_amount"]);
-            float y_total_amount = float.Parse(ConfigurationManager.AppSettings["y_total_amount"]);
 
 
-            float x_ammended =  float.Parse((ConfigurationManager.AppSettings["Ammended_X"]));
-            float y_ammended =  float.Parse((ConfigurationManager.AppSettings["Ammended_Y"]));
-            /*
-            List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
-            {
-                new PdfCoordinatesModel {Text = obill.BillId, X = 117, Y = 831 ,IsBold = true},
-                new PdfCoordinatesModel {Text = billApp, X = 160, Y = 830 ,IsBold = false,FontSize=14},
-                new PdfCoordinatesModel {Text =   details.BillDate.ToString("dd/MM/yyyy"), X = 425, Y = 831,IsBold = true },
-                new PdfCoordinatesModel {Text = customers.First().Brand, X = 264, Y = 806,IsBold = true},
-                  new PdfCoordinatesModel { Type="amount", Text =  "", X = 427, Y = 590 ,IsBold = true},
-            new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 781 ,IsBold = true}
-            */
 
-            List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
+
+                repository.SaveChanges();
+                var repoBill = new Repository<bill>();
+                bill obill = null;
+
+                obill = repoBill.GetAll().FirstOrDefault(x => x.Brand == details.Brand);
+                if (obill == null)
+                {
+                    var rnd = new Random();
+                    var num = rnd.Next(0000000, 9999999);
+                    obill = new bill { FilePath = "", BillId = repoBill.GetAll().Count() == 0 ? "101" : (repoBill.GetAll().Select(x => int.Parse(x.BillId)).Max() + 1).ToString() };
+                    obill.BillDate = DateTime.Now;
+
+                }
+
+                obill.Brand = details.Brand;
+                obill.CustomerNames = string.Join(",", customerList);
+                obill.CreatedAt = DateTime.Now;
+                obill.CreatedBy = 1;
+                obill.BrandAddress = details.BrandAddress;
+                obill.TrakingNumber = details.TrakingNumber;
+                obill.NumberMonth = details.NumberMonth;
+                if (DateTime.MinValue == details.ShippingDate) obill.ShippingDate = null;
+                else obill.ShippingDate = details.ShippingDate;
+                obill.BillAmountPaid = details.billamountpaid;
+                obill.BillDate = details.BillDate;
+                if (details.Billid != "0")
+                    obill.BillId = details.Billid;
+                obill.BrandAddress1 = details.BrandAddress1;
+                obill.BrandAddress2 = details.BrandAddress2;
+                obill.BrandAddress3 = details.BrandAddress3;
+                obill.ContactPersonDesignation = details.ContactPersonDesignation;
+                obill.ContactPersonDesignation1 = details.ContactPersonDesignation1;
+                obill.ContactPersonMobile = details.ContactPersonMobile;
+                obill.ContactPersonMobile1 = details.ContactPersonMobile1;
+                obill.ContactPersonName = details.ContactPersonName;
+                obill.ContactPersonName1 = details.ContactPersonName1;
+                obill.Discount = details.discountamountpaid;
+                obill.ProfessionalTax = details.professionalTax;
+
+                var comments = Request["txtcomments"];
+                button = Request.Form["comment"];
+                if (button != null)
+                {
+                    if (!string.IsNullOrEmpty(comments))
+                    {
+                        var repoComments = new Repository<Comment>();
+                        var userId = (Session["user"] as ContextUser).OUser.Id;
+                        Comment comm = new Comment { Brand = details.Brand, Comments = comments, CreatedAt = DateTime.Now, UserId = userId };
+                        repoComments.Post(comm);
+                    }
+                    return RedirectToAction("Detail", new { brand = details.Brand });
+                }
+
+                var billAppernders = new Repository<lk_BillAppender>().GetAll();
+                var catagory = customers.Select(x => x.Catagory).FirstOrDefault();
+                catagory = string.IsNullOrEmpty(catagory) ? "Default" : catagory;
+                string billApp = billAppernders.Where(x => x.Catagory.ToLower() == catagory.ToLower()).Select(x => x.BillNumberAppender).FirstOrDefault() + " ";
+
+                string ammementButton = Request.Form["ammement"];
+                float x_billid = float.Parse(ConfigurationManager.AppSettings["bill_id_X"]);
+                float y_billid = float.Parse(ConfigurationManager.AppSettings["bill_id_Y"]);
+
+                float x_billApp = float.Parse(ConfigurationManager.AppSettings["billApp_X"]);
+                float y_billApp = float.Parse(ConfigurationManager.AppSettings["billApp_Y"]);
+
+                float x_date_position = float.Parse(ConfigurationManager.AppSettings["date_position_X"]);
+                float y_date_position = float.Parse(ConfigurationManager.AppSettings["date_position_Y"]);
+
+                float x_name_position = float.Parse(ConfigurationManager.AppSettings["name_position_X"]);
+                float y_name_position = float.Parse(ConfigurationManager.AppSettings["name_position_Y"]);
+
+                float x_amount_position = float.Parse(ConfigurationManager.AppSettings["amount_position_X"]);
+                float y_amount_position = float.Parse(ConfigurationManager.AppSettings["amount_position_Y"]);
+
+                float x_address = float.Parse(ConfigurationManager.AppSettings["address_X"]);
+                float y_address = float.Parse(ConfigurationManager.AppSettings["address_Y"]);
+
+                float x_professional_tax = float.Parse(ConfigurationManager.AppSettings["x_professional_tax"]);
+                float y_professional_tax = float.Parse(ConfigurationManager.AppSettings["y_professional_tax"]);
+
+                float x_total_mearment = float.Parse(ConfigurationManager.AppSettings["x_total_mearment"]);
+                float y_total_mearment = float.Parse(ConfigurationManager.AppSettings["y_total_mearment"]);
+
+                float x_total_amount = float.Parse(ConfigurationManager.AppSettings["x_total_amount"]);
+                float y_total_amount = float.Parse(ConfigurationManager.AppSettings["y_total_amount"]);
+
+
+                float x_ammended = float.Parse((ConfigurationManager.AppSettings["Ammended_X"]));
+                float y_ammended = float.Parse((ConfigurationManager.AppSettings["Ammended_Y"]));
+                /*
+                List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
+                {
+                    new PdfCoordinatesModel {Text = obill.BillId, X = 117, Y = 831 ,IsBold = true},
+                    new PdfCoordinatesModel {Text = billApp, X = 160, Y = 830 ,IsBold = false,FontSize=14},
+                    new PdfCoordinatesModel {Text =   details.BillDate.ToString("dd/MM/yyyy"), X = 425, Y = 831,IsBold = true },
+                    new PdfCoordinatesModel {Text = customers.First().Brand, X = 264, Y = 806,IsBold = true},
+                      new PdfCoordinatesModel { Type="amount", Text =  "", X = 427, Y = 590 ,IsBold = true},
+                new PdfCoordinatesModel {Type="address", Text = "", X = 88, Y = 781 ,IsBold = true}
+                */
+
+                List<PdfCoordinatesModel> pdfCoordinates = new List<PdfCoordinatesModel>()
             {
                 new PdfCoordinatesModel {Text = obill.BillId, X = x_billid, Y = y_billid ,IsBold = true},
                 new PdfCoordinatesModel {Text = billApp, X = x_billApp, Y = y_billApp ,IsBold = false,FontSize=14},
@@ -708,133 +710,148 @@ namespace BillBoardsManagement.Controllers
             new PdfCoordinatesModel {Type="address", Text = "", X = x_address, Y =y_address ,IsBold = true},
             new PdfCoordinatesModel {Type="amount_b", Text = "", X = x_total_amount, Y =y_total_amount ,IsBold = true}
         };
-            if (bool.Parse(ConfigurationManager.AppSettings["ShowProfessionalTax"]))
-            {
-                pdfCoordinates.Add( new PdfCoordinatesModel { Text = obill.ProfessionalTax.HasValue ? obill.ProfessionalTax.Value.ToString() : "0.00", X = x_professional_tax, Y = y_professional_tax, IsBold = true });
-
-            }
-            if (bool.Parse(ConfigurationManager.AppSettings["ShowtotalMearment"]))
-            {
-                pdfCoordinates.Add(new PdfCoordinatesModel { Text = customers.Sum(x=> float.Parse(x.TotalMeasurment)).ToString(), X = x_total_mearment, Y = y_total_mearment, IsBold = true });
-
-            }
-            if (!bool.Parse(ConfigurationManager.AppSettings["BillCopy"]))
-            {
-                if (ammementButton != null)
+                if (bool.Parse(ConfigurationManager.AppSettings["ShowProfessionalTax"]))
                 {
-                    pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = x_ammended, Y = y_ammended, IsBold = true });
-                    if (System.IO.File.Exists(Server.MapPath(obill.AmmendentBill)))
+                    pdfCoordinates.Add(new PdfCoordinatesModel { Text = obill.ProfessionalTax.HasValue ? obill.ProfessionalTax.Value.ToString() : "0.00", X = x_professional_tax, Y = y_professional_tax, IsBold = true });
+
+                }
+                if (bool.Parse(ConfigurationManager.AppSettings["ShowtotalMearment"]))
+                {
+                    float outVlaue = 0.00f;
+                    float resultVlaue = 0.00f;
+                    foreach (var item in customers)
                     {
-                        string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.AmmendentBill).Remove(Path.GetFileNameWithoutExtension(obill.AmmendentBill).Length - 1) + "*.pdf");
-                        foreach (var item in files)
+                        outVlaue = 0.00f;
+                        outVlaue = float.Parse(item.TotalMeasurment, CultureInfo.InvariantCulture);
+                        resultVlaue += outVlaue;
+                    }
+
+                    pdfCoordinates.Add(new PdfCoordinatesModel { Text = resultVlaue.ToString(), X = x_total_mearment, Y = y_total_mearment, IsBold = true });
+
+                }
+                if (!bool.Parse(ConfigurationManager.AppSettings["BillCopy"]))
+                {
+                    if (ammementButton != null)
+                    {
+                        pdfCoordinates.Add(new PdfCoordinatesModel { Text = "(AMENDED BILL)", X = x_ammended, Y = y_ammended, IsBold = true });
+                        if (System.IO.File.Exists(Server.MapPath(obill.AmmendentBill)))
                         {
-                            System.IO.File.Delete(item);
+                            string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.AmmendentBill).Remove(Path.GetFileNameWithoutExtension(obill.AmmendentBill).Length - 1) + "*.pdf");
+                            foreach (var item in files)
+                            {
+                                System.IO.File.Delete(item);
+                            }
                         }
                     }
+                    else
+                    {
+                        if (System.IO.File.Exists(Server.MapPath(obill.FilePath)))
+                        {
+                            string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.FilePath).Remove(Path.GetFileNameWithoutExtension(obill.FilePath).Length - 1) + "*.pdf");
+                            foreach (var item in files)
+                            {
+                                System.IO.File.Delete(item);
+
+                            }
+                        }
+                    }
+                }
+                string imageFolderPath = Server.MapPath("~/Images");
+                string ufileName = Guid.NewGuid().ToString();
+                string filePath = Path.Combine("~/Uploads", ufileName + "1.pdf");
+                string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "2.pdf"));
+                string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "3.pdf"));
+                string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "4.pdf"));
+                string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "5.pdf"));
+                var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                    obill.BillId, "", ammementButton != null, details, details.BrandAddress, imageFolderPath, billApp, obill.Discount ?? 0);
+
+                pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
+                pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount) + "/-";
+
+                pdfCoordinates.Where(x => x.Type == "amount_b").First().Text = totalamount + "";
+
+
+                string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+                Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile);
+
+                if (!string.IsNullOrEmpty(details.BrandAddress1))
+                {
+                    filePath = Path.Combine("~/Uploads", ufileName + "6.pdf");
+                    PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                     obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath, billApp, obill.Discount ?? 0);
+                    //    pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
+                    pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
+                    pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount) + "/-";
+
+                    pdfCoordinates.Where(x => x.Type == "amount_b").First().Text = totalamount + "";
+
+
+                    aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+                    Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile1);
+
+                }
+                if (!string.IsNullOrEmpty(details.BrandAddress2))
+                {
+                    filePath = Path.Combine("~/Uploads", ufileName + "7.pdf");
+                    PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                    obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath, billApp, obill.Discount ?? 0);
+                    //pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
+                    pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
+                    pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount) + "/-";
+
+                    pdfCoordinates.Where(x => x.Type == "amount_b").First().Text = totalamount + "";
+
+                    aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+                    Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile2);
+
+                }
+                if (!string.IsNullOrEmpty(details.BrandAddress3))
+                {
+                    filePath = Path.Combine("~/Uploads", ufileName + "8.pdf");
+                    PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
+                    obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath, billApp, obill.Discount ?? 0);
+                    //pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
+                    pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount) + "/-";
+
+                    pdfCoordinates.Where(x => x.Type == "amount_b").First().Text = totalamount + "";
+                    pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
+
+
+                    Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
+
+                }
+                string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "_final.pdf"));
+
+                Utility.MergePDFs(new List<string> { destinationFile, destinationFile1, destinationFile2, destinationFile3 }, mergerdFile);
+
+                DeleteTempFiles(ufileName);
+
+                obill.BillAmountGenerated = totalamount + obill.ProfessionalTax - obill.Discount;
+
+                if (ammementButton != null)
+                    obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(mergerdFile);
+                else
+                {
+
+                    obill.FilePath = "~/Uploads/" + Path.GetFileName(mergerdFile);
+                }
+                if (obill.Id > 0)
+                {
+                    repoBill.Put(obill.Id, obill);
                 }
                 else
                 {
-                    if (System.IO.File.Exists(Server.MapPath(obill.FilePath)))
-                    {
-                        string[] files = Directory.GetFiles(Server.MapPath("~/uploads"), Path.GetFileNameWithoutExtension(obill.FilePath).Remove(Path.GetFileNameWithoutExtension(obill.FilePath).Length - 1) + "*.pdf");
-                        foreach (var item in files)
-                        {
-                            System.IO.File.Delete(item);
-
-                        }
-                    }
+                    repoBill.Post(obill);
                 }
+
+                return RedirectToAction("Detail", new { brand = details.Brand });
             }
-            string imageFolderPath = Server.MapPath("~/Images");
-            string ufileName = Guid.NewGuid().ToString();
-            string filePath = Path.Combine("~/Uploads", ufileName + "1.pdf");
-            string destinationFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "2.pdf"));
-            string destinationFile1 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "3.pdf"));
-            string destinationFile2 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "4.pdf"));
-            string destinationFile3 = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "5.pdf"));
-            var totalamount = PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress, imageFolderPath, billApp, obill.Discount ?? 0);
-
-            pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress + "";
-            pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount) + "/-";
-
-            pdfCoordinates.Where(x => x.Type == "amount_b").First().Text = totalamount+ "";
-
-
-            string aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-            Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile);
-
-            if (!string.IsNullOrEmpty(details.BrandAddress1))
+            catch(Exception ex)
             {
-                filePath = Path.Combine("~/Uploads", ufileName + "6.pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                 obill.BillId, "", ammementButton != null, details, details.BrandAddress1, imageFolderPath, billApp, obill.Discount ?? 0);
-            //    pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
-                pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress1 + "";
-                pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount) + "/-";
-
-                pdfCoordinates.Where(x => x.Type == "amount_b").First().Text = totalamount + "";
-
-
-                aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile1);
-
+                System.IO.File.AppendAllText(Server.MapPath("~/log.txt"), ex.ToString());
             }
-            if (!string.IsNullOrEmpty(details.BrandAddress2))
-            {
-                filePath = Path.Combine("~/Uploads", ufileName + "7.pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress2, imageFolderPath, billApp, obill.Discount ?? 0);
-                //pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
-                pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress2 + "";
-                pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount) + "/-";
-
-                pdfCoordinates.Where(x => x.Type == "amount_b").First().Text = totalamount + "";
-
-                aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile2);
-
-            }
-            if (!string.IsNullOrEmpty(details.BrandAddress3))
-            {
-                filePath = Path.Combine("~/Uploads", ufileName + "8.pdf");
-                PdfGenerator.GenerateOnflyPdf(Server.MapPath(filePath), customers, allrates, allratesCatagory,
-                obill.BillId, "", ammementButton != null, details, details.BrandAddress3, imageFolderPath, billApp, obill.Discount ?? 0);
-                //pdfCoordinates.Where(x => x.Type == "amount").First().Text = totalamount + "/-";
-                pdfCoordinates.Where(x => x.Type == "amount").First().Text = (totalamount + obill.ProfessionalTax - obill.Discount) + "/-";
-
-                pdfCoordinates.Where(x => x.Type == "amount_b").First().Text = totalamount + "";
-                pdfCoordinates.Where(x => x.Type == "address").First().Text = details.BrandAddress3 + ""; aggrementfile = PdfGeneratorAggrement.GenerateOnflyPdf(Server.MapPath("~/Uploads/Bill/BillAggrementTemplate.pdf"), pdfCoordinates);
-                
-
-                Utility.MergePDFs(new List<string> { Server.MapPath(filePath), aggrementfile }, destinationFile3);
-
-            }
-            string mergerdFile = Server.MapPath(Path.Combine(Path.GetDirectoryName(filePath), ufileName + "_final.pdf"));
-
-            Utility.MergePDFs(new List<string> { destinationFile, destinationFile1, destinationFile2, destinationFile3 }, mergerdFile);
-
-            DeleteTempFiles(ufileName);
-
-            obill.BillAmountGenerated = totalamount+obill.ProfessionalTax - obill.Discount;
-
-            if (ammementButton != null)
-                obill.AmmendentBill = "~/Uploads/" + Path.GetFileName(mergerdFile);
-            else
-            {
-
-                obill.FilePath = "~/Uploads/" + Path.GetFileName(mergerdFile);
-            }
-            if (obill.Id > 0)
-            {
-                repoBill.Put(obill.Id, obill);
-            }
-            else
-            {
-                repoBill.Post(obill);
-            }
-
-            return RedirectToAction("Detail", new { brand = details.Brand });
+            return RedirectToAction("Detail", new { brand = "" });
         }
 
         private void DeleteTempFiles(string ufileName)
