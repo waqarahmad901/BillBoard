@@ -471,6 +471,8 @@ namespace BillBoardsManagement.Controllers
                 detailList.AmmementBillPath = obill.AmmendentBill;
                 detailList.discountamountpaid = obill.Discount ?? 0;
                 detailList.professionalTax = obill.ProfessionalTax ?? 0;
+              //  detailList.businessType = obill.BusinessType ;
+                
             }
             else
             {
@@ -614,30 +616,30 @@ namespace BillBoardsManagement.Controllers
 
                 }
 
-                obill.Brand = details.Brand;
-                obill.CustomerNames = string.Join(",", customerList);
-                obill.CreatedAt = DateTime.Now;
-                obill.CreatedBy = 1;
-                obill.BrandAddress = details.BrandAddress;
-                obill.TrakingNumber = details.TrakingNumber;
-                obill.NumberMonth = details.NumberMonth;
-                if (DateTime.MinValue == details.ShippingDate) obill.ShippingDate = null;
-                else obill.ShippingDate = details.ShippingDate;
-                obill.BillAmountPaid = details.billamountpaid;
-                obill.BillDate = details.BillDate;
-                if (details.Billid != "0")
-                    obill.BillId = details.Billid;
-                obill.BrandAddress1 = details.BrandAddress1;
-                obill.BrandAddress2 = details.BrandAddress2;
-                obill.BrandAddress3 = details.BrandAddress3;
-                obill.ContactPersonDesignation = details.ContactPersonDesignation;
-                obill.ContactPersonDesignation1 = details.ContactPersonDesignation1;
-                obill.ContactPersonMobile = details.ContactPersonMobile;
-                obill.ContactPersonMobile1 = details.ContactPersonMobile1;
-                obill.ContactPersonName = details.ContactPersonName;
-                obill.ContactPersonName1 = details.ContactPersonName1;
-                obill.Discount = details.discountamountpaid;
-                obill.ProfessionalTax = details.professionalTax;
+            obill.Brand = details.Brand;
+            obill.CustomerNames = string.Join(",", customerList);
+            obill.CreatedAt = DateTime.Now;
+            obill.CreatedBy = 1;
+            obill.BrandAddress = details.BrandAddress;
+            obill.TrakingNumber = details.TrakingNumber;
+            obill.NumberMonth = details.NumberMonth;
+            if (DateTime.MinValue == details.ShippingDate) obill.ShippingDate = null;
+            else obill.ShippingDate = details.ShippingDate;
+            obill.BillAmountPaid = details.billamountpaid;
+            obill.BillDate = details.BillDate;
+            if (details.Billid != "0")
+                obill.BillId = details.Billid;
+            obill.BrandAddress1 = details.BrandAddress1;
+            obill.BrandAddress2 = details.BrandAddress2;
+            obill.BrandAddress3 = details.BrandAddress3;
+            obill.ContactPersonDesignation = details.ContactPersonDesignation;
+            obill.ContactPersonDesignation1 = details.ContactPersonDesignation1;
+            obill.ContactPersonMobile = details.ContactPersonMobile;
+            obill.ContactPersonMobile1 = details.ContactPersonMobile1;
+            obill.ContactPersonName = details.ContactPersonName;
+            obill.ContactPersonName1 = details.ContactPersonName1;
+            obill.Discount = details.discountamountpaid;
+            obill.ProfessionalTax = details.professionalTax;
 
                 var comments = Request["txtcomments"];
                 button = Request.Form["comment"];
@@ -683,8 +685,8 @@ namespace BillBoardsManagement.Controllers
                 float x_total_mearment = float.Parse(ConfigurationManager.AppSettings["x_total_mearment"]);
                 float y_total_mearment = float.Parse(ConfigurationManager.AppSettings["y_total_mearment"]);
 
-                float x_total_amount = float.Parse(ConfigurationManager.AppSettings["x_total_amount"]);
-                float y_total_amount = float.Parse(ConfigurationManager.AppSettings["y_total_amount"]);
+            float x_total_amount = float.Parse(ConfigurationManager.AppSettings["x_total_amount"]);
+            float y_total_amount = float.Parse(ConfigurationManager.AppSettings["y_total_amount"]);
 
 
                 float x_ammended = float.Parse((ConfigurationManager.AppSettings["Ammended_X"]));

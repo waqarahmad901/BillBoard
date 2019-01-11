@@ -24,6 +24,7 @@ namespace BillBoardsManagement.Models
         public decimal billamountpaid { get; set; }
         public decimal discountamountpaid { get; set; }
         public decimal professionalTax { get; set; }
+        public string businessType { get; set; }
         public bool discountcheck { get; set; }
         public DateTime ShippingDate { get; set; }
         public string BrandAddress { get; set; }

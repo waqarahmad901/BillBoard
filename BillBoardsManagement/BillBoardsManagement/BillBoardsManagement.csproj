@@ -244,6 +244,12 @@
     <Compile Include="Repository\Customer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repository\Customer1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\Customer12.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\lk_BillAppender.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -256,10 +262,10 @@
     <Compile Include="Repository\lk_rates.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repository\lk_Region.cs">
+    <Compile Include="Repository\lk_role.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repository\lk_role.cs">
+    <Compile Include="Repository\lk_town.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Repository\Model1.Context.cs">
@@ -641,7 +647,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

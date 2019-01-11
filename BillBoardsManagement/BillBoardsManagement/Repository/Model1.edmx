@@ -4,263 +4,325 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BBMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="bill">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BillId" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Brand" Type="nvarchar" MaxLength="1000" />
-          <Property Name="CustomerNames" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FilePath" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="CreatedBy" Type="int" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="DuplicateBillId" Type="int" />
-          <Property Name="AmmendentBill" Type="nvarchar" MaxLength="500" />
-          <Property Name="BrandAddress" Type="nvarchar" MaxLength="500" />
-          <Property Name="TrakingNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="NumberMonth" Type="int" />
-          <Property Name="ShippingDate" Type="datetime" />
-          <Property Name="BillAmountGenerated" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="BillAmountPaid" Type="decimal" Precision="20" Scale="2" />
-          <Property Name="BrandAddress1" Type="nvarchar" MaxLength="500" />
-          <Property Name="BrandAddress2" Type="nvarchar" MaxLength="500" />
-          <Property Name="BrandAddress3" Type="nvarchar" MaxLength="500" />
-          <Property Name="BillDate" Type="datetime" />
-          <Property Name="ContactPersonName" Type="nvarchar" MaxLength="500" />
-          <Property Name="ContactPersonDesignation" Type="nvarchar" MaxLength="500" />
-          <Property Name="ContactPersonMobile" Type="nvarchar" MaxLength="50" />
-          <Property Name="ContactPersonName1" Type="nvarchar" MaxLength="500" />
-          <Property Name="ContactPersonDesignation1" Type="nvarchar" MaxLength="500" />
-          <Property Name="ContactPersonMobile1" Type="nvarchar" MaxLength="255" />
-          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="ProfessionalTax" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>
-        <EntityType Name="Comments">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Brand" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="Comments" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="SrNo" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Location" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Near" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Type" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Size1" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Size2" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Size3" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Size4" Type="nvarchar" MaxLength="1000" />
-          <Property Name="TotalMeasurment" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Brand" Type="nvarchar" MaxLength="4000" />
-          <Property Name="SurveyDate" Type="datetime" />
-          <Property Name="BookNumber" Type="nvarchar" MaxLength="1000" />
-          <Property Name="CreatedAt" Type="datetime" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Picture" Type="image" />
-          <Property Name="Picture1" Type="nvarchar" MaxLength="1000" />
-          <Property Name="PictureDiskPath" Type="nvarchar" MaxLength="1000" />
-          <Property Name="test" Type="int" />
-          <Property Name="Catagory" Type="nvarchar" MaxLength="500" />
-          <Property Name="Rates" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Latitude" Type="nvarchar" MaxLength="500" />
-          <Property Name="Longitude" Type="nvarchar" MaxLength="500" />
-          <Property Name="Year" Type="nvarchar" MaxLength="500" />
-          <Property Name="PublicityFloatCatagory" Type="nvarchar" MaxLength="1000" />
-          <Property Name="BillFrequency" Type="nvarchar" MaxLength="1000" />
-          <Property Name="FloatNumberMonth" Type="int" />
-          <Property Name="FloatRate" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>
-        <EntityType Name="lk_BillAppender">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Catagory" Type="nvarchar" MaxLength="50" />
-          <Property Name="BillNumberAppender" Type="nvarchar" MaxLength="500" />
-        </EntityType>
-        <EntityType Name="lk_catagory_rates">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Road" Type="nvarchar" MaxLength="50" />
-          <Property Name="Catagory" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="lk_publicity_float">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Catagory" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PerDay" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Perweek" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="PerTwoWeek" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="PerMonth" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>
-        <EntityType Name="lk_rates">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Brand" Type="bit" />
-          <Property Name="Category" Type="nvarchar" MaxLength="50" />
-          <Property Name="Year" Type="int" />
-          <Property Name="Town" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="lk_Region">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Contractor" Type="nvarchar" MaxLength="500" />
-          <Property Name="Area" Type="nvarchar" MaxLength="50" />
-          <Property Name="Region" Type="nvarchar" MaxLength="50" />
-          <Property Name="Region_on_pdf" Type="nvarchar" MaxLength="50" />
-          <Property Name="amount_position_X" Type="int" />
-          <Property Name="amount_position_Y" Type="int" />
-          <Property Name="name_position_X" Type="int" />
-          <Property Name="name_position_Y" Type="int" />
-          <Property Name="date_position_X" Type="int" />
-          <Property Name="date_position_Y" Type="int" />
-          <Property Name="bill_id_Y" Type="int" />
-          <Property Name="bill_id_X" Type="int" />
-          <Property Name="billApp_Y" Type="int" />
-          <Property Name="billApp_X" Type="int" />
-          <Property Name="address_X" Type="int" />
-          <Property Name="address_Y" Type="int" />
-          <Property Name="PdfFileName" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="lk_role">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Code" Type="smallint" Nullable="false" />
-          <Property Name="Department" Type="varchar" MaxLength="50" />
-          <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="DisplayOrder" Type="smallint" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="150" />
-          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="UpdatedAt" Type="datetime2" Precision="7" Nullable="false" />
-        </EntityType>
-        <EntityType Name="user">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="RegistrationDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="RoleId" Type="smallint" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="80" Nullable="false" />
-          <Property Name="MiddleName" Type="nvarchar" MaxLength="80" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="80" />
-          <Property Name="Salutation" Type="nvarchar" MaxLength="20" />
-          <Property Name="BirthDate" Type="datetime" />
-          <Property Name="AddressLine1" Type="nvarchar" MaxLength="200" />
-          <Property Name="AddressLine2" Type="nvarchar" MaxLength="200" />
-          <Property Name="City" Type="nvarchar" MaxLength="50" />
-          <Property Name="ZipCode" Type="varchar" MaxLength="12" />
-          <Property Name="Country" Type="nvarchar" MaxLength="50" />
-          <Property Name="PhoneHome" Type="varchar" MaxLength="30" />
-          <Property Name="PhoneWork" Type="varchar" MaxLength="30" />
-          <Property Name="Mobile" Type="varchar" MaxLength="30" />
-          <Property Name="Fax" Type="varchar" MaxLength="30" />
-          <Property Name="CreatedBy" Type="int" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="UpdatedBy" Type="int" />
-          <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
-          <Property Name="PhotoPath" Type="varchar" MaxLength="255" />
-          <Property Name="ValidFrom" Type="datetime" Nullable="false" />
-          <Property Name="ValidUntil" Type="datetime" />
-          <Property Name="IsLocked" Type="bit" Nullable="false" />
-          <Property Name="IsMobileVerified" Type="bit" Nullable="false" />
-          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
-          <Property Name="NationalId" Type="nvarchar" MaxLength="150" />
-          <Property Name="DrivingLicenseNo" Type="nvarchar" MaxLength="150" />
-          <Property Name="BloodGroup" Type="nvarchar" MaxLength="150" />
-        </EntityType>
-        <Association Name="FK_adminuser_lk_role">
-          <End Role="lk_role" Type="Self.lk_role" Multiplicity="1" />
-          <End Role="user" Type="Self.user" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="lk_role">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="user">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_bill_admin_user">
-          <End Role="user" Type="Self.user" Multiplicity="1" />
-          <End Role="bill" Type="Self.bill" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="bill">
-              <PropertyRef Name="CreatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Comments_user">
-          <End Role="user" Type="Self.user" Multiplicity="1" />
-          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Comments">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Function Name="lk_role_NewCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
-        <Function Name="lk_role_NewDisplayOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="smallint" />
-        <EntityContainer Name="BBMSModelStoreContainer">
-          <EntitySet Name="bill" EntityType="Self.bill" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="lk_BillAppender" EntityType="Self.lk_BillAppender" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="lk_catagory_rates" EntityType="Self.lk_catagory_rates" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="lk_publicity_float" EntityType="Self.lk_publicity_float" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="lk_rates" EntityType="Self.lk_rates" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="lk_Region" EntityType="Self.lk_Region" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="lk_role" EntityType="Self.lk_role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_adminuser_lk_role" Association="Self.FK_adminuser_lk_role">
-            <End Role="lk_role" EntitySet="lk_role" />
-            <End Role="user" EntitySet="user" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bill_admin_user" Association="Self.FK_bill_admin_user">
-            <End Role="user" EntitySet="user" />
-            <End Role="bill" EntitySet="bill" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comments_user" Association="Self.FK_Comments_user">
-            <End Role="user" EntitySet="user" />
-            <End Role="Comments" EntitySet="Comments" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="BBMSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BBMSModelStoreContainer">
+    <EntitySet Name="lk_catagory_rates" EntityType="BBMSModel.Store.lk_catagory_rates" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="lk_role" EntityType="BBMSModel.Store.lk_role" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="users" EntityType="BBMSModel.Store.users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="bills" EntityType="BBMSModel.Store.bills" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="BBMSModel.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="lk_BillAppender" EntityType="BBMSModel.Store.lk_BillAppender" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="lk_publicity_float" EntityType="BBMSModel.Store.lk_publicity_float" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="lk_rates" EntityType="BBMSModel.Store.lk_rates" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customers" EntityType="BBMSModel.Store.Customers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customer1" EntityType="BBMSModel.Store.Customer1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="lk_town" EntityType="BBMSModel.Store.lk_town" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customer12" EntityType="BBMSModel.Store.Customer12" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_adminuser_lk_role" Association="BBMSModel.Store.FK_adminuser_lk_role">
+      <End Role="lk_role" EntitySet="lk_role" />
+      <End Role="user" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_bill_admin_user" Association="BBMSModel.Store.FK_bill_admin_user">
+      <End Role="user" EntitySet="users" />
+      <End Role="bill" EntitySet="bills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_user" Association="BBMSModel.Store.FK_Comments_user">
+      <End Role="user" EntitySet="users" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="lk_catagory_rates">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Road" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Catagory" Type="nvarchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="lk_role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Code" Type="smallint" Nullable="false" />
+    <Property Name="Department" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="DisplayOrder" Type="smallint" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
+    <Property Name="RoleId" Type="smallint" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="MiddleName" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="LastName" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Salutation" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="BirthDate" Type="datetime" Nullable="true" />
+    <Property Name="AddressLine1" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="AddressLine2" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="City" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="ZipCode" Type="varchar" Nullable="true" MaxLength="12" />
+    <Property Name="Country" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="PhoneHome" Type="varchar" Nullable="true" MaxLength="30" />
+    <Property Name="PhoneWork" Type="varchar" Nullable="true" MaxLength="30" />
+    <Property Name="Mobile" Type="varchar" Nullable="true" MaxLength="30" />
+    <Property Name="Fax" Type="varchar" Nullable="true" MaxLength="30" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="int" Nullable="true" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="true" />
+    <Property Name="PhotoPath" Type="varchar" Nullable="true" MaxLength="255" />
+    <Property Name="ValidFrom" Type="datetime" Nullable="false" />
+    <Property Name="ValidUntil" Type="datetime" Nullable="true" />
+    <Property Name="IsLocked" Type="bit" Nullable="false" />
+    <Property Name="IsMobileVerified" Type="bit" Nullable="false" />
+    <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
+    <Property Name="NationalId" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="DrivingLicenseNo" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="BloodGroup" Type="nvarchar" Nullable="true" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="bills">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BillId" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Brand" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="CustomerNames" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FilePath" Type="nvarchar" Nullable="false" MaxLength="500" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="DuplicateBillId" Type="int" Nullable="true" />
+    <Property Name="AmmendentBill" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="BrandAddress" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="TrakingNumber" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="NumberMonth" Type="int" Nullable="true" />
+    <Property Name="ShippingDate" Type="datetime" Nullable="true" />
+    <Property Name="BillAmountGenerated" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="BillAmountPaid" Type="decimal" Nullable="true" Precision="20" Scale="2" />
+    <Property Name="BrandAddress1" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="BrandAddress2" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="BrandAddress3" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="BillDate" Type="datetime" Nullable="true" />
+    <Property Name="ContactPersonName" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="ContactPersonDesignation" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="ContactPersonMobile" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="ContactPersonName1" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="ContactPersonDesignation1" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="ContactPersonMobile1" Type="nvarchar" Nullable="true" MaxLength="255" />
+    <Property Name="Discount" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="ProfessionalTax" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="BusinessType" Type="nvarchar" Nullable="true" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Brand" Type="nvarchar" Nullable="false" MaxLength="500" />
+    <Property Name="Comments" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="lk_BillAppender">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Catagory" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="BillNumberAppender" Type="nvarchar" Nullable="true" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="lk_publicity_float">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Catagory" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="PerDay" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="Perweek" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="PerTwoWeek" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="PerMonth" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="lk_rates">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Rate" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="Brand" Type="bit" Nullable="true" />
+    <Property Name="Category" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="town" Type="nvarchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="SrNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Location" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Near" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size1" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size2" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size3" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size4" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="TotalMeasurment" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Brand" Type="nvarchar" Nullable="true" MaxLength="4000" />
+    <Property Name="SurveyDate" Type="datetime" Nullable="true" />
+    <Property Name="BookNumber" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="true" />
+    <Property Name="CreatedBy" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Picture" Type="varbinary(max)" Nullable="true" />
+    <Property Name="Picture1" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="PictureDiskPath" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="test" Type="int" Nullable="true" />
+    <Property Name="Catagory" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Rates" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="Latitude" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Longitude" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Year" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="PublicityFloatCatagory" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="BillFrequency" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="FloatNumberMonth" Type="int" Nullable="true" />
+    <Property Name="FloatRate" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Customer1">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="RowGuid" />
+      <PropertyRef Name="SrNo" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="SrNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Location" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Near" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size1" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size2" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size3" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size4" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="TotalMeasurment" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Brand" Type="nvarchar" Nullable="true" MaxLength="4000" />
+    <Property Name="SurveyDate" Type="datetime" Nullable="true" />
+    <Property Name="BookNumber" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="true" />
+    <Property Name="CreatedBy" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Picture" Type="varbinary(max)" Nullable="true" />
+    <Property Name="Picture1" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="PictureDiskPath" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="test" Type="int" Nullable="true" />
+    <Property Name="Catagory" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Rates" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="Latitude" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Longitude" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Year" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="PublicityFloatCatagory" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="BillFrequency" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="FloatNumberMonth" Type="int" Nullable="true" />
+    <Property Name="FloatRate" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="lk_town">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Town" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Contractor" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Area" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Region" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Region_on_pdf" Type="nvarchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Customer12">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="RowGuid" />
+      <PropertyRef Name="SrNo" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="SrNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Location" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Near" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size1" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size2" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size3" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Size4" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="TotalMeasurment" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Brand" Type="nvarchar" Nullable="true" MaxLength="4000" />
+    <Property Name="SurveyDate" Type="datetime" Nullable="true" />
+    <Property Name="BookNumber" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="true" />
+    <Property Name="CreatedBy" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="Picture" Type="varbinary(max)" Nullable="true" />
+    <Property Name="Picture1" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="PictureDiskPath" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="test" Type="int" Nullable="true" />
+    <Property Name="Catagory" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Rates" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="Latitude" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Longitude" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Year" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="PublicityFloatCatagory" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="BillFrequency" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="FloatNumberMonth" Type="int" Nullable="true" />
+    <Property Name="FloatRate" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+  </EntityType>
+  <Association Name="FK_adminuser_lk_role">
+    <End Role="lk_role" Type="BBMSModel.Store.lk_role" Multiplicity="1" />
+    <End Role="user" Type="BBMSModel.Store.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lk_role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_bill_admin_user">
+    <End Role="user" Type="BBMSModel.Store.users" Multiplicity="1" />
+    <End Role="bill" Type="BBMSModel.Store.bills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="bill">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_user">
+    <End Role="user" Type="BBMSModel.Store.users" Multiplicity="1" />
+    <End Role="Comment" Type="BBMSModel.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BBMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -284,9 +346,11 @@
           </AssociationSet>
           <EntitySet Name="lk_BillAppender" EntityType="BBMSModel.lk_BillAppender" />
           <EntitySet Name="lk_publicity_float" EntityType="BBMSModel.lk_publicity_float" />
-          <EntitySet Name="lk_Region" EntityType="BBMSModel.lk_Region" />
           <EntitySet Name="lk_rates" EntityType="BBMSModel.lk_rates" />
           <EntitySet Name="Customers" EntityType="BBMSModel.Customer" />
+          <EntitySet Name="Customer1" EntityType="BBMSModel.Customer1" />
+          <EntitySet Name="lk_town" EntityType="BBMSModel.lk_town" />
+          <EntitySet Name="Customer12" EntityType="BBMSModel.Customer12" />
           </EntityContainer>
         <EntityType Name="lk_catagory_rates">
           <Key>
@@ -398,6 +462,7 @@
           <NavigationProperty Name="user" Relationship="BBMSModel.FK_bill_admin_user" FromRole="bill" ToRole="user" />
           <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="ProfessionalTax" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BusinessType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_bill_admin_user">
           <End Type="BBMSModel.user" Role="user" Multiplicity="1" />
@@ -453,29 +518,6 @@
           <Property Name="PerTwoWeek" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PerMonth" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
-        <EntityType Name="lk_Region">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Contractor" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Region_on_pdf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="amount_position_X" Type="Int32" />
-          <Property Name="amount_position_Y" Type="Int32" />
-          <Property Name="name_position_X" Type="Int32" />
-          <Property Name="name_position_Y" Type="Int32" />
-          <Property Name="date_position_X" Type="Int32" />
-          <Property Name="date_position_Y" Type="Int32" />
-          <Property Name="bill_id_Y" Type="Int32" />
-          <Property Name="bill_id_X" Type="Int32" />
-          <Property Name="billApp_Y" Type="Int32" />
-          <Property Name="billApp_X" Type="Int32" />
-          <Property Name="address_X" Type="Int32" />
-          <Property Name="address_Y" Type="Int32" />
-          <Property Name="PdfFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="lk_rates">
           <Key>
             <PropertyRef Name="Id" />
@@ -485,8 +527,7 @@
           <Property Name="Rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Brand" Type="Boolean" />
           <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Town" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="town" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -523,218 +564,362 @@
           <Property Name="FloatNumberMonth" Type="Int32" />
           <Property Name="FloatRate" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="Customer1">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="RowGuid" />
+            <PropertyRef Name="SrNo" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="SrNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Near" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size2" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size3" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size4" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TotalMeasurment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="SurveyDate" Type="DateTime" Precision="3" />
+          <Property Name="BookNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Picture1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PictureDiskPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="test" Type="Int32" />
+          <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Rates" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Latitude" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PublicityFloatCatagory" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="BillFrequency" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FloatNumberMonth" Type="Int32" />
+          <Property Name="FloatRate" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="lk_town">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Town" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contractor" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Region_on_pdf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Customer12">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="RowGuid" />
+            <PropertyRef Name="SrNo" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="SrNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Near" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size2" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size3" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size4" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TotalMeasurment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="SurveyDate" Type="DateTime" Precision="3" />
+          <Property Name="BookNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Picture1" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PictureDiskPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="test" Type="Int32" />
+          <Property Name="Catagory" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Rates" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Latitude" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PublicityFloatCatagory" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="BillFrequency" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FloatNumberMonth" Type="Int32" />
+          <Property Name="FloatRate" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BBMSModelStoreContainer" CdmEntityContainer="BBMSEntities">
-          <EntitySetMapping Name="lk_catagory_rates">
-            <EntityTypeMapping TypeName="BBMSModel.lk_catagory_rates">
-              <MappingFragment StoreEntitySet="lk_catagory_rates">
-                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
-                <ScalarProperty Name="Road" ColumnName="Road" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="lk_role">
-            <EntityTypeMapping TypeName="BBMSModel.lk_role">
-              <MappingFragment StoreEntitySet="lk_role">
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="BBMSModel.user">
-              <MappingFragment StoreEntitySet="user">
-                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
-                <ScalarProperty Name="DrivingLicenseNo" ColumnName="DrivingLicenseNo" />
-                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
-                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
-                <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
-                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
-                <ScalarProperty Name="ValidUntil" ColumnName="ValidUntil" />
-                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
-                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="PhoneWork" ColumnName="PhoneWork" />
-                <ScalarProperty Name="PhoneHome" ColumnName="PhoneHome" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="Salutation" ColumnName="Salutation" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="bills">
-            <EntityTypeMapping TypeName="BBMSModel.bill">
-              <MappingFragment StoreEntitySet="bill">
-                <ScalarProperty Name="ProfessionalTax" ColumnName="ProfessionalTax" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="ContactPersonMobile1" ColumnName="ContactPersonMobile1" />
-                <ScalarProperty Name="ContactPersonDesignation1" ColumnName="ContactPersonDesignation1" />
-                <ScalarProperty Name="ContactPersonName1" ColumnName="ContactPersonName1" />
-                <ScalarProperty Name="ContactPersonMobile" ColumnName="ContactPersonMobile" />
-                <ScalarProperty Name="ContactPersonDesignation" ColumnName="ContactPersonDesignation" />
-                <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
-                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
-                <ScalarProperty Name="BrandAddress3" ColumnName="BrandAddress3" />
-                <ScalarProperty Name="BrandAddress2" ColumnName="BrandAddress2" />
-                <ScalarProperty Name="BrandAddress1" ColumnName="BrandAddress1" />
-                <ScalarProperty Name="BillAmountPaid" ColumnName="BillAmountPaid" />
-                <ScalarProperty Name="BillAmountGenerated" ColumnName="BillAmountGenerated" />
-                <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
-                <ScalarProperty Name="NumberMonth" ColumnName="NumberMonth" />
-                <ScalarProperty Name="TrakingNumber" ColumnName="TrakingNumber" />
-                <ScalarProperty Name="BrandAddress" ColumnName="BrandAddress" />
-                <ScalarProperty Name="AmmendentBill" ColumnName="AmmendentBill" />
-                <ScalarProperty Name="DuplicateBillId" ColumnName="DuplicateBillId" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
-                <ScalarProperty Name="CustomerNames" ColumnName="CustomerNames" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="BillId" ColumnName="BillId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Comments">
-            <EntityTypeMapping TypeName="BBMSModel.Comment">
-              <MappingFragment StoreEntitySet="Comments">
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="lk_BillAppender">
-            <EntityTypeMapping TypeName="BBMSModel.lk_BillAppender">
-              <MappingFragment StoreEntitySet="lk_BillAppender">
-                <ScalarProperty Name="BillNumberAppender" ColumnName="BillNumberAppender" />
-                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="lk_publicity_float">
-            <EntityTypeMapping TypeName="BBMSModel.lk_publicity_float">
-              <MappingFragment StoreEntitySet="lk_publicity_float">
-                <ScalarProperty Name="PerMonth" ColumnName="PerMonth" />
-                <ScalarProperty Name="PerTwoWeek" ColumnName="PerTwoWeek" />
-                <ScalarProperty Name="Perweek" ColumnName="Perweek" />
-                <ScalarProperty Name="PerDay" ColumnName="PerDay" />
-                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="lk_Region">
-            <EntityTypeMapping TypeName="BBMSModel.lk_Region">
-              <MappingFragment StoreEntitySet="lk_Region">
-                <ScalarProperty Name="PdfFileName" ColumnName="PdfFileName" />
-                <ScalarProperty Name="address_Y" ColumnName="address_Y" />
-                <ScalarProperty Name="address_X" ColumnName="address_X" />
-                <ScalarProperty Name="billApp_X" ColumnName="billApp_X" />
-                <ScalarProperty Name="billApp_Y" ColumnName="billApp_Y" />
-                <ScalarProperty Name="bill_id_X" ColumnName="bill_id_X" />
-                <ScalarProperty Name="bill_id_Y" ColumnName="bill_id_Y" />
-                <ScalarProperty Name="date_position_Y" ColumnName="date_position_Y" />
-                <ScalarProperty Name="date_position_X" ColumnName="date_position_X" />
-                <ScalarProperty Name="name_position_Y" ColumnName="name_position_Y" />
-                <ScalarProperty Name="name_position_X" ColumnName="name_position_X" />
-                <ScalarProperty Name="amount_position_Y" ColumnName="amount_position_Y" />
-                <ScalarProperty Name="amount_position_X" ColumnName="amount_position_X" />
-                <ScalarProperty Name="Region_on_pdf" ColumnName="Region_on_pdf" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="Contractor" ColumnName="Contractor" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="lk_rates">
-            <EntityTypeMapping TypeName="BBMSModel.lk_rates">
-              <MappingFragment StoreEntitySet="lk_rates">
-                <ScalarProperty Name="Town" ColumnName="Town" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="Rate" ColumnName="Rate" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="BBMSModel.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="FloatRate" ColumnName="FloatRate" />
-                <ScalarProperty Name="FloatNumberMonth" ColumnName="FloatNumberMonth" />
-                <ScalarProperty Name="BillFrequency" ColumnName="BillFrequency" />
-                <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Rates" ColumnName="Rates" />
-                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
-                <ScalarProperty Name="test" ColumnName="test" />
-                <ScalarProperty Name="PictureDiskPath" ColumnName="PictureDiskPath" />
-                <ScalarProperty Name="Picture1" ColumnName="Picture1" />
-                <ScalarProperty Name="Picture" ColumnName="Picture" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
-                <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />
-                <ScalarProperty Name="Size4" ColumnName="Size4" />
-                <ScalarProperty Name="Size3" ColumnName="Size3" />
-                <ScalarProperty Name="Size2" ColumnName="Size2" />
-                <ScalarProperty Name="Size1" ColumnName="Size1" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Near" ColumnName="Near" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
-                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BBMSModelStoreContainer" CdmEntityContainer="BBMSEntities">
+    <EntitySetMapping Name="lk_catagory_rates">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.lk_catagory_rates)">
+        <MappingFragment StoreEntitySet="lk_catagory_rates">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Road" ColumnName="Road" />
+          <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lk_role">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.lk_role)">
+        <MappingFragment StoreEntitySet="lk_role">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.user)">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Salutation" ColumnName="Salutation" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="PhoneHome" ColumnName="PhoneHome" />
+          <ScalarProperty Name="PhoneWork" ColumnName="PhoneWork" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+          <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+          <ScalarProperty Name="ValidUntil" ColumnName="ValidUntil" />
+          <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
+          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+          <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+          <ScalarProperty Name="DrivingLicenseNo" ColumnName="DrivingLicenseNo" />
+          <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="bills">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.bill)">
+        <MappingFragment StoreEntitySet="bills">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BillId" ColumnName="BillId" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="CustomerNames" ColumnName="CustomerNames" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="DuplicateBillId" ColumnName="DuplicateBillId" />
+          <ScalarProperty Name="AmmendentBill" ColumnName="AmmendentBill" />
+          <ScalarProperty Name="BrandAddress" ColumnName="BrandAddress" />
+          <ScalarProperty Name="TrakingNumber" ColumnName="TrakingNumber" />
+          <ScalarProperty Name="NumberMonth" ColumnName="NumberMonth" />
+          <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
+          <ScalarProperty Name="BillAmountGenerated" ColumnName="BillAmountGenerated" />
+          <ScalarProperty Name="BillAmountPaid" ColumnName="BillAmountPaid" />
+          <ScalarProperty Name="BrandAddress1" ColumnName="BrandAddress1" />
+          <ScalarProperty Name="BrandAddress2" ColumnName="BrandAddress2" />
+          <ScalarProperty Name="BrandAddress3" ColumnName="BrandAddress3" />
+          <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+          <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
+          <ScalarProperty Name="ContactPersonDesignation" ColumnName="ContactPersonDesignation" />
+          <ScalarProperty Name="ContactPersonMobile" ColumnName="ContactPersonMobile" />
+          <ScalarProperty Name="ContactPersonName1" ColumnName="ContactPersonName1" />
+          <ScalarProperty Name="ContactPersonDesignation1" ColumnName="ContactPersonDesignation1" />
+          <ScalarProperty Name="ContactPersonMobile1" ColumnName="ContactPersonMobile1" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="ProfessionalTax" ColumnName="ProfessionalTax" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.Comment)">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lk_BillAppender">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.lk_BillAppender)">
+        <MappingFragment StoreEntitySet="lk_BillAppender">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+          <ScalarProperty Name="BillNumberAppender" ColumnName="BillNumberAppender" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lk_publicity_float">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.lk_publicity_float)">
+        <MappingFragment StoreEntitySet="lk_publicity_float">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+          <ScalarProperty Name="PerDay" ColumnName="PerDay" />
+          <ScalarProperty Name="Perweek" ColumnName="Perweek" />
+          <ScalarProperty Name="PerTwoWeek" ColumnName="PerTwoWeek" />
+          <ScalarProperty Name="PerMonth" ColumnName="PerMonth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lk_rates">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.lk_rates)">
+        <MappingFragment StoreEntitySet="lk_rates">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="town" ColumnName="town" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.Customer)">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+          <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Near" ColumnName="Near" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Size1" ColumnName="Size1" />
+          <ScalarProperty Name="Size2" ColumnName="Size2" />
+          <ScalarProperty Name="Size3" ColumnName="Size3" />
+          <ScalarProperty Name="Size4" ColumnName="Size4" />
+          <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
+          <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Picture" ColumnName="Picture" />
+          <ScalarProperty Name="Picture1" ColumnName="Picture1" />
+          <ScalarProperty Name="PictureDiskPath" ColumnName="PictureDiskPath" />
+          <ScalarProperty Name="test" ColumnName="test" />
+          <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+          <ScalarProperty Name="Rates" ColumnName="Rates" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
+          <ScalarProperty Name="BillFrequency" ColumnName="BillFrequency" />
+          <ScalarProperty Name="FloatNumberMonth" ColumnName="FloatNumberMonth" />
+          <ScalarProperty Name="FloatRate" ColumnName="FloatRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customer1">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.Customer1)">
+        <MappingFragment StoreEntitySet="Customer1">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+          <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Near" ColumnName="Near" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Size1" ColumnName="Size1" />
+          <ScalarProperty Name="Size2" ColumnName="Size2" />
+          <ScalarProperty Name="Size3" ColumnName="Size3" />
+          <ScalarProperty Name="Size4" ColumnName="Size4" />
+          <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
+          <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Picture" ColumnName="Picture" />
+          <ScalarProperty Name="Picture1" ColumnName="Picture1" />
+          <ScalarProperty Name="PictureDiskPath" ColumnName="PictureDiskPath" />
+          <ScalarProperty Name="test" ColumnName="test" />
+          <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+          <ScalarProperty Name="Rates" ColumnName="Rates" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
+          <ScalarProperty Name="BillFrequency" ColumnName="BillFrequency" />
+          <ScalarProperty Name="FloatNumberMonth" ColumnName="FloatNumberMonth" />
+          <ScalarProperty Name="FloatRate" ColumnName="FloatRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lk_town">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.lk_town)">
+        <MappingFragment StoreEntitySet="lk_town">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Town" ColumnName="Town" />
+          <ScalarProperty Name="Contractor" ColumnName="Contractor" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="Region_on_pdf" ColumnName="Region_on_pdf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customer12">
+      <EntityTypeMapping TypeName="IsTypeOf(BBMSModel.Customer12)">
+        <MappingFragment StoreEntitySet="Customer12">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+          <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Near" ColumnName="Near" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Size1" ColumnName="Size1" />
+          <ScalarProperty Name="Size2" ColumnName="Size2" />
+          <ScalarProperty Name="Size3" ColumnName="Size3" />
+          <ScalarProperty Name="Size4" ColumnName="Size4" />
+          <ScalarProperty Name="TotalMeasurment" ColumnName="TotalMeasurment" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
+          <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Picture" ColumnName="Picture" />
+          <ScalarProperty Name="Picture1" ColumnName="Picture1" />
+          <ScalarProperty Name="PictureDiskPath" ColumnName="PictureDiskPath" />
+          <ScalarProperty Name="test" ColumnName="test" />
+          <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+          <ScalarProperty Name="Rates" ColumnName="Rates" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="PublicityFloatCatagory" ColumnName="PublicityFloatCatagory" />
+          <ScalarProperty Name="BillFrequency" ColumnName="BillFrequency" />
+          <ScalarProperty Name="FloatNumberMonth" ColumnName="FloatNumberMonth" />
+          <ScalarProperty Name="FloatRate" ColumnName="FloatRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -748,7 +933,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
