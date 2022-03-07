@@ -54,7 +54,7 @@ namespace BillBoardsManagement.Controllers
             && (string.IsNullOrEmpty(search3) || x.Brand == null || x.Brand.ToLower().Contains(search3.ToLower())) 
             );
             //if (string.IsNullOrEmpty(filter))
-            //{
+            //{    
             //    customers = repository.GetAll();
             //}
             //else
