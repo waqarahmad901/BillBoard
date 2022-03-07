@@ -55,7 +55,7 @@ namespace BillBoardsManagement.Controllers
             );
             //if (string.IsNullOrEmpty(filter))
             //{    
-            //    customers = repository.GetAll();
+            //    customers = repository.GetAll();fvfdvfdv
             //}
             //else //1 
             // 2
