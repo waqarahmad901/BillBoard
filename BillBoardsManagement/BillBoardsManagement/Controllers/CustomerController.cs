@@ -61,7 +61,7 @@ namespace BillBoardsManagement.Controllers
             // 2
             //3  ddfdf
             // 4 5 
-           //{
+           //{ dcdscds
             //    customers = repository.GetAll(i => i,
             //        x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
             //        i => i.Brand, false, null);
