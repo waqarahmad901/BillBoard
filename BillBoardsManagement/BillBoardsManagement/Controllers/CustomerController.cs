@@ -54,11 +54,14 @@ namespace BillBoardsManagement.Controllers
             && (string.IsNullOrEmpty(search3) || x.Brand == null || x.Brand.ToLower().Contains(search3.ToLower())) 
             );
             //if (string.IsNullOrEmpty(filter))
-            //{
+            //{    
             //    customers = repository.GetAll();
             //}
-            //else
-            //{
+            //else //1 
+            // 2
+            //3 
+            // 4 5 
+           //{
             //    customers = repository.GetAll(i => i,
             //        x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
             //        i => i.Brand, false, null);
