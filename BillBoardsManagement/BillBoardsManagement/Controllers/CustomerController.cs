@@ -57,8 +57,10 @@ namespace BillBoardsManagement.Controllers
             //{    
             //    customers = repository.GetAll();
             //}
-            //else //1
-            //{
+            //else //1 
+            // 2
+            //3 
+           //{
             //    customers = repository.GetAll(i => i,
             //        x => x.Brand.ToLower().Contains(filter.ToLower()) && x.BookNumber == book,
             //        i => i.Brand, false, null);
